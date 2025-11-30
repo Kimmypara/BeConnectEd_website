@@ -2,23 +2,22 @@
 <style>
 <?php include '/assets/css/style.css'; ?>
 </style>
+<?php
+include 'includes/user.php';
+include 'includes/arrays.php'
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-
-    
+    <title>Nav</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   
- 
-
 </head>
 <body>
 <style>
@@ -37,7 +36,7 @@
   border-radius: 1rem;
   width: auto;
   height: 100% ;
-  margin: 7rem 1rem 7rem 1rem;
+  margin: 1rem 1rem 1rem 1rem;
   box-shadow:0 8px 15px 0 #0000004d;
   position: fixed;
   overflow: auto;
@@ -120,21 +119,60 @@ box-shadow: 2px 1px 10px 0 #1a5b71;
 
 .strip{
   width: 100%;
-  margin-top : 6rem;
   position: fixed;
 }
 
 .logo{
   position: fixed;
   width: 7rem ;
-  margin:1rem 1rem 0rem 4rem;
+  margin:2rem 0rem 0rem 0rem;
+}
+
+.banner{
+  display: flex;
+  color: #23323d;
+  font-size :1.2rem;
+  font-weight: 600;
+  margin-top: 1.5rem ;
+  
 }
 
 </style>
-
+<!--logo-->
+<div class="container-fluid mx-4 px-4">
+  <div class="row">
+    
+    <div class="col-2 ">
 <a href="index.php">
   <img class="logo" src="assets/images/logo.png" alt="be connected logo">
 </a>
+</div>
+
+<!--welcome banner -->
+
+<div class="banner col-8 text-center">
+<?php
+        echo "<div class='col'>";
+        date("H:i:s");
+        $time = date("H");
+        if($time < "11"){
+            echo "<p>Good Morning </p>";
+        }
+        elseif($time < "18"){
+            echo "<p>Good Afternoon  </p>";
+        }
+        else{
+            echo "<p>Good Evening </p>";
+        }
+        echo " &nbsp;&nbsp;{$first_name} {$last_name},&nbsp";
+         echo $message[$random_keys[0]];
+        echo "</div>";
+       
+        ?>
+
+      </div>   
+  </div>
+</div>
 
 <!--image strip-->
 <img class="strip" src="assets/images/strip.png" alt="">
@@ -161,6 +199,7 @@ box-shadow: 2px 1px 10px 0 #1a5b71;
     </div>
 
 <!--vertical nav -->
+<div>
     <div class="offcanvas-body">
         <ul class="nav flex-column">
            <li class="nav-item">
@@ -208,6 +247,7 @@ box-shadow: 2px 1px 10px 0 #1a5b71;
         </ul>
     </div>
 </div>
+
 
   
   
