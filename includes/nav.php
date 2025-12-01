@@ -3,7 +3,7 @@
 <?php include '/assets/css/style.css'; ?>
 </style>
 <?php
-include 'includes/user.php';
+include 'includes/users.php';
 include 'includes/arrays.php'
 ?>
 
@@ -19,20 +19,80 @@ include 'includes/arrays.php'
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   
 </head>
-<body>
+<body >
 <style>
+
+ :root{
+    --base-color: linear-gradient(to bottom, #babee0, #a9dadc, #ccebf3);
+    --base-variant: #dcf1f8;
+    --text-color: #23323d;
+    --secondary-text: #1a5b71;
+    --button-color: #172c42;
+    --hover-button:  #1a5b71;
+  }
+
+  .darkmode {
+    --base-color: linear-gradient(to bottom, #1a5b71, #172c42, #1a5b71);
+    --base-variant: #1b3e53 ;
+    --text-color: #ddf1f8;
+    --secondary-text: #6cb6b7;
+    --button-color: #6cb6b7;
+    --hover-button:  #ddf1f8;
+  }
+
+  #logo{
+    display: flex;
+    position: fixed;
+    cursor: pointer;
+  }
+
+  #logo img:last-child{
+    display: none ;
+  }
+
+  .darkmode #logo img:first-child {
+  display: none ;
+  color: "var(--hover-button )";
+}
+
+.darkmode #logo img:last-child {
+  display: block ;
+}
+
+  #theme-switch{
+    display: flex;
+    position: fixed;
+    cursor: pointer;
+  }
+
+  #theme-switch svg{
+  color: "var(--button-color )";
+}
+
+ #theme-switch svg:last-child {
+  display: none ;
+}
+
+ .darkmode #theme-switch svg:first-child {
+  display: none ;
+  color: "var(--hover-button )";
+}
+
+.darkmode #theme-switch svg:last-child {
+  display: block ;
+}
 
     body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    background: linear-gradient(to bottom, #babee0, #a9dadc, #ccebf3);
+    background: var(--base-color);
     background-attachment: fixed; /* keeps gradient still */
     font-family: Roboto, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .sidebar {
-  background-color: #dcf1f8;
+  background-color: var(--base-variant);
   border-radius: 1rem;
   width: auto;
   height: 100% ;
@@ -43,10 +103,11 @@ include 'includes/arrays.php'
   padding-top:2rem ;
   padding-left:1rem;
   padding-right: 1rem;
+  z-index:  3;
 }
 
 .nav-link{
-  color: #23323d;
+  color: var(--text-color);
   font-size: .8rem;
   text-decoration: none ;
   font-weight: 550 ;
@@ -56,11 +117,11 @@ include 'includes/arrays.php'
 }
 
 .nav-link:hover{
-  color: #1a5b71;
+  color: var(--secondary-text);
 }
 
 .nav-link:focus{
-  color: #1a5b71;
+   color: var(--secondary-text);
 box-shadow: 2px 1px 10px 0 #1a5b71;
     border-radius: .5rem;
     height:2rem ;
@@ -68,7 +129,7 @@ box-shadow: 2px 1px 10px 0 #1a5b71;
 }
 
 .nav-link.active{
-  color: #1a5b71;
+   color: var(--secondary-text);
     box-shadow: 2px 1px 10px 0 #1a5b71;
     border-radius: .5rem;
     height:2rem ;
@@ -77,7 +138,7 @@ box-shadow: 2px 1px 10px 0 #1a5b71;
 }
 
 .offcanvas-md {
-    background-color: #dcf1f8 !important;
+    background-color:var(--base-variant) !important;
     border-radius: 1rem;
 }
 
@@ -87,11 +148,52 @@ box-shadow: 2px 1px 10px 0 #1a5b71;
     top: 1rem;
     left: 1rem;
     z-index: 1;
-    background-color: #172c42;
+    background-color: var(--button-color);
     color: #ddf1f8; 
-    box-shadow: 0 4px 8px #00000033;
+    box-shadow: 0 4px 8px #0000004d;
     border-radius: .5rem;
 }
+
+
+
+.strip{
+  width: 100%;
+  position: fixed;
+}
+
+.logo{
+  position: fixed;
+  width: 7rem ;
+  margin:2rem 0rem 0rem 0rem;
+}
+
+.logo.active {
+     color: var(--secondary-text);
+    box-shadow: 2px 1px 10px 0 #1a5b71;
+    border-radius: .5rem;
+}
+
+.logo:focus {
+     color: var(--secondary-text);
+    box-shadow: 2px 1px 10px 0 #1a5b71;  
+    border-radius: .5rem;
+    height: auto;
+    width: 8rem;
+    outline: none;  
+    padding:0.5rem .5rem 0 .5rem;
+      margin:1rem 0rem 0rem 0rem;
+}
+
+
+.banner{
+  display: flex;
+  color: var(--text-color);
+  font-size :1.2rem;
+  font-weight: 600;
+  margin-top: 4.5rem ;
+}
+
+
 
 /* small screens */
 @media (max-width: 767px) {
@@ -111,30 +213,28 @@ box-shadow: 2px 1px 10px 0 #1a5b71;
   width: 70% ;
 }
 
-.logo{
-  transform: translateX(-33%);
-  left: 33%;
-}
-}
-
-.strip{
-  width: 100%;
-  position: fixed;
+.menu-btn {
+    top: 7rem;
+    left:3rem;
 }
 
 .logo{
   position: fixed;
   width: 7rem ;
   margin:2rem 0rem 0rem 0rem;
+   transform: translateX(-50%);
+  left: 50%;
 }
 
 .banner{
   display: flex;
-  color: #23323d;
   font-size :1.2rem;
   font-weight: 600;
-  margin-top: 1.5rem ;
+  margin-top: 10rem ;
+  width: 90%;
   
+}
+
 }
 
 </style>
@@ -143,9 +243,11 @@ box-shadow: 2px 1px 10px 0 #1a5b71;
   <div class="row">
     
     <div class="col-2 ">
-<a href="index.php">
-  <img class="logo" src="assets/images/logo.png" alt="be connected logo">
+<a href="index.php" id="logo">
+  <img class="logo"  src="assets/images/logo.png" tabindex="0" alt="be connected logo">
+  <img class="logo" src="assets/images/logo-darkmode.png" tabindex="0" alt="be connected logo">
 </a>
+
 </div>
 
 <!--welcome banner -->
@@ -155,22 +257,35 @@ box-shadow: 2px 1px 10px 0 #1a5b71;
         echo "<div class='col'>";
         date("H:i:s");
         $time = date("H");
-        if($time < "11"){
-            echo "<p>Good Morning </p>";
+        if($time < "12"){
+            echo "Good Morning ";
         }
         elseif($time < "18"){
-            echo "<p>Good Afternoon  </p>";
+            echo "Good Afternoon  ";
         }
         else{
-            echo "<p>Good Evening </p>";
+            echo "Good Evening ";
         }
-        echo " &nbsp;&nbsp;{$first_name} {$last_name},&nbsp";
+        echo " &nbsp;{$first_name} {$last_name},&nbsp";
          echo $message[$random_keys[0]];
         echo "</div>";
        
         ?>
 
       </div>   
+      <!--dark /light mode -->
+      <div class="col-1 mt-4" >
+    <a id="theme-switch">
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="var(--button-color )" class="bi bi-moon-stars mt-5" viewBox="0 0 16 16">
+  <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/>
+  <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.73 1.73 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.73 1.73 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.73 1.73 0 0 0 1.097-1.097zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="var(--button-color )" class="bi bi-brightness-high mt-5" viewBox="0 0 16 16">
+  <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
+</svg>
+
+    </a>
+      </div>
   </div>
 </div>
 
@@ -263,6 +378,7 @@ box-shadow: 2px 1px 10px 0 #1a5b71;
   </script>
 
 <script src="../Bootstrap/script.js"></script>
+<script src="includes/darkmode.js" type="text/javascript" defer></script>
 </body>
 
 

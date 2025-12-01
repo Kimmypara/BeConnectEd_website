@@ -1,3 +1,6 @@
+ :root{
+    --base-color:linear-gradient(to bottom, #babee0, #a9dadc, #ccebf3);
+  }
 
     body {
     margin: 0;
@@ -6,6 +9,7 @@
     background: linear-gradient(to bottom, #babee0, #a9dadc, #ccebf3);
     background-attachment: fixed; /* keeps gradient still */
     font-family: Roboto, "Helvetica Neue", Helvetica, sans-serif;
+    
 }
 
 .sidebar {
