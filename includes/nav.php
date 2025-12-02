@@ -61,18 +61,6 @@ include 'includes/arrays.php'
     cursor: pointer;
   }
 
-  #logo img:last-child{
-    display: none ;
-  }
-
-  .darkmode #logo img:first-child {
-  display: none ;
-  
-}
-
-.darkmode #logo img:last-child {
-  display: block ;
-}
 
 #logo img.active{
   color: var(--secondary-text);
@@ -99,37 +87,30 @@ include 'includes/arrays.php'
     transition: box-shadow 0.2s ease, color 0.2s ease;
 }
 
+#theme-switch svg:hover,
+#theme-switch svg:focus {
+    box-shadow: 0 0 10px var(--secondary-text);
+    border-radius: .5rem;
+    outline: none;
+}
 
 #theme-switch:focus {
     outline: none;
     box-shadow: 0 0 10px var(--secondary-text);
     border-radius: .5rem;
+    display: inline-block;
 }
-
-
-#theme-switch svg:hover,
-#theme-switch svg:focus {
-    color: var(--secondary-text);
-    box-shadow: 0 0 10px var(--secondary-text);
-    border-radius: .5rem;
-}
-
 
   #theme-switch svg{
   color: var(--button-color );
 }
 
- #theme-switch svg:last-child {
-  display: none ;
-}
 
- .darkmode #theme-switch svg:first-child {
-  display: none ;
-}
+.dark-mode-icon { display: none; }
 
-.darkmode #theme-switch svg:last-child {
-  display: block ;
-}
+.darkmode .light-mode-icon { display: none; }
+.darkmode .dark-mode-icon { display: block; }
+
 
 .col-1{
   margin-top: 2.5rem;
