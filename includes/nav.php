@@ -106,10 +106,10 @@ include 'includes/arrays.php'
 }
 
 
-.dark-mode-icon { display: none; }
+.light-mode-icon { display: none; }
 
-.darkmode .light-mode-icon { display: none; }
-.darkmode .dark-mode-icon { display: block; }
+.darkmode .dark-mode-icon { display: none; }
+.darkmode .light-mode-icon { display: block; }
 
 
 .col-1{
