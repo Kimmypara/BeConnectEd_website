@@ -26,38 +26,137 @@ include 'includes/conditions.php'
       <div class="form_bg">
               <h2 class=" form_title">Register New Users</h2>
               <!-- Your form -->
-               <div class="row">
+      <div class="row">
  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div>
-            <label class="formFields" for="user_role">User Role</label>
-            <select class="input user_role" id="user_role" name="user_role">
-              <option value="" disabled selected>Please select role</option>
-              <option value="teacher">Teacher</option>
-              <option value="student">Student</option>
-              <option value="parent">Parent</option>
-              <option value="administrator">Administrator</option>
+            <form action="includes/new_registration_admin_inc.php" method="post">
+
+              <label class="formFields" for="user_role">User Role</label>
+              <select class="label" id="user_role" name="user_role" >
+              <option class="input" value="" disabled selected>Please select role</option>
+              <option class="input" value="1">Teacher</option>
+              <option class="input" value="2">Student</option>
+              <option class="input" value="3">Parent</option>
+              <option class="input" value="4">Administrator</option>
+              <option class="input" value="5">Independent Teacher</option>
             </select>
+
+             <div class="row">
+                    <div class="col">
+                      <label class="formFields" for="first_name">First Name</label>
+                        <input type="text" name="first_name" id="first_name" placeholder="first name" class="m-2">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                      <label class="formFields" for="last_name">Last Name</label>
+                        <input type="text" name="last_name" id="last_name" placeholder="last name" class="m-2">
+                    </div>
+                </div>  
+
+                <div class="row">
+                    <div class="col">
+                      <label class="formFields" for="email">E-mail</label>
+                        <input type="email" name="email" id="email" placeholder="E-mail" class="m-2">
+                    </div>
+                </div>  
+
+                   <div class="row">
+                    <div class="col">
+                      <label class="formFields" for="date_of_birth">Date of Birth</label>
+                        <input type="date" name="date_of_birth" id="date_of_birth" placeholder="date of birth" class="m-2">
+                    </div>
+                </div> 
+
+                 <div class="row">
+                    <div class="col">
+                      <label class="formFields" for="password_hash">Temporary Password</label>
+                        <input type="password" name="password_hash" id="password_hash" placeholder="generated automatically" class="m-2">
+                    </div>
+                </div> 
+
+
+              <label class="formFields" for="must_change_password">User must change password on first login?</label>
+              <select class="label" id="must_change_password" name="must_change_password" >
+              <option class="input" value="" disabled selected>Change password on first login?</option>
+              <option class="input" value="1">Yes</option>
+              <option class="input" value="0">No</option>
+              </select>
+
+                
+        <div>
+            <label class="formFields" for="qualifications">If teacher, insert Qualifications</label>
+            <textarea class="input " name="qualifications" id="qualifications" placeholder="Teacher Qualifications..." 
+              rows="10"></textarea>
+          </div>
+
+                 <label class="formFields" for="relationship">If parent, insert relationship</label>
+              <select class="label" id="relationship" name="relationship" >
+              <option class="input" value="" disabled selected>Choose from Mother, Father, Guardian</option>
+              <option class="input" value="mother">Mother</option>
+              <option class="input" value="father">Father</option>
+              <option class="input" value="guardian">Guardian</option>
+            </select>
+
+             <div class="row my-3">
+                    <div class="col">
+                        <button class="btn m-2" type="submit" name="submit"  id="submit">Register</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn m-2" type="update" name="update"  id="update">Update Registration</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn m-2" type="reset" name="reset"  id="reset">Cancel</button>
+                    </div>
+                </div>
+
+            </form>
           </div>
         </div>
 
+          <?php if(isset($_GET["error"])){ 
+        if ($_GET ["error"] == "emptyinput"){
+            $error = "Empty fields or incorrect data!";
+        }
+        
+        ?>
+      <div class="row">
+    <div class="col border border-danger text-danger">
 
+    <?php echo $error;?>
+    </div>  
+    </div>
+    
+    <?php
+  }
+    ?>
+   <?php 
+        if(isset($_GET["success"])) { 
+            $message = "";
+            if ($_GET["success"] == "true"){
+                $message = "You have successfully registered a new account.";
+            }
+            ?>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col border border-success text-success">
+                    <p><?php echo $message; ?></p>
+                </div>
+                <div class="col"></div>
+            </div>
+    <?php } ?>
+       
                </div>
           </div>
-
-          
           </div>
           </div>
-
-
-          
       </div>
-
-
-
-
-
   </div>
 </div>
+
+
+
 
 
 
