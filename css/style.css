@@ -231,7 +231,29 @@
     width: 100%;
 }
 
+.formFields{
+   color: var(--text-color);
+  font-size: .8rem;
+  text-decoration: none ;
+  font-weight: 400 ;
+ margin-left: 1rem;
+  display: inline-block;
+  width:70%;
+  text-align: left;
+}
 
+.placeholder_style{
+   width: 70%;
+    color: var( --secondary-text);
+  font-size: .7rem;
+  margin-left: 1rem;
+  min-height: 2rem;
+}
+
+.input{
+   color: var( --secondary-text) !important;
+  font-size: .7rem;
+}
 
 
 

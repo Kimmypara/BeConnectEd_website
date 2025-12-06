@@ -31,8 +31,8 @@ include 'includes/conditions.php'
           <div>
             <form action="includes/new_registration_admin_inc.php" method="post">
 
-              <label class="formFields" for="user_role">User Role</label>
-              <select class="label" id="user_role" name="user_role" >
+              <label class="formFields" for="role_id">User Role</label>
+              <select class="placeholder_style mb-2" id="role_id" name="role_id" >
               <option class="input" value="" disabled selected>Please select role</option>
               <option class="input" value="1">Teacher</option>
               <option class="input" value="2">Student</option>
@@ -44,41 +44,37 @@ include 'includes/conditions.php'
              <div class="row">
                     <div class="col">
                       <label class="formFields" for="first_name">First Name</label>
-                        <input type="text" name="first_name" id="first_name" placeholder="first name" class="m-2">
+                        <input type="text" name="first_name" id="first_name" placeholder="first name" class="placeholder_style mb-2 ">
                     </div>
                 </div>
+
+                
 
                 <div class="row">
                     <div class="col">
                       <label class="formFields" for="last_name">Last Name</label>
-                        <input type="text" name="last_name" id="last_name" placeholder="last name" class="m-2">
+                        <input type="text" name="last_name" id="last_name" placeholder="last name" class="placeholder_style mb-2">
                     </div>
                 </div>  
 
                 <div class="row">
                     <div class="col">
                       <label class="formFields" for="email">E-mail</label>
-                        <input type="email" name="email" id="email" placeholder="E-mail" class="m-2">
+                        <input type="email" name="email" id="email" placeholder="E-mail" class="placeholder_style mb-2">
                     </div>
                 </div>  
 
                    <div class="row">
                     <div class="col">
                       <label class="formFields" for="date_of_birth">Date of Birth</label>
-                        <input type="date" name="date_of_birth" id="date_of_birth" placeholder="date of birth" class="m-2">
+                        <input type="date" name="date_of_birth" id="date_of_birth" placeholder="date of birth" class="placeholder_style mb-2">
                     </div>
                 </div> 
 
-                 <div class="row">
-                    <div class="col">
-                      <label class="formFields" for="password_hash">Temporary Password</label>
-                        <input type="password" name="password_hash" id="password_hash" placeholder="generated automatically" class="m-2">
-                    </div>
-                </div> 
 
 
               <label class="formFields" for="must_change_password">User must change password on first login?</label>
-              <select class="label" id="must_change_password" name="must_change_password" >
+              <select  class="placeholder_style mb-2" id="must_change_password" name="must_change_password" >
               <option class="input" value="" disabled selected>Change password on first login?</option>
               <option class="input" value="1">Yes</option>
               <option class="input" value="0">No</option>
@@ -87,13 +83,13 @@ include 'includes/conditions.php'
                 
         <div>
             <label class="formFields" for="qualifications">If teacher, insert Qualifications</label>
-            <textarea class="input " name="qualifications" id="qualifications" placeholder="Teacher Qualifications..." 
+            <textarea  class="placeholder_style mb-2" name="qualifications" id="qualifications" placeholder="Teacher Qualifications..." 
               rows="10"></textarea>
           </div>
 
                  <label class="formFields" for="relationship">If parent, insert relationship</label>
-              <select class="label" id="relationship" name="relationship" >
-              <option class="input" value="" disabled selected>Choose from Mother, Father, Guardian</option>
+              <select  class="placeholder_style mb-2" id="relationship" name="relationship" >
+              <option class=" input" value="" disabled selected>Choose from Mother, Father, Guardian</option>
               <option class="input" value="mother">Mother</option>
               <option class="input" value="father">Father</option>
               <option class="input" value="guardian">Guardian</option>

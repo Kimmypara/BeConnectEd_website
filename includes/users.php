@@ -22,8 +22,8 @@ while($row = mysqli_fetch_assoc($result)){
     $institute_id = $row['institute_id'];
     $must_change_password = $row['must_change_password'];
 
-   //echo "<div class='col'>";
-  // echo "<h2>{$email}</h2><h4>{$first_name} {$date_of_birth}<h/4> <p>{$role_id}</p>";
+  // echo "<div class='col'>";
+  //echo "<h2>{$email}</h2><h4>{$first_name} {$date_of_birth}<h/4> <p>{$role_id}</p>";
    //echo "</div>";
 }
 
