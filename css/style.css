@@ -255,6 +255,124 @@
   font-size: .7rem;
 }
 
+.placeholder_style:hover{
+  box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--secondary-text);
+  border-radius: .5rem;
+}
+
+.placeholder_style:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--secondary-text);
+  box-shadow: 2px 1px 10px 0 #1a5b71;
+    border-radius: .5rem;
+   outline: none !important;
+}
+
+.placeholder_style.active{
+   color: var(--secondary-text);
+   box-shadow: 0 0 10px var(--secondary-text);
+    border-radius: .5rem;
+    height:2rem ;
+    width: auto;
+    margin-bottom: .3rem;
+}
+
+
+
+input:autofill {
+  border: none;
+  color: var(--secondary-text) !important;
+}
+
+.form-control{
+  width: 100% !important;
+   margin:  .9rem .9rem .9rem 0rem;
+}
+
+.button{
+   width: 100% !important;
+   text-decoration: none;
+    color: var( --base-variant);
+    border-radius: .5rem;
+    margin-top: 1rem;
+    padding:  .5rem 1rem .5rem 1rem;
+    background-color:var(--button-color); 
+}
+
+.search_button{
+   text-decoration: none;
+    color: var( --base-variant);
+    border-radius: .5rem;
+    margin-top: 1rem;
+    padding:  .5rem 1rem .5rem 1rem;
+    background-color:var(--button-color); 
+}
+
+
+.button:hover{
+  box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--base-variant);
+  border-radius: .5rem;
+  background-color: var( --hover-button);
+}
+
+.button:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--base-variant);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --hover-button);
+}
+
+.button.active{
+   color: var(--secondary-text);
+   box-shadow: 0 0 10px var(--secondary-text);
+    border-radius: .5rem;
+  
+}
+
+.button_table{
+   font-size: .6rem;
+   text-decoration: none;
+   color: var( --base-variant);
+   background-color:var(--button-color); 
+    border-radius: .3rem;
+    padding: .3rem .5rem .3rem .5rem;
+  align-content: center !important;
+  width: 100vh !important;
+}
+
+
+table {
+    border-collapse:separate;
+    border-radius:6px;
+    margin: 2rem;
+    box-shadow: 0 0 10px var(--secondary-text);
+    padding: 0%;
+    width: 95% !important;
+}
+
+td, th {
+    border-left:solid black 1px;
+    border-top:solid black 1px;
+}
+td{
+   padding: .3rem;
+   font-size: .7rem;
+}
+
+th {
+    background-color: var(--text-color);
+    padding: .5rem;
+    border-top: none;
+    color: var(--base-variant);
+    font-size: .7rem;
+}
+
+td:first-child, th:first-child {
+     border-left: none;
+}
 
 
 
@@ -280,9 +398,19 @@
 }
 
   .form_bg {
-        margin: auto; /* same as sidebar */
+        margin: .5rem;
         width: 90%;
     }
+
+    table {
+    border-collapse:separate;
+    border-radius:6px;
+    margin: 2rem 0rem 2rem 0;
+    box-shadow: 0 0 10px var(--secondary-text);
+    padding: 0%;
+    width: 95% !important;
+}
+
 
 .menu-btn {
     top: 7rem;
@@ -305,6 +433,8 @@
   width: 90%;
   
 }
+
+
 
 }
 

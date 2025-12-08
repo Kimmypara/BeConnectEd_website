@@ -95,39 +95,49 @@ include 'includes/conditions.php'
               <option class="input" value="guardian">Guardian</option>
             </select>
 
-             <div class="row my-3">
-                    <div class="col">
-                        <button class="btn m-2" type="submit" name="submit"  id="submit">Register</button>
+             <div class="row d-flex ">
+              <div class="col-lg-2"></div>
+                    <div class="col-lg-2">
+                        <a class="button" type="submit" name="submit"  id="submit">Register</a>
                     </div>
-                    <div class="col">
-                        <button class="btn m-2" type="update" name="update"  id="update">Update Registration</button>
+                    <div class="col-lg-1"></div>
+                        
+                    <div class="col-lg-2">
+                        <a href="registration_admin.php" class="button " type="reset" name="reset"  id="reset">Cancel</a>
                     </div>
-                    <div class="col">
-                        <button class="btn m-2" type="reset" name="reset"  id="reset">Cancel</button>
+                    <div class="col-lg-1"></div>
+
+                     <div class="col-lg-2">
+                        <a href="registration_admin.php" class="button " type="reset" name="reset"  id="reset">Update</a>
                     </div>
+
+                      
+                        <div class="col-lg-2"></div>
                 </div>
 
             </form>
           </div>
         </div>
 
-          <?php if(isset($_GET["error"])){ 
-        if ($_GET ["error"] == "emptyinput"){
-            $error = "Empty fields or incorrect data!";
-        }
-        
-        ?>
-      <div class="row">
-    <div class="col border border-danger text-danger">
 
-    <?php echo $error;?>
-    </div>  
-    </div>
-    
-    <?php
-  }
-    ?>
    <?php 
+        if(isset($_GET["error"])) { 
+            $error = "";
+            if ($_GET["error"] == "emptyinput"){
+                $error = "You have some empty fields.";
+            }
+            ?>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col border border-danger text-danger">
+                    <p><?php echo $error; ?></p>
+                </div>
+                <div class="col"></div>
+            </div>
+    <?php } ?>
+
+
+    <?php 
         if(isset($_GET["success"])) { 
             $message = "";
             if ($_GET["success"] == "true"){
@@ -142,6 +152,7 @@ include 'includes/conditions.php'
                 <div class="col"></div>
             </div>
     <?php } ?>
+
        
                </div>
           </div>
