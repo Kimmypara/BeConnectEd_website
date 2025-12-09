@@ -199,7 +199,6 @@
 .form_bg{
     box-shadow: 0 0 10px var(--secondary-text);
     color: var(--secondary-text);
-    box-shadow: 2px 1px 10px 0 #1a5b71;
     border-radius: .5rem;
     background-color: var(--base-variant);
     width: 100%;
@@ -300,6 +299,22 @@ input:autofill {
     background-color:var(--button-color); 
 }
 
+.button2{
+  width: 80% !important;
+   text-decoration: none;
+    color: var( --base-variant);
+    border-radius: .5rem;
+    margin-top: -1rem;
+    padding:  .5rem 1rem .5rem 1rem;
+    background-color:var(--button-color); 
+    position: absolute;
+    top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+
 .search_button{
    text-decoration: none;
     color: var( --base-variant);
@@ -317,7 +332,22 @@ input:autofill {
   background-color: var( --hover-button);
 }
 
+.button2:hover{
+  box-shadow: 0 0 5px var(--secondary-text);
+  color: var(--base-variant);
+  border-radius: .5rem;
+  background-color: var( --hover-button);
+}
+
 .button:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--base-variant);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --hover-button);
+}
+
+.button2:focus{
   box-shadow: 0 0 10px var(--secondary-text);
    color: var(--base-variant);
     border-radius: .5rem;
@@ -329,7 +359,12 @@ input:autofill {
    color: var(--secondary-text);
    box-shadow: 0 0 10px var(--secondary-text);
     border-radius: .5rem;
-  
+}
+
+.button2.active{
+   color: var(--secondary-text);
+   box-shadow: 0 0 12px var(--secondary-text);
+    border-radius: .5rem;
 }
 
 .button_table{
@@ -342,6 +377,20 @@ input:autofill {
   align-content: center !important;
   width: 100vh !important;
 }
+
+.img_card{
+box-shadow: 0 0 10px var(--secondary-text);
+    border-radius: .5rem;
+}
+
+.img_card:focus{
+box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--base-variant);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --hover-button);
+}
+
 
 
 table {

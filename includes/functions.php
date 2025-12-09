@@ -21,6 +21,25 @@ return $result;
 
 
 
+function getRole($conn){
+   $sql = "SELECT * FROM role";
+$stmt = mysqli_stmt_init($conn);
+
+if(!mysqli_stmt_prepare($stmt, $sql)) {
+    echo"<p>We have an error.</p>";
+    exit();
+}
+
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+mysqli_stmt_close($stmt); 
+
+return $result;
+}
+
+
+
 function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of_birth, $must_change_password, $qualifications, $relationship){
     $sql = "INSERT INTO users (user_role, firstname, lastname, email, date_of_birth, password_hash, must_change_password, qualifications, relationship) 
             VALUES (?,?,?,?,?,?,?,?,?)";
