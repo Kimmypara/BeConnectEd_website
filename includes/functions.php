@@ -41,7 +41,7 @@ return $result;
 
 
 function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of_birth, $must_change_password, $qualifications, $relationship){
-    $sql = "INSERT INTO users (user_role, firstname, lastname, email, date_of_birth, password_hash, must_change_password, qualifications, relationship) 
+    $sql = "INSERT INTO users (user_role, first_name, last_name, email, date_of_birth, password_hash, must_change_password, qualifications, relationship) 
             VALUES (?,?,?,?,?,?,?,?,?)";
     
     $stmt = mysqli_stmt_init($conn);
@@ -73,7 +73,7 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of
 //Validation functions
 function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth,  $must_change_password, $qualifications, $relationship){
 
-    if(empty($role_id) || empty($firstname) || empty($lastname) || empty($email) || empty($date_of_birth) ){
+    if(empty($role_id) || empty($first_name) || empty($last_name) || empty($email) || empty($date_of_birth) ){
         return true;
     }
 

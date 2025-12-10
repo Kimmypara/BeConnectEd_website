@@ -87,32 +87,19 @@ include 'includes/conditions.php'
               rows="10"></textarea>
           </div>
 
-                 <label class="formFields" for="relationship">If parent, insert relationship</label>
-              <select  class="placeholder_style mb-2" id="relationship" name="relationship" >
-              <option class=" input" value="" disabled selected>Choose from Mother, Father, Guardian</option>
-              <option class="input" value="mother">Mother</option>
-              <option class="input" value="father">Father</option>
-              <option class="input" value="guardian">Guardian</option>
-            </select>
+           
 
              <div class="row d-flex ">
-              <div class="col-lg-2"></div>
+              <div class="col-lg-3"></div>
                     <div class="col-lg-2">
                         <a class="button" type="submit" name="submit"  id="submit">Register</a>
                     </div>
-                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2"></div>
                         
                     <div class="col-lg-2">
                         <a href="registration_admin.php" class="button " type="reset" name="reset"  id="reset">Cancel</a>
                     </div>
-                    <div class="col-lg-1"></div>
-
-                     <div class="col-lg-2">
-                        <a href="registration_admin.php" class="button " type="reset" name="reset"  id="reset">Update</a>
-                    </div>
-
-                      
-                        <div class="col-lg-2"></div>
+                        <div class="col-lg-3"></div>
                 </div>
 
             </form>
