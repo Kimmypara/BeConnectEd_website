@@ -22,9 +22,22 @@ include 'includes/conditions.php'
 
       <div class="col-lg-9 col-md-8">
       <div class="row">  
+        
         <div class="col-12">  
       <div class="form_bg">
-              <h2 class=" form_title">Register New Users</h2>
+              
+              <!--close button -->
+              <div class="row">
+                <div class="col-11"><h2 class=" form_title">Register New Users</h2></div>
+                <div class="col-1">
+                <a href="registration_admin.php" class="button mt-0" alt="close button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+</svg></a>
+</div>
+</div>
+             
+
+
               <!-- Your form -->
       <div class="row">
  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -80,7 +93,25 @@ include 'includes/conditions.php'
               <option class="input" value="0">No</option>
               </select>
 
-                
+
+              
+              <label class="formFields" for="is_active">Active or Inactive?</label>
+              <select  class="placeholder_style mb-2" id="is_active" name="is_active" >
+              <option class="input" value="" disabled selected>Choose if user is Active or Inactive</option>
+              <option class="input" value="1">Active</option>
+              <option class="input" value="0">Inactive</option>
+              </select>
+
+               
+              <label class="formFields" for="institute_id">Institute</label>
+              <select  class="placeholder_style mb-2" id="institute_id" name="institute_id" >
+              <option class="input" value="" disabled selected>Choose an Institute</option>
+              <option class="input" value="1">MCAST Institute for the Creative Arts</option>
+              <option class="input" value="2">MCAST Institute of Applied Sciences</option>
+              <option class="input" value="3">University of Malta</option>
+              <option class="input" value="4">St. Benedict College</option>
+              </select>
+
         <!--<div>
             <label class="formFields" for="qualifications">If teacher, insert Qualifications</label>
             <textarea  class="placeholder_style mb-2" name="qualifications" id="qualifications" placeholder="Teacher Qualifications..." 

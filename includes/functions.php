@@ -3,7 +3,10 @@
 <?PHP
 //This file will be used for all code that interact with database
 function getUsers($conn){
-   $sql = "SELECT * FROM users";
+   $sql = "SELECT users.*, role.role_name
+            FROM users
+            JOIN role ON users.role_id = role.role_id";
+
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
@@ -40,9 +43,12 @@ return $result;
 
 
 
-function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of_birth, $must_change_password){
-    $sql = "INSERT INTO users (role_id, first_name, last_name, email, date_of_birth, must_change_password) 
-            VALUES (?,?,?,?,?,?)";
+
+
+
+function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of_birth, $is_active,$must_change_password, $institute_id){
+    $sql = "INSERT INTO users (role_id, first_name, last_name, email, date_of_birth, is_active,must_change_password, institute_id) 
+            VALUES (?,?,?,?,?,?,?,?)";
     
     $stmt = mysqli_stmt_init($conn);
 
@@ -55,13 +61,15 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of
 
     mysqli_stmt_bind_param(
         $stmt,
-        "isssii",   // changed ORDER to match your data types
+        "issssisi",   // changed ORDER to match your data types
         $role_id,
         $first_name,
         $last_name,
         $email,
         $date_of_birth,
+        $is_active,
         $must_change_password,
+        $institute_id,
         //$qualifications,
        
     );
@@ -71,11 +79,35 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of
 }
 
 //Validation functions
-function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth,  $must_change_password){
+  function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $must_change_password, $institute_id){
 
-    if(empty($role_id) || empty($first_name) || empty($last_name) || empty($email) || empty($date_of_birth) ){
+    if (empty($role_id) || 
+        empty($first_name) || 
+        empty($last_name) || 
+        empty($email) || 
+        empty($date_of_birth) || 
+        $is_active === "" || 
+        $must_change_password === "") {
+
         return true;
     }
+
+      // if Independent_teacher(role_id = 5), institute MUST be empty
+    if($role_id == 5 && !empty($institute_id)){
+        return true;
+    }
+
+       if ($role_id != 5 && empty($institute_id)) {
+        return true;
+    }
+
+    return false;
+}
+
+
+
+
+
 
     // If Teacher (role_id = 1), qualifications MUST NOT be empty
    // if($role_id == 1 && empty($qualifications)){
@@ -87,8 +119,7 @@ function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date
      //   return true;
    // }
 
-    return false;
-}
+
 
     
 ?>

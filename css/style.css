@@ -402,6 +402,10 @@ table {
     width: 95% !important;
 }
 
+.table_admin{
+  color: var(--text-color);
+}
+
 td, th {
     border-left:solid black 1px;
     border-top:solid black 1px;
