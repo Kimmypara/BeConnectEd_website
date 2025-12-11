@@ -1,4 +1,5 @@
 <?php
+
 require_once "dbh.php";
 require_once "functions.php";
 
@@ -15,17 +16,17 @@ $last_name = $_POST["last_name"];
 $email = $_POST["email"];
 $date_of_birth = $_POST["date_of_birth"];
 $must_change_password = $_POST["must_change_password"];
-$qualifications = $_POST["qualifications"];
-$relationship = $_POST["relationship"];
+//$qualifications = $_POST["qualifications"];
+
 
 // Run validation
-if (emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth,  $must_change_password, $qualifications, $relationship)) {
+if (emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth,  $must_change_password)) {
     header("location: ../new_registration_admin.php?error=emptyinput");
     exit();
 }
 
 // Register user
-registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of_birth, $must_change_password, $qualifications, $relationship);
+registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of_birth, $must_change_password );
 
 header("location: ../registration_admin.php?success=true");
 exit();

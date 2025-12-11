@@ -81,23 +81,23 @@ include 'includes/conditions.php'
               </select>
 
                 
-        <div>
+        <!--<div>
             <label class="formFields" for="qualifications">If teacher, insert Qualifications</label>
             <textarea  class="placeholder_style mb-2" name="qualifications" id="qualifications" placeholder="Teacher Qualifications..." 
               rows="10"></textarea>
-          </div>
+          </div> -->
 
            
 
              <div class="row d-flex ">
               <div class="col-lg-3"></div>
                     <div class="col-lg-2">
-                        <a class="button" type="submit" name="submit"  id="submit">Register</a>
+                        <button class="button" type="submit" name="submit"  id="submit">Register</button>
                     </div>
                     <div class="col-lg-2"></div>
                         
                     <div class="col-lg-2">
-                        <a href="registration_admin.php" class="button " type="reset" name="reset"  id="reset">Cancel</a>
+                        <button href="registration_admin.php" class="button " type="reset" name="reset"  id="reset">Cancel</button>
                     </div>
                         <div class="col-lg-3"></div>
                 </div>

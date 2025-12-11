@@ -70,7 +70,7 @@ error_reporting(E_ALL);
   $result = getUsers($conn);
   while($row = mysqli_fetch_assoc($result)){
   echo '<tr>';
-echo '<td>' . ($row['role_id']) . '</td>';
+echo '<td>' . ($row['role_name']) . '</td>';
 echo '<td>' .($row['first_name']) . '</td>';
 echo '<td>' . ($row['last_name']) . '</td>';
 echo '<td>' . ($row['email']) . '</td>';

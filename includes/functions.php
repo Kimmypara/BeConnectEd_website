@@ -40,9 +40,9 @@ return $result;
 
 
 
-function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of_birth, $must_change_password, $qualifications, $relationship){
-    $sql = "INSERT INTO users (user_role, first_name, last_name, email, date_of_birth, password_hash, must_change_password, qualifications, relationship) 
-            VALUES (?,?,?,?,?,?,?,?,?)";
+function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of_birth, $must_change_password){
+    $sql = "INSERT INTO users (role_id, first_name, last_name, email, date_of_birth, must_change_password) 
+            VALUES (?,?,?,?,?,?)";
     
     $stmt = mysqli_stmt_init($conn);
 
@@ -55,15 +55,15 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of
 
     mysqli_stmt_bind_param(
         $stmt,
-        "isssiiss",   // changed ORDER to match your data types
+        "isssii",   // changed ORDER to match your data types
         $role_id,
         $first_name,
         $last_name,
         $email,
         $date_of_birth,
         $must_change_password,
-        $qualifications,
-        $relationship
+        //$qualifications,
+       
     );
 
     mysqli_stmt_execute($stmt);
@@ -71,27 +71,24 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of
 }
 
 //Validation functions
-function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth,  $must_change_password, $qualifications, $relationship){
+function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth,  $must_change_password){
 
     if(empty($role_id) || empty($first_name) || empty($last_name) || empty($email) || empty($date_of_birth) ){
         return true;
     }
 
     // If Teacher (role_id = 1), qualifications MUST NOT be empty
-    if($role_id == 1 && empty($qualifications)){
-        return true;
-    }
+   // if($role_id == 1 && empty($qualifications)){
+     //   return true;
+    //}
 
     // If Parent (role_id = 3), relationship MUST NOT be empty
-    if($role_id == 3 && empty($relationship)){
-        return true;
-    }
+   // if($role_id == 3 && empty($relationship)){
+     //   return true;
+   // }
 
     return false;
 }
 
-    //we should have a bunch of other functions that check different things 
-    //Ex. Invalid username - maybe we do no want symbols
-    //Invalid password - we can check if pw has numbers, letters, or symbols
-    //
+    
 ?>
