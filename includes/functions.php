@@ -104,9 +104,44 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of
     return false;
 }
 
+function invalidFirst_name($first_name){
+        // allow letters and numbers, but nothing else
+        if(!preg_match("/^[a-zA-Z0-9]*$/",$first_name)){
+            return true;
+        }
+    }
+
+    function invalidLast_name($last_name){
+        // allow letters and numbers, but nothing else
+        if(!preg_match("/^[a-zA-Z0-9]*$/",$last_name)){
+            return true;
+        }
+    }
+
+    function invalidEmail($email){
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            return true;
+        }
+    }
+function emailExists($conn, $email){
+    $sql = "SELECT user_id FROM users WHERE email = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    return mysqli_fetch_assoc($result) ? true : false;
+}
 
 
-
+function invalidDate_of_birth($date_of_birth){
+    return empty($date_of_birth);
+}
 
 
     // If Teacher (role_id = 1), qualifications MUST NOT be empty
@@ -118,8 +153,6 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of
    // if($role_id == 3 && empty($relationship)){
      //   return true;
    // }
-
-
-
+    
     
 ?>

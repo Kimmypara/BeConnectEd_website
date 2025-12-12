@@ -138,16 +138,36 @@ include 'includes/conditions.php'
         </div>
 
 
-   <?php 
+  <?php 
         if(isset($_GET["error"])) { 
-            $error = "";
-            if ($_GET["error"] == "emptyinput"){
-                $error = "You have some empty fields.";
+            $error = "<h5>Could not register account:</h5><ul>";
+            if (isset($_GET["emptyinput"])){
+                $error = $error."<li>You have some empty fields.</li>";
             }
+            if (isset($_GET["invalidFirst_name"])){
+                $error = $error."<li>First name format invalid.</li>";
+            }
+
+             if (isset($_GET["invalidLast_name"])){
+                $error = $error."<li>Lastt name format invalid.</li>";
+            }
+            if (isset($_GET["invalidEmail"])){
+                $error = $error."<li>Email format invalid.</li>";
+            }
+
+             if (isset($_GET["emailExists"])){
+                $error = $error."<li>Email already exist.</li>";
+            }
+
+              if (isset($_GET["invalidDate_of_birth"])){
+                $error = $error."<li>Date of Birth format invalid.</li>";
+            }
+            
+            $error= $error."</ul>";
             ?>
             <div class="row">
                 <div class="col"></div>
-                <div class="col border border-danger text-danger">
+                <div class="col-6 border border-danger text-danger rounded">
                     <p><?php echo $error; ?></p>
                 </div>
                 <div class="col"></div>
@@ -170,7 +190,7 @@ include 'includes/conditions.php'
                 <div class="col"></div>
             </div>
     <?php } ?>
-
+   
        
                </div>
           </div>
