@@ -73,6 +73,20 @@ include 'includes/arrays.php'
 </svg>
 
     </a>
+
+
+    <!--if user is logged in - show logout link-->
+<?php
+if(isset($_SESSION["userId"])){?> 
+<li class="nav-item">
+  <a class="nav-link" href="includes/logout-inc.php">Logout</a>
+</li>
+<?php } else {?>
+<!--if user is logged out - show loginlink-->
+  <li class="nav-item">
+  <a class="nav-link" href="login.php">Login</a>
+
+<?php } ?>
       </div>
   </div>
 </div>

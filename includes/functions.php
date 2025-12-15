@@ -46,9 +46,9 @@ return $result;
 
 
 
-function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of_birth, $is_active,$must_change_password, $institute_id){
-    $sql = "INSERT INTO users (role_id, first_name, last_name, email, date_of_birth, is_active,must_change_password, institute_id) 
-            VALUES (?,?,?,?,?,?,?,?)";
+function registerUser($conn, $role_id, $first_name, $last_name, $email, $hashedPassword, $date_of_birth, $is_active,$must_change_password, $institute_id){
+    $sql = "INSERT INTO users (role_id, first_name, last_name, email,password_hash, date_of_birth, is_active,must_change_password, institute_id) 
+            VALUES (?,?,?,?,?,?,?,?,?)";
     
     $stmt = mysqli_stmt_init($conn);
 
@@ -61,11 +61,12 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $date_of
 
     mysqli_stmt_bind_param(
         $stmt,
-        "issssisi",   // changed ORDER to match your data types
+        "isssssisi",   // changed ORDER to match your data types
         $role_id,
         $first_name,
         $last_name,
         $email,
+        $hashedPassword,
         $date_of_birth,
         $is_active,
         $must_change_password,
@@ -153,6 +154,95 @@ function invalidDate_of_birth($date_of_birth){
    // if($role_id == 3 && empty($relationship)){
      //   return true;
    // }
+
+
+   function login($conn, $email, $plainPassword){
+    $user = userExists($conn, $email);
+
+    if(!$user){
+    header("location: ../login_institute.php?error=incorrectlogin");
+    exit();    
+    }
+
+  $userId =$user["user_id"];
+
+  $user = getUser($conn, $userId);
+  $dbPassword = $user["password_hash"];
+  $checkPassword = password_verify($plainPassword, $dbPassword);
+
+  if(!$checkPassword){
+    header("location:../login.php?error=incorrectlogin");
+    exit();
+  }
+
+  session_start();
+
+  $_SESSION ["email"] = $email;
+  $_SESSION ["user_id"] = $userId;
+
+  header("location:../index.php");
+  exit();
+
+}
+
+ function random_password(){
+    $lower_case = "qwertyuiopasdfghjklzxcvbnm";
+    $upper_case = "QWERTYUIOPASDFGHJKLZXCVBNM";
+    $digits = "1234567890";
+    $symbols = "%!$*&^~#@";
+
+     $lower_case = str_shuffle($lower_case);
+     $upper_case = str_shuffle($upper_case);
+     $digits = str_shuffle($digits);
+     $symbols = str_shuffle($symbols);
+
+     $random_characters = 2;
+
+     $random_password =substr($lower_case, 0, $random_characters);
+     $random_password .=substr($upper_case, 0, $random_characters);
+     $random_password .=substr($digits, 0, $random_characters);
+     $random_password .=substr($symbols, 0, $random_characters);
+
+     return str_shuffle($random_password);
+   } 
+
+function getUserByEmail($conn, $email) {
+    $sql = "SELECT * FROM users WHERE email = ?";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_assoc($result);
+}
+
+function userExists($conn, $first_name){
+    $sql = "SELECT user_id FROM user WHERE first_name = ?;";
     
+    $stmt = mysqli_stmt_init($conn);
     
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../login.php?error=stmtfailed");
+        exit();
+    }
+    
+    // Here, we replace the ? wildcard with an integer, its value being in the userId variable
+    mysqli_stmt_bind_param($stmt, "s", $first_name);
+    
+    mysqli_stmt_execute($stmt);
+    
+    $result = mysqli_stmt_get_result($stmt);
+    mysqli_stmt_close($stmt);
+    
+    if($row = mysqli_fetch_assoc($result)){
+        return $row;
+    }
+    else{
+        return false;
+    }
+}
+    
+  
+
+   
 ?>

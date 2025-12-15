@@ -21,8 +21,18 @@
   font-size: 1.1rem;
   text-decoration: none ;
   font-weight: 550 ;
-
   }
+
+
+
+  .login_bg {
+  height: 100vh;
+  width: 100%;
+  background: url("assets/images/login_bg.png") no-repeat center center;
+  background-size: cover;
+  position: fixed;
+  background-repeat: no-repeat;
+}
 
 .logo {
     cursor: pointer;
@@ -45,12 +55,36 @@
     cursor: pointer;
   }
 
+
+
+.form-logo {
+  width: 10rem;
+  margin-left: 20rem;
+  margin-top: 10rem;
+}
+.form-title{
+  width: 20rem;
+  color: var(--text-color);
+  font-size: 1.3rem;
+  text-decoration: none ;
+  font-weight: 650 ;
+}
+
+.login-layout{
+    margin: 10rem;
+}
+
   .logo_login{
      cursor: pointer;
     border-radius: .5rem;
     transition: box-shadow 0.2s ease;
     width: 7rem ;
     margin:auto;
+  }
+
+  .form-login{
+    margin-top: 6rem !important;
+    bottom: 10%;
   }
 
 
@@ -249,6 +283,8 @@
   text-align: left;
 }
 
+
+
 .placeholder_style{
    width: 70%;
     color: var( --secondary-text);
@@ -307,6 +343,11 @@ input:autofill {
     background-color:var(--button-color); 
 }
 
+.loginbtn{
+  width: 50% !important;
+  margin: 1rem auto 1rem auto;
+}
+
 .button2{
   width: 80% !important;
    text-decoration: none;
@@ -320,6 +361,17 @@ input:autofill {
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
+}
+
+.button3{
+   width: 100% !important;
+   text-decoration: none;
+    color: var( --text-color);
+    border-radius: .5rem;
+    margin-top: 1rem;
+    padding:  .5rem 1rem .5rem 1rem;
+    background-color:var( --base-variant); 
+    border: none !important;
 }
 
 
@@ -349,10 +401,18 @@ input:autofill {
 
 .button:focus{
   box-shadow: 0 0 10px var(--secondary-text);
-   color: var(--base-variant);
+   color: var(--text-color);
     border-radius: .5rem;
    outline: none !important;
    background-color: var( --hover-button);
+}
+
+.button3:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --base-variant);
 }
 
 .button2:focus{
@@ -364,6 +424,12 @@ input:autofill {
 }
 
 .button.active{
+   color: var(--secondary-text);
+   box-shadow: 0 0 10px var(--secondary-text);
+    border-radius: .5rem;
+}
+
+.button3.active{
    color: var(--secondary-text);
    box-shadow: 0 0 10px var(--secondary-text);
     border-radius: .5rem;
@@ -435,7 +501,21 @@ td:first-child, th:first-child {
      border-left: none;
 }
 
+@media (max-width: 992px) {
+.form-logo {
+  width: 10rem;
+margin: auto;
+margin-top: 10rem;
+margin-left: 1rem;
+margin-right: 1rem;
+}
 
+  .form-login{
+   margin-top: 5rem !important;
+   margin:auto;
+  }
+}
+    
 
 /* small screens */
 @media (max-width: 767px) {
@@ -471,7 +551,19 @@ td:first-child, th:first-child {
     padding: 0%;
     width: 95% !important;
 }
+.form-logo {
+  width: 10rem;
+margin: auto;
+margin-top: 10rem;
+margin-left: 1rem;
+margin-right: 1rem;
+}
 
+  .form-login{
+    margin-top: 5rem !important;
+   margin:auto;
+  
+  }
 
 .menu-btn {
     top: 7rem;
@@ -500,6 +592,20 @@ td:first-child, th:first-child {
 
 }
 
+@media (max-width: 375px) {
+.form-logo {
+  width: 10rem;
+margin: auto;
+margin-top: 5rem;
+margin-left: 1rem;
+margin-right: 1rem;
+}
 
+  .form-login{
+    margin-top: 5rem !important;
+   margin:auto;
+  
+  }
+}
 
 

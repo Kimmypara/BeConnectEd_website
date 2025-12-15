@@ -1,4 +1,4 @@
-
+<?php> session_start(); ?>
 <?php
 include "includes/nav.php";
 include 'includes/conditions.php'
@@ -137,6 +137,18 @@ include 'includes/conditions.php'
           </div>
         </div>
 
+              <?php
+
+if (isset($_SESSION['reset_link'])) {
+    echo "<div class='alert alert-info'>
+            <strong>Reset link (dev only):</strong><br>
+            <a href='{$_SESSION['reset_link']}' target='_blank'>
+                {$_SESSION['reset_link']}
+            </a>
+          </div>";
+    unset($_SESSION['reset_link']); // show once
+}
+?>
 
   <?php 
         if(isset($_GET["error"])) { 
@@ -162,6 +174,9 @@ include 'includes/conditions.php'
               if (isset($_GET["invalidDate_of_birth"])){
                 $error = $error."<li>Date of Birth format invalid.</li>";
             }
+
+
+       
             
             $error= $error."</ul>";
             ?>
@@ -190,8 +205,9 @@ include 'includes/conditions.php'
                 <div class="col"></div>
             </div>
     <?php } ?>
-   
-       
+
+    
+ 
                </div>
           </div>
           </div>

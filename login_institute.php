@@ -5,6 +5,7 @@
 
 <?php
 include 'includes/users.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -21,12 +22,12 @@ include 'includes/users.php';
 </head>
 <body>
 
-
+<form action="includes/login-inc.php" method="POST">
 <div class="login_bg d-flex ">
 
   <div class="container login-layout pb-5">
     <div class="row align-items-center">
-
+ 
       <!-- LEFT COLUMN: LOGO -->
       <div class="col-lg-6 col-md- col-sm-12 text-center text-md-start mb-4 mb-md-0">
         <img src="assets/images/logo.png"
@@ -34,19 +35,21 @@ include 'includes/users.php';
              class="form-logo">
       </div>
 
+   
       <!-- RIGHT COLUMN: PATH SELECTION -->
       <div class="form-login col-lg-4 col-md-6 col-sm-12">
-        <h4 class="form-title mb-3">Choose your Path</h4>
+       
+       <input type="email" id="email" name="email" class="d-block  button3" placeholder="email" required>
 
-        <a href="login_institute.php" class="d-block button mb-2">
-          Login with Institute
-        </a>
+        <input type="password" id="password" name="password" placeholder="password" class="d-block button3" required>
 
-        <a href="login_independent.php" class="d-block button">
-          Login as Independent User
-        </a>
+        <div class="row">
+        <div class="col">
+            <button  type="submit" id="submit" name="submit" class="button loginbtn">Login</button>
+        </div>
+    </div>
       </div>
-
+    </form>
     </div>
   </div>
 

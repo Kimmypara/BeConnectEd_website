@@ -1,11 +1,20 @@
 
+<?php
+session_start();
+require_once "includes/dbh.php";
+include 'includes/users.php';
+?>
+
+
 <style>
 <?php include 'css/style.css'; ?>
 </style>
 
-<?php
-include 'includes/users.php';
-?>
+
+
+<?php if (isset($error)): ?>
+    <p style="color:red;"><?php echo $error; ?></p>
+<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,11 +31,12 @@ include 'includes/users.php';
 <body>
 
 
+<form  method="POST">
 <div class="login_bg d-flex ">
 
   <div class="container login-layout pb-5">
     <div class="row align-items-center">
-
+ 
       <!-- LEFT COLUMN: LOGO -->
       <div class="col-lg-6 col-md- col-sm-12 text-center text-md-start mb-4 mb-md-0">
         <img src="assets/images/logo.png"
@@ -34,23 +44,24 @@ include 'includes/users.php';
              class="form-logo">
       </div>
 
+   
       <!-- RIGHT COLUMN: PATH SELECTION -->
       <div class="form-login col-lg-4 col-md-6 col-sm-12">
-        <h4 class="form-title mb-3">Choose your Path</h4>
+       <h4 class="form-title mb-3">Reset Password</h4>
 
-        <a href="login_institute.php" class="d-block button mb-2">
-          Login with Institute
-        </a>
+      
 
-        <a href="login_independent.php" class="d-block button">
-          Login as Independent User
-        </a>
-      </div>
+        <input type="password" id="password" name="password" placeholder="password" class="d-block button3 " required>
 
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="confirm_password" class="d-block button3 " required>
+
+        <div class="row">
+        <div class="col">
+            <button  type="submit" id="submit" name="submit" class="button loginbtn">Set Password</button>
+        </div>
     </div>
-  </div>
-
-</div>
+      </div>
+    </form>
 
 </body>
 
@@ -59,4 +70,32 @@ include 'includes/users.php';
 <script src="includes/darkmode.js" type="text/javascript" defer></script>
 
 
+<?php
 
+
+if (!isset($_GET['token'])) {
+    die("Invalid password reset link.");
+}
+
+$token = $_GET['token'];
+
+
+
+$sql = "SELECT * FROM reset_password WHERE reset_token = ? AND expires_at > NOW()";
+$stmt = mysqli_stmt_init($conn);
+
+if (!mysqli_stmt_prepare($stmt, $sql)) {
+    die("Something went wrong.");
+}
+
+mysqli_stmt_bind_param($stmt, "s", $token);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$reset = mysqli_fetch_assoc($result);
+
+if (!$reset) {
+    die("This password reset link is invalid or has expired.");
+}
+
+$user_id = $reset['user_id'];
