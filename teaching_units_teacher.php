@@ -16,7 +16,7 @@ include 'includes/conditions.php'
   <div class="row">
 
       <div class="col-lg-2 col-md-3 p-0">
-          <?php include 'includes/menuadmin.php'; ?>
+          <?php include 'includes/menuteacher.php'; ?>
       </div>
      
 

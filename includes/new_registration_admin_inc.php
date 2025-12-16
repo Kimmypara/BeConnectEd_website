@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 require_once "dbh.php";
 require_once "functions.php";
 
@@ -115,7 +116,6 @@ $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 mail($to, $subject, $message, $headers);
 
 
-session_start();
 $_SESSION['reset_link'] = $resetLink;
 
 header("location: ../registration_admin.php?success=true");

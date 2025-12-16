@@ -28,49 +28,39 @@
     <div class="offcanvas-body">
         <ul class="nav flex-column">
            <li class="nav-item">
-  <a class="nav-link <?php if ($currentPage == 'admin_index.php') echo 'active'; ?>" href="admin_index.php">
+  <a class="nav-link <?php if ($currentPage == 'teacher_index.php') echo 'active'; ?>" href="teacher_index.php">
       Home
   </a>
 </li>
 
 <li class="nav-item">
-  <a class="nav-link <?php if ($currentPage == 'plan_schedule_admin.php') echo 'active'; ?>" href="plan_schedule_admin.php">
+  <a class="nav-link <?php if ($currentPage == 'plan_schedule_teacher.php') echo 'active'; ?>" href="plan_schedule_teacher.php">
       Plan & Schedule
   </a>
 </li>
 
 <li class="nav-item">
-  <a class="nav-link <?php if ($currentPage == 'enrolment_admin.php') echo 'active'; ?>" href="enrolment_admin.php">
+  <a class="nav-link <?php if ($currentPage == 'enrolment_teacher.php') echo 'active'; ?>" href="enrolment_teacher.php">
       Enrolment
   </a>
 </li>
 
 <li class="nav-item">
-  <a class="nav-link <?php if ($currentPage == 'registration_admin.php') echo 'active'; ?>" href="registration_admin.php">
-      Registration
+  <a class="nav-link <?php if ($currentPage == 'teaching_units_teacher.php') echo 'active'; ?>" href="teaching_units_teacher.php">
+      Teaching Units
   </a>
 </li>
 
-<li class="nav-item">
-  <a class="nav-link <?php if ($currentPage == 'courses_admin.php') echo 'active'; ?>" href="courses_admin.php">
-      Courses
-  </a>
-</li>
+
 
 <li class="nav-item">
-  <a class="nav-link <?php if ($currentPage == 'assign_teachers_admin.php') echo 'active'; ?>" href="assign_teachers_admin.php">
-     Assign Teachers
-  </a>
-</li>
-
-<li class="nav-item">
-  <a class="nav-link <?php if ($currentPage == 'notifications_admin.php') echo 'active'; ?>" href="notifications_admin.php">
+  <a class="nav-link <?php if ($currentPage == 'notifications_teacher.php') echo 'active'; ?>" href="notifications_teacher.php">
       Notifications
   </a>
 </li>
 
 <li class="nav-item">
-  <a class="nav-link <?php if ($currentPage == 'chats_admin.php') echo 'active'; ?>" href="chats_admin.php">
+  <a class="nav-link <?php if ($currentPage == 'chats_teacher.php') echo 'active'; ?>" href="chats_teacher.php">
       Chats
   </a>
 </li>

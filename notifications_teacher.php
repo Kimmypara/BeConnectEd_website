@@ -17,7 +17,7 @@ include 'includes/conditions.php'
   <div class="row">
 
       <div class="col-lg-2 col-md-3 p-0">
-          <?php include 'includes/menuadmin.php'; ?>
+          <?php include 'includes/menuteacher.php'; ?>
       </div>
      
 
@@ -25,7 +25,7 @@ include 'includes/conditions.php'
       <div class="row">  
         <div class="col-12">  
             <div class="form_bg">
-              <h2 class=" form_title">Register New Users</h2>
+              <h2 class=" form_title">Notificationss</h2>
 
             </div>
          </div>

@@ -24,7 +24,7 @@ include 'includes/conditions.php'
       <div class="row">  
         <div class="col-12">  
             <div class="form_bg">
-              <h2 class=" form_title">Register New Users</h2>
+              <h2 class=" form_title">Enrolment</h2>
 
             </div>
          </div>

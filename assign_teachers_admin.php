@@ -24,8 +24,7 @@ include 'includes/conditions.php'
       <div class="row">  
         <div class="col-12">  
             <div class="form_bg">
-              <h2 class=" form_title">Plan & Schedule</h2>
-
+              <h2 class=" form_title">Assign Teachers
             </div>
          </div>
       </div>

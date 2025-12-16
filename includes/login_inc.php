@@ -8,7 +8,7 @@ if (!isset($_POST["submit"])) {
 }
 
 $email = $_POST["email"];
-$password = $_POST["password_hash"];
+$password = $_POST["password"];
 
 if (empty($email) || empty($password)) {
     header("location: ../login_institute.php?error=emptyinput");
@@ -43,9 +43,45 @@ if (!password_verify($password, $user["password_hash"])) {
 
 // Login success
 session_start();
+session_regenerate_id(true);
+
 $_SESSION["user_id"] = $user["user_id"];
 $_SESSION["email"] = $user["email"];
 $_SESSION["role_id"] = $user["role_id"];
+$_SESSION["first_name"] = $user["first_name"];
+$_SESSION["last_name"] = $user["last_name"];
 
-header("location: ../index.php");
-exit();
+
+
+// 🚦 Role-based redirect
+    switch ($user['role_id']) {
+
+        case 1: // Admin
+            header("Location: ../teacher_index.php");
+            break;
+
+        case 2: // Teacher
+            header("Location: ../student_index.php");
+            break;
+
+        case 3: // Student
+            header("Location: ../parent_index.php");
+            break;
+
+        case 4: // Parent
+            header("Location: ../admin_index.php");
+            break;
+
+             case 5: // Parent
+            header("Location: ../independent_index.php");
+            break;
+
+        default:
+            // Safety fallback
+            header("Location: ../login_institute.php?error=invalidrole");
+            break;
+    }
+
+    exit(); 
+
+

@@ -45,6 +45,8 @@ include 'includes/users.php';
         <a href="login_independent.php" class="d-block button">
           Login as Independent User
         </a>
+
+  
       </div>
 
     </div>

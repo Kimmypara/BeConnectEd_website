@@ -1,4 +1,4 @@
-<?php> session_start(); ?>
+<?php session_start(); ?>
 <?php
 include "includes/nav.php";
 include 'includes/conditions.php'
@@ -8,6 +8,8 @@ include 'includes/conditions.php'
 <style>
 <?php include 'css/style.css'; ?>
 </style>
+
+
 
 
 
@@ -51,7 +53,7 @@ include 'includes/conditions.php'
               <option class="input" value="2">Student</option>
               <option class="input" value="3">Parent</option>
               <option class="input" value="4">Administrator</option>
-              <option class="input" value="5">Independent Teacher</option>
+             
             </select>
 
              <div class="row">
@@ -205,6 +207,7 @@ if (isset($_SESSION['reset_link'])) {
                 <div class="col"></div>
             </div>
     <?php } ?>
+
 
     
  

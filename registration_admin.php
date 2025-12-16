@@ -1,5 +1,6 @@
 
 <?php
+session_start();
 include "includes/nav.php";
 include 'includes/conditions.php';
 require_once 'includes/users.php'
@@ -9,6 +10,8 @@ require_once 'includes/users.php'
 <style>
 <?php include 'css/style.css'; ?>
 </style>
+
+
 
 <?php
 ini_set('display_errors', 1);

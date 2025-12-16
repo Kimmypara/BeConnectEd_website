@@ -22,7 +22,7 @@ include 'includes/users.php';
 </head>
 <body>
 
-<form action="includes/login-inc.php" method="POST">
+<form action="/BeConnectEd_website/includes/login_inc.php" method="POST">
 <div class="login_bg d-flex ">
 
   <div class="container login-layout pb-5">
@@ -43,6 +43,10 @@ include 'includes/users.php';
 
         <input type="password" id="password" name="password" placeholder="password" class="d-block button3" required>
 
+              <p class="mt-3">
+    New user?
+    <a href="reset_password.php">Click here to set your password</a>
+</p>
         <div class="row">
         <div class="col">
             <button  type="submit" id="submit" name="submit" class="button loginbtn">Login</button>
