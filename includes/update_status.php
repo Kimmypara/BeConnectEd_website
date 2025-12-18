@@ -13,7 +13,7 @@ if (isset($_GET['user_id']) && isset($_GET['is_active'])) {
     } elseif ($is_active === "inactivate") {
         $status = 0;
     } else {
-        die("Invalid action");
+        die("Invalid action: " . htmlspecialchars($is_active));
     }
 
     $sql = "UPDATE users SET is_active = ? WHERE user_id = ?";
@@ -23,7 +23,7 @@ if (isset($_GET['user_id']) && isset($_GET['is_active'])) {
         die("SQL Error");
     }
 
-    mysqli_stmt_bind_param($stmt, "ii", $is_active, $user_id);
+    mysqli_stmt_bind_param($stmt, "ii", $status, $user_id);
     mysqli_stmt_execute($stmt);
 
     mysqli_stmt_close($stmt);

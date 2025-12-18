@@ -1,7 +1,35 @@
-<?php
 
+
+<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+
+$role_id = $_SESSION['role_id'] ?? null;
+
+// Default fallback
+$homeUrl = 'login.php';
+
+switch ($role_id) {
+    case 1: // Teacher
+        $homeUrl = 'teacher_index.php';
+        break;
+
+    case 2: // Student
+        $homeUrl = 'student_index.php';
+        break;
+
+    case 3: // Parent
+        $homeUrl = 'parent_index.php';
+        break;
+
+    case 4: // Admin
+        $homeUrl = 'admin_index.php';
+        break;
+
+    case 5: // Independent
+        $homeUrl = 'independent_index.php';
+        break;
 }
 
 
@@ -40,11 +68,11 @@ include 'includes/arrays.php'
   
 
 <!--logo-->
-<div class="container-fluid mx-5 px-4">
+<div class="container-fluid  px-4">
   <div class="row">
     
-    <div class="col-2 ">
-<a href="index.php" id="logo">
+    <div class="col-3 ">
+<a href="<?php echo $homeUrl; ?>" id="logo">
   <img class="logo logo-img light"  src="assets/images/logo.png"  alt="be connected logo">
   <img class="logo logo-img dark" src="assets/images/logo-darkmode.png"  alt="be connected logo">
 </a>
@@ -83,6 +111,7 @@ $hour = date("H");
 
       </div>   
       <!--dark /light mode -->
+      
       <div class="col-1 " >
     <a href="" id="theme-switch" alt="dark mode button">
 <svg alt="dark mode button" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="var(--text-color )" class="bi bi-moon-stars  icon dark-mode-icon " viewBox="0 0 16 16">
@@ -99,8 +128,6 @@ $hour = date("H");
     <!--profile icon-->
 <div class="col-1 text-end">
     <div class="dropdown">
-
-        <!-- PROFILE ICON (same SVG you already use) -->
         <a href="#"
            class="dropdown-toggle d-flex align-items-center"
            id="profileDropdown"
@@ -108,7 +135,8 @@ $hour = date("H");
            aria-expanded="false"
            style="text-decoration:none;">
 
-            <svg alt="profile icon"
+            <svg class="profile-icon"
+            alt="profile icon"
                  xmlns="http://www.w3.org/2000/svg"
                  width="20"
                  height="20"
@@ -128,7 +156,7 @@ $hour = date("H");
                 <strong>
                     <?php echo htmlspecialchars($_SESSION['first_name'] . ' ' . $_SESSION['last_name']); ?>
                 </strong><br>
-                <small class="">
+                <small >
                     <?php
                     $roles = [
                         1 => 'Teacher',

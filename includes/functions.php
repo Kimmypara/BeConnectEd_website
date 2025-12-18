@@ -22,6 +22,26 @@ mysqli_stmt_close($stmt);
 return $result;
 }
 
+function getCourses($conn){
+   $sql = "SELECT course.*, institute.institute_name
+            FROM course
+            Left JOIN institute ON course.institute_id = institute.institute_id";
+
+$stmt = mysqli_stmt_init($conn);
+
+if(!mysqli_stmt_prepare($stmt, $sql)) {
+    echo"<p>We have an error.</p>";
+    exit();
+}
+
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+mysqli_stmt_close($stmt); 
+
+return $result;
+}
+
 
 
 function getRole($conn){
@@ -41,6 +61,23 @@ mysqli_stmt_close($stmt);
 return $result;
 }
 
+
+function getInstitute($conn){
+   $sql = "SELECT * FROM institute";
+$stmt = mysqli_stmt_init($conn);
+
+if(!mysqli_stmt_prepare($stmt, $sql)) {
+    echo"<p>We have an error.</p>";
+    exit();
+}
+
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+mysqli_stmt_close($stmt); 
+
+return $result;
+}
 
 
 

@@ -2,7 +2,8 @@
 
 <?php
 include "includes/nav.php";
-include 'includes/conditions.php'
+include 'includes/courses.php';
+
 ?>
 
 
@@ -21,10 +22,14 @@ include 'includes/conditions.php'
       </div>
      
 
-    <div class="col-lg-9 col-md-8">
+    <div class="col-1"></div>
+  <div class="col-lg-9 col-md-8">
+      <div class="row">  
+        <div class="col-12">  
+            <div class="form_bg mb-4">
 
             <!-- SEARCH + BUTTON ROW -->
-            <div class="form_bg mb-4">
+            
                 <div class="row align-items-center">
 
                    <!-- SEARCH BAR -->
@@ -59,39 +64,54 @@ include 'includes/conditions.php'
 <div class="col-lg-11 col-md-11 col-sm-11">
 <table class="table_admin"  >
   <tr>
-    <th>User Role</th>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>Email</th>
-    <th>Status</th>
+    <th>Course Code</th>
+    <th>Course Name</th >
+    <th>MQF Level</th >
      <th></th>
       <th></th>
   </tr>
 
   <?php
-  $result = getUsers($conn);
+  $result = getCourses($conn);
   while($row = mysqli_fetch_assoc($result)){
   echo '<tr>';
-echo '<td>' . ($row['role_name']) . '</td>';
-echo '<td>' .($row['first_name']) . '</td>';
-echo '<td>' . ($row['last_name']) . '</td>';
-echo '<td>' . ($row['email']) . '</td>';
-echo '<td>' . ($row['is_active'] ? 'Active' : 'Inactive') . '</td>';
+  echo '<td>' .($row['course_code']) . '</td>';
+echo '<td>' . ($row['course_name']) . '</td>';
+echo '<td>' . ($row['MQF_Level']) . '</td>';
 
-echo '<td>';
+
+echo '<td class="text-center">';
+
 if ($row['is_active']) {
-    echo '<a href=includes/update_status.php?user_id=...&is_active=activate" class="button_table">Deregister</a>';
+    // Deregister button
+    echo '
+    <button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
+        data-course-id="' . $row['course_id'] . '"
+        data-action="deactivate">
+        Deregister
+    </button>';
 } else {
-    echo '<a href="includes/update_status.php?user_id=...&is_active=inactivate" class="button_table">Register</a>';
+    // Register button
+    echo '
+    <button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
+        data-course-id="' . $row['course_id'] . '"
+        data-action="activate">
+        Register
+    </button>';
 }
+
+
 echo '</td>';
 
-echo '<td><a href="new_registration_admin.php?user_id=' . $row['user_id'] . '" class="button_table">View/Edit</a></td>';
+//echo '<td class="text-center">
+      //  <a href="new_registration_admin.php?user_id=' . $row['user_id'] . '"
+         //  class="button_table">View / Edit</a>
+      //</td>';
+
 echo '</tr>';
-
   }
-  ?>
 
+  ?>
 </table>
 </div>   
         </div>
@@ -150,10 +170,57 @@ echo '</tr>';
       </div>
    </div>
 
-
-
-
-
 </div>
 </div>
 
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content form_bg3">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm action</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="confirmMessage">
+        Are you sure you want to continue?
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn button5 btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <a href="#" id="confirmActionBtn" class="btn button ">
+          Confirm
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const confirmModal = document.getElementById('confirmModal');
+
+confirmModal.addEventListener('show.bs.modal', function (event) {
+  const button = event.relatedTarget;
+
+  const courseId = button.getAttribute('data-course-id');
+  const action = button.getAttribute('data-action');
+
+  const confirmBtn = document.getElementById('confirmActionBtn');
+  const message = document.getElementById('confirmMessage');
+
+  if (action === 'activate') {
+    message.textContent = 'Are you sure you want to register this user?';
+    confirmBtn.className = 'btn btn-success';
+  } else {
+    message.textContent = 'Are you sure you want to deregister this user?';
+    confirmBtn.className = 'btn btn-danger';
+  }
+
+  confirmBtn.href =
+    `includes/update_course_status.php?course_id=${courseId}&action=${action}`;
+});
+</script>
