@@ -29,7 +29,7 @@ include 'includes/users.php';
     <div class="row align-items-center">
  
       <!-- LEFT COLUMN: LOGO -->
-      <div class="col-lg-6 col-md- col-sm-12 text-center text-md-start mb-4 mb-md-0">
+      <div class="col-lg-6 col-md-6 col-sm-12 text-center text-md-start mb-4 mb-md-0">
         <img src="assets/images/logo.png"
              alt="BeConnectEd logo"
              class="form-logo">
@@ -37,7 +37,7 @@ include 'includes/users.php';
 
    
       <!-- RIGHT COLUMN: PATH SELECTION -->
-      <div class="form-login col-lg-4 col-md-6 col-sm-12">
+      <div class="form-login col-lg-4 col-md-6 col-sm-12 mx-2">
        
        <input type="email" id="email" name="email" class="d-block  button3" placeholder="email" required>
 

@@ -28,14 +28,14 @@ include 'includes/users.php';
     <div class="row align-items-center">
 
       <!-- LEFT COLUMN: LOGO -->
-      <div class="col-lg-6 col-md- col-sm-12 text-center text-md-start mb-4 mb-md-0">
+      <div class="col-lg-6 col-md-4 col-sm-12 text-center text-md-start mb-4 mb-md-0">
         <img src="assets/images/logo.png"
              alt="BeConnectEd logo"
-             class="form-logo">
+             class="form-logo ">
       </div>
 
       <!-- RIGHT COLUMN: PATH SELECTION -->
-      <div class="form-login col-lg-4 col-md-6 col-sm-12">
+      <div class="form-login col-lg-4 col-md-4 col-sm-12 mx-5">
         <h4 class="form-title mb-3">Choose your Path</h4>
 
         <a href="login_institute.php" class="d-block button mb-2">
