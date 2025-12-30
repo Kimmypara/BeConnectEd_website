@@ -70,6 +70,15 @@
   font-weight: 650 ;
 }
 
+.form_title2{
+  color: var(--text-color);
+  font-size: 1.1rem;
+  text-decoration: none ;
+  font-weight: 700 ;
+  margin-left: 2rem;
+  text-align: left;
+}
+
 .login-layout{
     margin: 10rem;
 }
@@ -275,7 +284,7 @@
     margin-left: 1rem;
     min-height: 75vh;   
     max-height: 75vh;
-    padding: 1rem;
+    padding: 1rem .5rem;
     text-align: center;
      overflow-y: auto;
     overflow-x: hidden;
@@ -441,6 +450,16 @@ min-width: fit-content;
     padding:  .4rem .5rem .4rem .5rem;
     background-color:var(--button-color);
 }
+.button6{
+    width: 100%;
+   text-decoration: none;
+    color: var( --base-variant);
+    border-radius: .5rem;
+    padding:  .1rem .5rem .1rem .5rem;
+    background-color:var(--button-color);
+ display: flex;
+}
+
 
 
 .dashboard-inner {
@@ -479,12 +498,18 @@ min-width: fit-content;
   background-color: var( --hover-button);
 }
 
+.button6:hover{
+  box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--base-variant);
+  border-radius: .5rem;
+  background-color: var( --hover-button);
+}
 .button:focus{
   box-shadow: 0 0 10px var(--secondary-text);
    color: var(--text-color);
     border-radius: .5rem;
    outline: none !important;
-   background-color: var( --hover-button);
+   background-color: var( --base-variant);
 }
 
 .button3:focus{
@@ -496,6 +521,13 @@ min-width: fit-content;
 }
 
 .button4:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --base-variant);
+}
+.button6:focus{
   box-shadow: 0 0 10px var(--secondary-text);
    color: var(--text-color);
     border-radius: .5rem;

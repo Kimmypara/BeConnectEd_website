@@ -70,44 +70,45 @@ error_reporting(E_ALL);
   </tr>
 
   <?php
-  $result = getUsers($conn);
-  while($row = mysqli_fetch_assoc($result)){
+ $result = getUsers($conn);
+
+while($row = mysqli_fetch_assoc($result)){
   echo '<tr>';
-echo '<td>' . ($row['role_name']) . '</td>';
-echo '<td>' .($row['first_name']) . '</td>';
-echo '<td>' . ($row['last_name']) . '</td>';
-echo '<td>' . ($row['email']) . '</td>';
-echo '<td>' . ($row['is_active'] ? 'Active' : 'Inactive') . '</td>';
- 
-echo '<td class="text-center">';
+  echo '<td>' . $row['role_name'] . '</td>';
+  echo '<td>' . $row['first_name'] . '</td>';
+  echo '<td>' . $row['last_name'] . '</td>';
+  echo '<td>' . $row['email'] . '</td>';
+  echo '<td>' . ($row['is_active'] ? 'Active' : 'Inactive') . '</td>';
 
-if ($row['is_active']) {
-    // Deregister button
-    echo '
-    <button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
-        data-user-id="' . $row['user_id'] . '"
-        data-action="inactivate">
-        Deregister
-    </button>';
-} else {
-    // Register button
-    echo '
-    <button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
-        data-user-id="' . $row['user_id'] . '"
-        data-action="activate">
-        Register
-    </button>';
+  echo '<td class="text-center">';
+  if ($row['is_active']) {
+      echo '<button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
+              data-user-id="' . $row['user_id'] . '" data-action="inactivate">
+              Deregister
+            </button>';
+  } else {
+      echo '<button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
+              data-user-id="' . $row['user_id'] . '" data-action="activate">
+              Register
+            </button>';
+  }
+
+  
+if(isset($_GET["userId"])){
+    $selectedFormAction="includes/edit-user-inc,php";
 }
+else{
+    $selectedFormAction="includes/new_registration_admin_inc.php";
 }
 
-echo '</td>';
+  echo '</td>';
 
-//echo '<td class="text-center">
-      //  <a href="new_registration_admin.php?user_id=' . $row['user_id'] . '"
-         //  class="button_table">View / Edit</a>
-      //</td>';
+  echo '<td class="text-center">
+          <a href="edit-registration.php?user_id=' . $row['user_id'] . '" class="button_table">View / Edit</a>
+        </td>';
 
-echo '</tr>';
+  echo '</tr>';
+}
 
 
   ?>

@@ -22,6 +22,25 @@ mysqli_stmt_close($stmt);
 return $result;
 }
 
+function getUserById($conn, $user_id){
+    $sql = "SELECT * FROM users WHERE user_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $user_id);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_assoc($result);
+
+    mysqli_stmt_close($stmt);
+    return $user;
+}
+
+
 function getCourses($conn){
    $sql = "SELECT course.*, institute.institute_name
             FROM course
@@ -79,6 +98,38 @@ mysqli_stmt_close($stmt);
 return $result;
 }
 
+
+function editUser($conn, $user_id, $role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $must_change_password, $institute_id){
+
+    $sql = "UPDATE users 
+            SET role_id = ?, first_name = ?, last_name = ?, email = ?, date_of_birth = ?, 
+                is_active = ?, must_change_password = ?, institute_id = ?
+            WHERE user_id = ?;";
+
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../edit-registration.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "issssiiii",
+        $role_id,
+        $first_name,
+        $last_name,
+        $email,
+        $date_of_birth,
+        $is_active,
+        $must_change_password,
+        $institute_id,
+        $user_id
+    );
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
 
 
 

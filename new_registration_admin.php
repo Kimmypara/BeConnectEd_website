@@ -87,15 +87,6 @@ include 'includes/conditions.php'
                 </div> 
 
 
-
-              <label class="formFields" for="must_change_password">User must change password on first login?</label>
-              <select  class="placeholder_style mb-2" id="must_change_password" name="must_change_password" >
-              <option class="input" value="" disabled selected>Change password on first login?</option>
-              <option class="input" value="1">Yes</option>
-              <option class="input" value="0">No</option>
-              </select>
-
-
               
               <label class="formFields" for="is_active">Active or Inactive?</label>
               <select  class="placeholder_style mb-2" id="is_active" name="is_active" >

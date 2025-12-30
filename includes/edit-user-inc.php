@@ -1,0 +1,30 @@
+<?php
+require_once "dbh.php";
+require_once "functions.php";
+
+if (!isset($_POST["submit"])) {
+    header("location: ../registration_admin.php");
+    exit();
+}
+
+$user_id = (int)($_GET["user_id"] ?? 0);
+if ($user_id <= 0) {
+    header("location: ../registration_admin.php?error=missinguserid");
+    exit();
+}
+
+$role_id = $_POST["role_id"] ?? "";
+$first_name = $_POST["first_name"] ?? "";
+$last_name = $_POST["last_name"] ?? "";
+$email = $_POST["email"] ?? "";
+$date_of_birth = $_POST["date_of_birth"] ?? "";
+$is_active = $_POST["is_active"] ?? "";
+$institute_id = $_POST["institute_id"] ?? "";
+
+// if you don't show must_change_password in the edit form, keep current value OR default:
+$must_change_password = $_POST["must_change_password"] ?? 0;
+
+editUser($conn, $user_id, $role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $must_change_password, $institute_id);
+
+header("location: ../registration_admin.php?success=updated");
+exit();

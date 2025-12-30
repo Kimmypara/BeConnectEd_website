@@ -22,7 +22,7 @@ include 'includes/courses.php';
       </div>
      
 
-    <div class="col-1"></div>
+<div class="col-1"></div>
   <div class="col-lg-9 col-md-8">
       <div class="row">  
         <div class="col-12">  
@@ -56,9 +56,17 @@ include 'includes/courses.php';
               
 
 <div class="form_bg2">
-   <h2 class=" form_title">Courses</h2>
+  
             <div class="row align-items-center">
+<div class="row">
+  <div class="col-lg-8 .col-md-8 .col-sm-8">
+    <h2 class=" form_title2">Courses</h2>
+  </div>
 
+  <div class="col-lg-4">
+    <a class="button6"  href="add_course.php">Add a Course</a>
+  </div>
+</div>
                 
       <!--Table -->  
 <div class="col-lg-11 col-md-11 col-sm-11">
@@ -99,6 +107,7 @@ if ($row['is_active']) {
         Register
     </button>';
 }
+
 
 
 echo '</td>';
@@ -213,10 +222,10 @@ confirmModal.addEventListener('show.bs.modal', function (event) {
   const message = document.getElementById('confirmMessage');
 
   if (action === 'activate') {
-    message.textContent = 'Are you sure you want to register this user?';
+    message.textContent = 'Are you sure you want to register this course?';
     confirmBtn.className = 'btn btn-success';
   } else {
-    message.textContent = 'Are you sure you want to deregister this user?';
+    message.textContent = 'Are you sure you want to deregister this course?';
     confirmBtn.className = 'btn btn-danger';
   }
 
