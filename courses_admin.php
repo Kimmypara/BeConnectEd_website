@@ -1,10 +1,10 @@
-
-
+<?php session_start(); ?>
 <?php
 include "includes/nav.php";
-include 'includes/courses.php';
 
 ?>
+
+
 
 
 <style>
@@ -76,7 +76,7 @@ include 'includes/courses.php';
     <th>Course Name</th >
     <th>MQF Level</th >
      <th></th>
-      <th></th>
+     
   </tr>
 
   <?php
@@ -108,17 +108,26 @@ if ($row['is_active']) {
     </button>';
 }
 
+if(isset($_GET["userId"])){
+    $selectedFormAction="includes/edit-user-inc,php";
+}
+else{
+    $selectedFormAction="includes/new_registration_admin_inc.php";
+}
+
+echo '<a href="edit_course.php?course_id=' . $row['course_id'] . '" class="button4">View / Edit</a>';
+
+ //echo '</td>';
+
+ // echo '<td class="text-center">
+       //   <a href="edit-course.php?course_id=' . $row['course_id'] . '" class="button_table">View / Edit</a>
+       // </td>';
+
+ // echo '</tr>';
+}
 
 
-echo '</td>';
-
-//echo '<td class="text-center">
-      //  <a href="new_registration_admin.php?user_id=' . $row['user_id'] . '"
-         //  class="button_table">View / Edit</a>
-      //</td>';
-
-echo '</tr>';
-  }
+  
 
   ?>
 </table>

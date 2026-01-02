@@ -279,7 +279,7 @@
     color: var(--secondary-text);
     border-radius: .5rem;
     background-color: var(--base-variant);
-    width: 45%;
+    width: 48%;
     margin-top: 1rem;
     margin-left: 1rem;
     min-height: 75vh;   
@@ -437,7 +437,7 @@ min-width: fit-content;
    text-decoration: none;
     color: var( --base-variant);
     border-radius: .5rem;
-   
+   margin-bottom: .2rem;
     padding:  .2rem .5rem .2rem .5rem;
     background-color:var(--button-color);
 }
@@ -459,6 +459,7 @@ min-width: fit-content;
     background-color:var(--button-color);
  display: flex;
 }
+
 
 
 

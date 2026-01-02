@@ -10,7 +10,7 @@ function getUsers($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    echo"<p>We have an error.</p>";
+    //echo"<p>We have an error.</p>";
     exit();
 }
 
@@ -49,7 +49,7 @@ function getCourses($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    echo"<p>We have an error.</p>";
+    //echo"<p>We have an error.</p>";
     exit();
 }
 
@@ -68,7 +68,7 @@ function getRole($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    echo"<p>We have an error.</p>";
+    //echo"<p>We have an error.</p>";
     exit();
 }
 
@@ -86,7 +86,7 @@ function getInstitute($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    echo"<p>We have an error.</p>";
+    //echo"<p>We have an error.</p>";
     exit();
 }
 
@@ -145,8 +145,6 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $hashedP
         exit();
     }
 
-  
-
     mysqli_stmt_bind_param(
         $stmt,
         "isssssisi",   // changed ORDER to match your data types
@@ -166,6 +164,97 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $hashedP
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
+
+function registerCourse($conn,$course_name,  $course_code, $institute_id, $is_active,  $MQF_level,  $duration,$credits,$course_description){
+    $sql = "INSERT INTO course (course_name, course_code, institute_id, is_active, MQF_level, duration, credits, course_description) 
+            VALUES (?,?,?,?,?,?,?,?)";
+    
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        header("location: ../add_course.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "ssiiisis",   //  ORDER to match data types
+        $course_name,
+        $course_code,
+        $institute_id,
+        $is_active,
+        $MQF_level,
+        $duration,
+        $credits,
+        $course_description,
+        //$qualifications,
+       
+    );
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+
+//Validation functions for courses
+function emptyCourseInput($course_name,  $course_code, $institute_id, $is_active,  $MQF_level,  $duration,$credits,$course_description){
+    if (empty($course_name) || 
+        empty($course_code) || 
+        empty($institute_id) || 
+        $is_active === "" || 
+        empty($MQF_level) || 
+        empty($duration) || 
+        empty($credits) || 
+        empty($course_description) 
+       ) {
+
+        return true;
+    }
+}
+
+function invalidCourse_name($course_name){
+       if(!preg_match("/^[a-zA-Z0-9\s\-]+$/", $course_name)){
+            return true;
+        }
+    }
+
+    function invalidCourse_code($course_code){
+      if(!preg_match("/^[A-Za-z0-9\-\.\/]+$/", $course_code)){
+            return true;
+        }
+    }
+
+function courseCodeExists($conn, $course_code){
+    $sql = "SELECT course_id FROM course WHERE course_code = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $course_code);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_assoc($result) ? true : false;
+
+      mysqli_stmt_close($stmt);
+    return $exists;
+}
+
+
+function invalidMQF_Level($MQF_level){
+    return empty($MQF_level);
+}
+
+function invalidCredits($credits){
+    return empty($credits);
+}
+function invalidDuration($duration){
+    return empty($duration);
+}
+
+
 
 //Validation functions
   function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $must_change_password, $institute_id){
@@ -192,6 +281,8 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $hashedP
 
     return false;
 }
+
+
 
 function invalidFirst_name($first_name){
         // allow letters and numbers, but nothing else
@@ -333,4 +424,4 @@ function userExists($conn, $first_name){
   
 
    
-?>
+

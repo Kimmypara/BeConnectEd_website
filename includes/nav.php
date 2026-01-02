@@ -48,7 +48,7 @@ require_once __DIR__ . '/arrays.php';
 
 <?php
 include 'includes/users.php';
-include 'includes/arrays.php'
+
 ?>
 
 
@@ -95,14 +95,16 @@ $hour = date("H");
 
 
 
-    <?php echo '&nbsp;'. htmlspecialchars($_SESSION['first_name'] . ' ' . $_SESSION['last_name']); ?>
+    <?php echo '&nbsp;'. htmlspecialchars($_SESSION['first_name'] . ' ' . $_SESSION['last_name']); 
+    
+     if (isset($message)) {
+        echo ' — ' . htmlspecialchars($message[array_rand($message)]);
+    }
+    ?>
 
 
-<?php if (isset($message)): ?>
-  
-        <?php echo ' — ' . htmlspecialchars($message[array_rand($message)]); ?>
-    </span>
-<?php endif; ?>
+
+
 
 
 
