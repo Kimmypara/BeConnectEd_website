@@ -41,9 +41,9 @@ include "includes/nav.php";
 
                     <!-- NEW REGISTRATION BUTTON -->
                     <div class="col-lg-6 col-md-6 col-sm-12 text-end mt-3 mt-md-0">
-                        <a href="new_registration_admin.php" class="button">
-                            Assign Units to Course
-                        </a>
+                    <button type="button" class="btn button7" data-bs-toggle="modal" data-bs-target="#assignUnitsModal">
+                    Assign Units to Course
+                    </button>
                     </div>
 
              
@@ -122,7 +122,7 @@ echo '</tr>';
     <h2 class=" form_title2">Units</h2>
   </div>
 
-  <div class="col-lg-4">
+  <div class="col-lg-4 ">
     <a class="button6"  href="add_unit.php">Add a Unit</a>
   </div>
 </div>
@@ -249,3 +249,113 @@ confirmModalEl.addEventListener('show.bs.modal', function (event) {
 });
 </script>
 
+<?php
+$coursesRes = getCourses($conn);
+$unitsRes   = getUnits($conn);
+?>
+
+<div class="modal fade" id="assignUnitsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content form_bg3">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Assign Units to Course</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form action="includes/assign_units_inc.php" method="post">
+        <div class="modal-body">
+
+          <!-- Choose Course -->
+          <div class="row align-items-center mb-3">
+            <div class="col-3">
+              <label class="formFields mb-0">Choose Course</label>
+            </div>
+            <div class="col-9">
+              <select name="course_id" class="form-select placeholder_style" required>
+                <option value="" disabled selected>Courses</option>
+                <?php while ($course = mysqli_fetch_assoc($coursesRes)): ?>
+                   <option value="<?php echo (int)$course['course_id']; ?>">
+                    <?php echo htmlspecialchars(
+                     $course['course_code'] . " - " . $course['course_name']
+                     ); ?>
+                    </option>
+                <?php endwhile; ?>
+
+              </select>
+            </div>
+          </div>
+
+          <!-- Units container -->
+          <div id="unitsContainer">
+            <div class="row align-items-center mb-3 unit-row">
+              <div class="col-3">
+                <label class="formFields mb-0">Choose Unit</label>
+              </div>
+              <div class="col-9">
+                <select name="unit_ids[]" class="form-select placeholder_style" required>
+                  <option value="" disabled selected>Units</option>
+
+                  <?php
+                  // IMPORTANT: we need units again because we looped once
+                 
+                  $unitsRes2 = getUnitsActive($conn);
+                  while ($unit = mysqli_fetch_assoc($unitsRes2)):
+                  ?>
+                  <option value="<?php echo (int)$unit['unit_id']; ?>">
+                   <?php echo htmlspecialchars(
+                   $unit['unit_code'] . " - " . $unit['unit_name']
+                   ); ?>
+                  </option>
+                <?php endwhile; ?>
+
+
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add another unit -->
+<div class="row">
+          <div class="text-center my-3">
+            <button type="button" class="btn button7" id="addUnitBtn">Add another Unit</button>
+          </div>
+</div>
+          
+             <div class="row d-flex ">
+              <div class="col-lg-2"></div>
+                    <div class="col-lg-3">
+                         <button type="submit" name="submit" class="btn button8">Assign Units</button>
+                    </div>
+                    <div class="col-lg-2"></div>
+                        
+                    <div class="col-lg-3">
+                        <button href="courses_admin.php" class="btn button8 " type="reset" name="reset"  id="reset">Cancel</button>
+                    </div>
+                        <div class="col-lg-2"></div>
+                </div>
+
+        </div>
+
+       
+
+      </form>
+
+    </div>
+  </div>
+</div>
+<script>
+  const addUnitBtn = document.getElementById('addUnitBtn');
+  const unitsContainer = document.getElementById('unitsContainer');
+
+  addUnitBtn.addEventListener('click', () => {
+    const firstRow = unitsContainer.querySelector('.unit-row');
+    const clone = firstRow.cloneNode(true);
+
+    // reset selection
+    const select = clone.querySelector('select');
+    select.selectedIndex = 0;
+
+    unitsContainer.appendChild(clone);
+  });
+</script>

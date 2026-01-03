@@ -8,12 +8,12 @@ if (!isset($_POST["submit"])) {
     exit();
 }
 
-$unit_name        = trim($_POST['unit_name'] ?? "");
-$unit_code        = trim($_POST['unit_code'] ?? "");
-$ects_credits     = trim($_POST['ects_credits'] ?? "");
+$unit_name = trim($_POST['unit_name'] ?? "");
+$unit_code = trim($_POST['unit_code'] ?? "");
+$ects_credits = trim($_POST['ects_credits'] ?? "");
 $unit_description = trim($_POST['unit_description'] ?? "");
-$is_active        = $_POST['is_active'] ?? "";
-$unit_duration    = trim($_POST['unit_duration'] ?? "");
+$is_active = $_POST['is_active'] ?? "";
+$unit_duration = trim($_POST['unit_duration'] ?? "");
 
 $error = "";
 
@@ -48,7 +48,7 @@ if ($error !== "") {
     exit();
 }
 
-// ✅ INSERT INTO DB
+// insert into db
 registerUnit(
     $conn,
     $unit_name,
@@ -59,6 +59,6 @@ registerUnit(
     $unit_duration
 );
 
-// ✅ success redirect
+// success redirect
 header("Location: ../add_unit.php?success=true");
 exit();

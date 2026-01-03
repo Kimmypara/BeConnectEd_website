@@ -97,6 +97,24 @@ mysqli_stmt_close($stmt);
 return $result;
 }
 
+function getUnitsActive($conn){
+   $sql = "SELECT * FROM unit WHERE is_active = 1";
+
+$stmt = mysqli_stmt_init($conn);
+
+if(!mysqli_stmt_prepare($stmt, $sql)) {
+    //echo"<p>We have an error.</p>";
+    exit();
+}
+
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+mysqli_stmt_close($stmt); 
+
+return $result;
+}
+
 function getUnitById($conn, $unit_id){
     $sql = "SELECT * FROM unit WHERE unit_id = ?";
     $stmt = mysqli_stmt_init($conn);
@@ -302,6 +320,37 @@ function editCourse($conn, $course_id, $course_name,  $course_code, $institute_i
         $credits,
         $course_description,
         $course_id
+
+    );
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+function editUnit($conn, $unit_id, $unit_name,  $unit_code, $ects_credits, $unit_description,  $is_active,  $unit_duration){
+
+    $sql = "UPDATE unit 
+            SET unit_name = ?, unit_code = ?, ects_credits = ?, unit_description = ?, is_active = ?, 
+                unit_duration = ?
+            WHERE unit_id = ?;";
+
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../edit-unit.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param(
+           $stmt,
+        "ssisisi",   //  ORDER to match data types
+        $unit_name,
+        $unit_code,
+        $ects_credits,
+        $unit_description,
+        $is_active,
+        $unit_duration,
+        $unit_id
 
     );
 

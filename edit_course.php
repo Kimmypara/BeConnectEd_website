@@ -5,7 +5,7 @@ include 'includes/conditions.php';
 require_once "includes/dbh.php";
 require_once "includes/functions.php";
 
-$user = null;
+$course = null;
 
 if(isset($_GET["course_id"]) && is_numeric($_GET["course_id"])){
     $course_id = (int)$_GET["course_id"];
