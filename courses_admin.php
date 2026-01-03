@@ -4,15 +4,9 @@ include "includes/nav.php";
 
 ?>
 
-
-
-
 <style>
 <?php include 'css/style.css'; ?>
 </style>
-
-
-
 
 <div class="container-fluid">
   <div class="row">
@@ -90,92 +84,98 @@ echo '<td>' . ($row['MQF_Level']) . '</td>';
 
 echo '<td class="text-center">';
 
-if ($row['is_active']) {
-    // Deregister button
-    echo '
-    <button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
-        data-course-id="' . $row['course_id'] . '"
-        data-action="deactivate">
-        Deregister
-    </button>';
-} else {
-    // Register button
-    echo '
-    <button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
-        data-course-id="' . $row['course_id'] . '"
-        data-action="activate">
-        Register
-    </button>';
-}
 
-if(isset($_GET["userId"])){
-    $selectedFormAction="includes/edit-user-inc,php";
+echo '
+<button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
+    data-type="course"
+    data-id="' . (int)$row['course_id'] . '"
+    data-action="' . ($row['is_active'] ? 'deactivate' : 'activate') . '">
+    ' . ($row['is_active'] ? 'Deregister' : 'Register') . '
+</button>';
+
+
+if(isset($_GET["course_id"])){
+    $selectedFormAction="includes/edit_course_inc,php";
 }
 else{
-    $selectedFormAction="includes/new_registration_admin_inc.php";
+    $selectedFormAction="includes/add_course_admin_inc.php";
 }
+
 
 echo '<a href="edit_course.php?course_id=' . $row['course_id'] . '" class="button4">View / Edit</a>';
 
- //echo '</td>';
 
- // echo '<td class="text-center">
-       //   <a href="edit-course.php?course_id=' . $row['course_id'] . '" class="button_table">View / Edit</a>
-       // </td>';
-
- // echo '</tr>';
+echo '</td>';
+echo '</tr>';
 }
-
-
-  
-
   ?>
 </table>
 </div>   
         </div>
-
             </div>
 
 
 <div class="form_bg2">
-   <h2 class=" form_title">Units</h2>
-            <div class="row align-items-center">
+  <div class="row align-items-center">
+   <div class="row">
+  <div class="col-lg-8 .col-md-8 .col-sm-8">
+    <h2 class=" form_title2">Units</h2>
+  </div>
+
+  <div class="col-lg-4">
+    <a class="button6"  href="add_unit.php">Add a Unit</a>
+  </div>
+</div>
+            
 
       <!--Table -->  
 <div class="col-lg-11 col-md-11 col-sm-11">
 <table class="table_admin"  >
   <tr>
-    <th>User Role</th>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>Email</th>
-    <th>Status</th>
+     <th>Unit Code</th>
+    <th>Unit Name</th >
+    <th>ECTS Credits</th >
      <th></th>
-      <th></th>
   </tr>
 
   <?php
-  $result = getUsers($conn);
+  $result = getUnits($conn);
   while($row = mysqli_fetch_assoc($result)){
   echo '<tr>';
-echo '<td>' . ($row['role_name']) . '</td>';
-echo '<td>' .($row['first_name']) . '</td>';
-echo '<td>' . ($row['last_name']) . '</td>';
-echo '<td>' . ($row['email']) . '</td>';
-echo '<td>' . ($row['is_active'] ? 'Active' : 'Inactive') . '</td>';
+echo '<td>' . ($row['unit_code']) . '</td>';
+echo '<td>' .($row['unit_name']) . '</td>';
+echo '<td>' . ($row['ects_credits']) . '</td>';
 
-echo '<td>';
-if ($row['is_active']) {
-    echo '<a href=includes/update_status.php?user_id=...&is_active=activate" class="button_table">Deregister</a>';
-} else {
-    echo '<a href="includes/update_status.php?user_id=...&is_active=inactivate" class="button_table">Register</a>';
+echo '<td class="text-center">';
+
+
+echo '
+<button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
+    data-type="unit"
+    data-id="' . (int)$row['unit_id'] . '"
+    data-action="' . ($row['is_active'] ? 'deactivate' : 'activate') . '">
+    ' . ($row['is_active'] ? 'Deregister' : 'Register') . '
+</button>';
+
+
+if(isset($_GET["unit_id"])){
+    $selectedFormAction="includes/edit_unit_inc,php";
 }
-echo '</td>';
+else{
+    $selectedFormAction="includes/add_unit_inc.php";
+}
 
-echo '<td><a href="new_registration_admin.php?user_id=' . $row['user_id'] . '" class="button_table">View/Edit</a></td>';
+
+echo '<a href="edit_unit.php?unit_id=' . $row['unit_id'] . '" class="button4">View / Edit</a>';
+
+
+echo '</td>';
 echo '</tr>';
 
-  }
+}
+
+
+
   ?>
 </table>
 </div>   
@@ -219,26 +219,33 @@ echo '</tr>';
 </div>
 
 <script>
-const confirmModal = document.getElementById('confirmModal');
+const confirmModalEl = document.getElementById('confirmModal');
 
-confirmModal.addEventListener('show.bs.modal', function (event) {
+confirmModalEl.addEventListener('show.bs.modal', function (event) {
   const button = event.relatedTarget;
 
-  const courseId = button.getAttribute('data-course-id');
-  const action = button.getAttribute('data-action');
+  const type = button.getAttribute('data-type'); // "course or unit"
+  const id = button.getAttribute('data-id');
+  const action = button.getAttribute('data-action'); // "activate or deactivate"
 
   const confirmBtn = document.getElementById('confirmActionBtn');
   const message = document.getElementById('confirmMessage');
 
+  // Message + button color
   if (action === 'activate') {
-    message.textContent = 'Are you sure you want to register this course?';
+    message.textContent = `Are you sure you want to register this ${type}?`;
     confirmBtn.className = 'btn btn-success';
   } else {
-    message.textContent = 'Are you sure you want to deregister this course?';
+    message.textContent = `Are you sure you want to deregister this ${type}?`;
     confirmBtn.className = 'btn btn-danger';
   }
 
-  confirmBtn.href =
-    `includes/update_course_status.php?course_id=${courseId}&action=${action}`;
+  // Send to correct PHP file
+  if (type === 'course') {
+    confirmBtn.href = `includes/update_course_status.php?course_id=${id}&action=${action}`;
+  } else if (type === 'unit') {
+    confirmBtn.href = `includes/update_unit_status.php?unit_id=${id}&action=${action}`;
+  }
 });
 </script>
+

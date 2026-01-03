@@ -61,6 +61,60 @@ mysqli_stmt_close($stmt);
 return $result;
 }
 
+function getCourseById($conn, $course_id){
+    $sql = "SELECT * FROM course WHERE course_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $course_id);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    $course = mysqli_fetch_assoc($result);
+
+    mysqli_stmt_close($stmt);
+    return $course;
+}
+
+function getUnits($conn){
+   $sql = "SELECT * FROM unit";
+
+$stmt = mysqli_stmt_init($conn);
+
+if(!mysqli_stmt_prepare($stmt, $sql)) {
+    //echo"<p>We have an error.</p>";
+    exit();
+}
+
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+mysqli_stmt_close($stmt); 
+
+return $result;
+}
+
+function getUnitById($conn, $unit_id){
+    $sql = "SELECT * FROM unit WHERE unit_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $unit_id);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    $unit = mysqli_fetch_assoc($result);
+
+    mysqli_stmt_close($stmt);
+    return $unit;
+}
+
 
 
 function getRole($conn){
@@ -165,8 +219,8 @@ function registerUser($conn, $role_id, $first_name, $last_name, $email, $hashedP
     mysqli_stmt_close($stmt);
 }
 
-function registerCourse($conn,$course_name,  $course_code, $institute_id, $is_active,  $MQF_level,  $duration,$credits,$course_description){
-    $sql = "INSERT INTO course (course_name, course_code, institute_id, is_active, MQF_level, duration, credits, course_description) 
+function registerCourse($conn,$course_name,  $course_code, $institute_id, $is_active,  $MQF_Level,  $duration,$credits,$course_description){
+    $sql = "INSERT INTO course (course_name, course_code, institute_id, is_active, MQF_Level, duration, credits, course_description) 
             VALUES (?,?,?,?,?,?,?,?)";
     
     $stmt = mysqli_stmt_init($conn);
@@ -183,12 +237,72 @@ function registerCourse($conn,$course_name,  $course_code, $institute_id, $is_ac
         $course_code,
         $institute_id,
         $is_active,
+        $MQF_Level,
+        $duration,
+        $credits,
+        $course_description
+       
+       
+    );
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+
+function registerUnit($conn, $unit_name,  $unit_code, $ects_credits, $unit_description,  $is_active,  $unit_duration){
+    $sql = "INSERT INTO unit (unit_name, unit_code, ects_credits, unit_description, is_active, unit_duration) 
+            VALUES (?,?,?,?,?,?)";
+    
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        header("location: ../add_unit.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "ssisis",   //  ORDER to match data types
+        $unit_name,
+        $unit_code,
+        $ects_credits,
+        $unit_description,
+        $is_active,
+        $unit_duration
+    );
+
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+function editCourse($conn, $course_id, $course_name,  $course_code, $institute_id, $is_active,  $MQF_level,  $duration,$credits,$course_description){
+
+    $sql = "UPDATE course 
+            SET course_name = ?, course_code = ?, institute_id = ?, is_active = ?, MQF_level = ?, 
+                duration = ?, credits = ?, course_description = ?
+            WHERE course_id = ?;";
+
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../edit-course.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param(
+           $stmt,
+        "ssiissisi",   //  ORDER to match data types
+        $course_name,
+        $course_code,
+        $institute_id,
+        $is_active,
         $MQF_level,
         $duration,
         $credits,
         $course_description,
-        //$qualifications,
-       
+        $course_id
+
     );
 
     mysqli_stmt_execute($stmt);
@@ -254,9 +368,63 @@ function invalidDuration($duration){
     return empty($duration);
 }
 
+//Validation functions for units
+function emptyUnitInput($unit_name,  $unit_code, $ects_credits, $is_active,  $unit_description,  $unit_duration){
+    if (empty($unit_name) || 
+        empty($unit_code) || 
+        empty($ects_credits) || 
+        empty($unit_description) ||
+        $is_active === "" || 
+        empty($unit_duration) 
+       ) {
+
+        return true;
+    }
+}
+
+function invalidUnit_name($unit_name){
+       if(!preg_match("/^[a-zA-Z0-9\s\-]+$/", $unit_name)){
+            return true;
+        }
+    }
+
+    function invalidUnit_code($unit_code){
+      if(!preg_match("/^[A-Za-z0-9\-\.\/]+$/", $unit_code)){
+            return true;
+        }
+    }
+
+function unitCodeExists($conn, $unit_code){
+    $sql = "SELECT unit_id FROM unit WHERE unit_code = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $unit_code);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_assoc($result) ? true : false;
+
+      mysqli_stmt_close($stmt);
+    return $exists;
+}
 
 
-//Validation functions
+function invalidEcts_credits($ects_credits){
+    return empty($ects_credits);
+}
+
+function invalidUnit_duration($unit_duration){
+    return empty($unit_duration);
+}
+
+
+
+
+//Validation functions for new user registration
   function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $must_change_password, $institute_id){
 
     if (empty($role_id) || 

@@ -147,25 +147,25 @@ if (isset($_SESSION['reset_link'])) {
         if(isset($_GET["error"])) { 
             $error = "<h5>Could not register account:</h5><ul>";
             if (isset($_GET["emptyinput"])){
-                $error = $error."<li>You have some empty fields.</li>";
+                $error = $error."<ol>You have some empty fields.</ol>";
             }
             if (isset($_GET["invalidFirst_name"])){
-                $error = $error."<li>First name format invalid.</li>";
+                $error = $error."<ol>First name format invalid.</ol>";
             }
 
              if (isset($_GET["invalidLast_name"])){
-                $error = $error."<li>Lastt name format invalid.</li>";
+                $error = $error."<ol>Lastt name format invalid.</ol>";
             }
             if (isset($_GET["invalidEmail"])){
-                $error = $error."<li>Email format invalid.</li>";
+                $error = $error."<ol>Email format invalid.</ol>";
             }
 
              if (isset($_GET["emailExists"])){
-                $error = $error."<li>Email already exist.</li>";
+                $error = $error."<ol>Email already exist.</ol>";
             }
 
               if (isset($_GET["invalidDate_of_birth"])){
-                $error = $error."<li>Date of Birth format invalid.</li>";
+                $error = $error."<ol>Date of Birth format invalid.</ol>";
             }
 
 

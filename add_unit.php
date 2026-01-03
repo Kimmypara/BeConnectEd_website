@@ -26,7 +26,7 @@ include "includes/nav.php";
               
               <!--close button -->
               <div class="row">
-                <div class="col-11"><h2 class=" form_title">Add a Course</h2></div>
+                <div class="col-11"><h2 class=" form_title">Add a Unit</h2></div>
                 <div class="col-1">
                 <a href="courses_admin.php" class="button mt-0" alt="close button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
@@ -40,13 +40,13 @@ include "includes/nav.php";
       <div class="row">
  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div>
-            <form action="includes/courses_inc.php" method="post">
+            <form action="includes/units_inc.php" method="post">
 
             
              <div class="row">
                     <div class="col">
-                      <label class="formFields" for="course_name">Course Name</label>
-                        <input type="text" name="course_name" id="course_name" placeholder="course name" class="placeholder_style mb-2 ">
+                      <label class="formFields" for="unit_name">Unit Name</label>
+                        <input type="text" name="unit_name" id="unit_name" placeholder="unit name" class="placeholder_style mb-2 ">
                     </div>
                 </div>
 
@@ -54,29 +54,23 @@ include "includes/nav.php";
 
                 <div class="row">
                     <div class="col">
-                      <label class="formFields" for="course_code">Course Code</label>
-                        <input type="text" name="course_code" id="course_code" placeholder="Course Code" class="placeholder_style mb-2">
+                      <label class="formFields" for="unit_code">Unit Code</label>
+                        <input type="text" name="unit_code" id="unit_code" placeholder="unit code" class="placeholder_style mb-2">
                     </div>
                 </div>  
 
                 <div class="row">
                     <div class="col">
-                      <label class="formFields" for="MQF_Level">MQF Level</label>
-                        <input type="text" name="MQF_Level" id="MQF_Level" placeholder="MQF level" class="placeholder_style mb-2">
+                      <label class="formFields" for="ects_credits">ECTS Credits</label>
+                        <input type="text" name="ects_credits" id="ects_credits" placeholder="ECTS credits " class="placeholder_style mb-2">
                     </div>
                 </div>  
 
-                   <div class="row">
-                    <div class="col">
-                      <label class="formFields" for="credits">Credits</label>
-                        <input type="text" name="credits" id="credits" placeholder="credits" class="placeholder_style mb-2">
-                    </div>
-                </div> 
 
                  <div class="row">
                     <div class="col">
-                      <label class="formFields" for="duration">Duration</label>
-                        <input type="text" name="duration" id="duration" placeholder="duration" class="placeholder_style mb-2">
+                      <label class="formFields" for="unit_duration"> Unit Duration</label>
+                        <input type="text" name="unit_duration" id="unit_duration" placeholder="unit duration" class="placeholder_style mb-2">
                     </div>
                 </div> 
 
@@ -89,19 +83,10 @@ include "includes/nav.php";
               <option class="input" value="0">Inactive</option>
               </select>
 
-               
-              <label class="formFields" for="institute_id">Institute</label>
-              <select  class="placeholder_style mb-2" id="institute_id" name="institute_id" >
-              <option class="input" value="" disabled selected>Choose an Institute</option>
-              <option class="input" value="1">MCAST Institute for the Creative Arts</option>
-              <option class="input" value="2">MCAST Institute of Applied Sciences</option>
-              <option class="input" value="3">University of Malta</option>
-              <option class="input" value="4">St. Benedict College</option>
-              </select>
 
         <div>
-            <label class="formFields" for="course_description">Course Description</label>
-            <textarea  class="placeholder_style mb-2" name="course_description" id="course_description" placeholder="Course Description..." 
+            <label class="formFields" for="unit_description">Unit Description</label>
+            <textarea  class="placeholder_style mb-2" name="unit_description" id="unit_description" placeholder="Unit Description..." 
               rows="10"></textarea>
           </div>
 
@@ -115,7 +100,7 @@ include "includes/nav.php";
                     <div class="col-lg-2"></div>
                         
                     <div class="col-lg-2">
-                        <button href="add_course.php" class="button " type="reset" name="reset"  id="reset">Cancel</button>
+                        <button href="add_unit.php" class="button " type="reset" name="reset"  id="reset">Cancel</button>
                     </div>
                         <div class="col-lg-3"></div>
                 </div>
@@ -139,31 +124,27 @@ if (isset($_SESSION['reset_link'])) {
 
   <?php 
         if(isset($_GET["error"])) { 
-            $error = "<h5>Could not Save course:</h5><ul>";
+            $error = "<h5>Could not Save unit:</h5><ul>";
             if (isset($_GET["emptyinput"])){
                 $error = $error."<ol>You have some empty fields.</ol>";
             }
-            if (isset($_GET["invalidCourse_name"])){
-                $error = $error."<ol>Course name format invalid.</ol>";
+            if (isset($_GET["invalidUnit_name"])){
+                $error = $error."<ol>Unit name format invalid.</ol>";
             }
 
-             if (isset($_GET["invalidCourse_code"])){
-                $error = $error."<ol>Course code format invalid.</ol>";
+             if (isset($_GET["invalidUnit_code"])){
+                $error = $error."<ol>Unit code format invalid.</ol>";
             }
-            if (isset($_GET["courseCodeExists"])) {
-             $error .= "<ol>Course code already exists.</ol>";
+            if (isset($_GET["unitCodeExists"])) {
+             $error .= "<ol>Unit code already exists.</ol>";
             }
 
-            if (isset($_GET["invalidMQF_Level"])){
-                $error = $error."<ol>MQF Level format invalid.</ol>";
+            if (isset($_GET["invalidEcts_credits"])){
+                $error = $error."<ol>ECTS Credits format invalid.</ol>";
             }
-            if (isset($_GET["invalidCredits"])){
-                $error = $error."<ol>Credits format invalid.</ol>";
+            if (isset($_GET["invalidUnit_duration"])){
+                $error = $error."<ol>Unit Duration format invalid.</ol>";
             }
-            if (isset($_GET["invalidDuration"])){
-                $error = $error."<ol>Duration format invalid.</ol>";
-            }
-           
             
             $error= $error."</ul>";
             ?>
@@ -181,7 +162,7 @@ if (isset($_SESSION['reset_link'])) {
         if(isset($_GET["success"])) { 
             $message = "";
             if ($_GET["success"] == "true"){
-                $message = "You have successfully added a new course.";
+                $message = "You have successfully added a new unit.";
             }
             ?>
             <div class="row">
