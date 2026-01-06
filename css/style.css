@@ -387,7 +387,7 @@ input:autofill {
    margin:  .9rem .9rem .9rem 0rem;
 }
 
-.button{
+.button {
    width: 100% !important;
    text-decoration: none;
     color: var( --base-variant);
@@ -396,6 +396,17 @@ input:autofill {
     padding:  .5rem 1rem .5rem 1rem;
     background-color:var(--button-color); 
 }
+.close{
+  position: fixed;
+   text-decoration: none;
+    color: var( --base-variant);
+    border-radius: .5rem;
+    margin-top: 1rem;
+    padding:  .5rem 1rem .5rem 1rem;
+    background-color:var(--button-color);
+  
+}
+
 
 .loginbtn{
   width: 50% !important;
@@ -505,6 +516,12 @@ min-width: fit-content;
     background-color:var(--button-color); 
 }
 
+.close:hover{
+  box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--base-variant);
+  border-radius: .5rem;
+  background-color: var( --hover-button);
+}
 
 .button:hover{
   box-shadow: 0 0 10px var(--secondary-text);
@@ -521,6 +538,13 @@ min-width: fit-content;
 }
 
 .button4:hover{
+  box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--base-variant);
+  border-radius: .5rem;
+  background-color: var( --hover-button);
+}
+
+.button5:hover{
   box-shadow: 0 0 10px var(--secondary-text);
   color: var(--base-variant);
   border-radius: .5rem;
@@ -547,6 +571,15 @@ min-width: fit-content;
   border-radius: .5rem;
   background-color: var( --hover-button);
 }
+.close:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --base-variant);
+}
+
+
 .button:focus{
   box-shadow: 0 0 10px var(--secondary-text);
    color: var(--text-color);
@@ -564,6 +597,14 @@ min-width: fit-content;
 }
 
 .button4:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --base-variant);
+}
+
+.button5:focus{
   box-shadow: 0 0 10px var(--secondary-text);
    color: var(--text-color);
     border-radius: .5rem;
@@ -657,6 +698,7 @@ table {
 
 .table_admin{
   color: var(--text-color);
+ 
 }
 
 td, th {
@@ -680,6 +722,27 @@ td:first-child, th:first-child {
      border-left: none;
 }
 
+@media (max-width: 1118px) {
+
+  
+  .form_bg {
+    display: block; 
+  }
+
+  .form_bg2 {
+    width: 90% !important;     
+    margin: 1rem auto !important; 
+    min-height: auto;          
+    max-height: none;          
+  }
+ /* table spacing becomes nicer on stacked layout */
+  .form_bg2 table {
+    margin: 1.5rem auto !important;
+    width: 95% !important;
+  }
+}
+
+
 @media (max-width: 992px) {
 .form-logo {
   width: 10rem;
@@ -694,6 +757,8 @@ margin-right: 1rem;
    margin:auto;
   }
 }
+
+
     
 
 /* small screens */
@@ -725,6 +790,11 @@ margin-right: 1rem;
         margin: auto;
         width: 90%;
     }
+
+    .form_bg2 
+{
+ width: 90%; 
+}
 
     table {
     border-collapse:separate;

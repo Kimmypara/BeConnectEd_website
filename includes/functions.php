@@ -133,6 +133,46 @@ function getUnitById($conn, $unit_id){
     return $unit;
 }
 
+//Get units assigned to the course
+function getUnitIdsByCourseId($conn, $course_id){
+  $sql = "SELECT unit_id FROM course_units WHERE course_id = ?";
+  $stmt = mysqli_stmt_init($conn);
+
+  if(!mysqli_stmt_prepare($stmt, $sql)){
+    return false;
+  }
+
+  mysqli_stmt_bind_param($stmt, "i", $course_id);
+  mysqli_stmt_execute($stmt);
+
+  $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
+
+  return $result;
+}
+
+
+function getUnitsByCourseId($conn, $course_id){
+    $sql = "SELECT unit.unit_id,unit.unit_code,unit.unit_name,unit.ects_credits,unit.is_active
+            FROM course_units 
+            JOIN unit  ON course_units.unit_id = unit.unit_id
+            WHERE course_units.course_id = ?
+            ORDER BY unit.unit_code";
+
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $course_id);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    mysqli_stmt_close($stmt);
+
+    return $result;
+}
+
 
 
 function getRole($conn){

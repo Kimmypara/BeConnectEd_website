@@ -5,12 +5,15 @@ include 'includes/conditions.php';
 require_once "includes/dbh.php";
 require_once "includes/functions.php";
 
+$course_id = 0;
 $course = null;
 
-if(isset($_GET["course_id"]) && is_numeric($_GET["course_id"])){
+if (isset($_GET["course_id"]) && is_numeric($_GET["course_id"])) {
     $course_id = (int)$_GET["course_id"];
     $course = getCourseById($conn, $course_id);
 }
+
+$assignedUnitsRes = ($course_id > 0) ? getUnitsByCourseId($conn, $course_id) : false;
 ?>
 
 
@@ -39,12 +42,13 @@ if(isset($_GET["course_id"]) && is_numeric($_GET["course_id"])){
               
               <!--close button -->
               <div class="row">
-                <div class="col-11"><h2 class=" form_title">Edit or View Course data</h2></div>
+                <div class="col-10"><h2 class=" form_title">Edit or View Course data</h2></div>
                 <div class="col-1">
-                <a href="registration_admin.php" class="button mt-0" alt="close button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <a href="courses_admin.php" class=" close mt-0" alt="close button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
 </svg></a>
 </div>
+<div class="col-1"></div>
 </div>
              
 
@@ -136,6 +140,26 @@ if(isset($_GET["course_id"])){
             <textarea class="placeholder_style mb-2" name="course_description" id="course_description" rows="10"
           placeholder="Course Description..."><?php echo htmlspecialchars($course['course_description'] ?? ''); ?></textarea>
           </div>
+
+          <div class="mt-4">
+  <h5 class="form_title">Assigned Units</h5>
+
+  <?php if ($assignedUnitsRes && mysqli_num_rows($assignedUnitsRes) > 0): ?>
+    <ul class="mb-3">
+      <?php while ($unit = mysqli_fetch_assoc($assignedUnitsRes)): ?>
+        <ol>
+          <?php echo htmlspecialchars($unit['unit_code'] . " - " . $unit['unit_name']); ?>
+          (<?php echo (int)$unit['ects_credits']; ?> ECTS)
+          <?php echo ($unit['is_active'] ? '' : ' - Inactive'); ?>
+        </ol>
+      <?php endwhile; ?>
+    </ul>
+  <?php else: ?>
+    <p class="text-muted">No units assigned to this course yet.</p>
+  <?php endif; ?>
+</div>
+
+
 
          
              <div class="row d-flex ">

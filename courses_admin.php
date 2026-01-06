@@ -39,21 +39,20 @@ include "includes/nav.php";
                         </form>
                     </div>
 
-                    <!-- NEW REGISTRATION BUTTON -->
+                    <!-- Assign Units to Course BUTTON -->
                     <div class="col-lg-6 col-md-6 col-sm-12 text-end mt-3 mt-md-0">
                     <button type="button" class="btn button7" data-bs-toggle="modal" data-bs-target="#assignUnitsModal">
                     Assign Units to Course
                     </button>
                     </div>
-
-             
+    
               
 
 <div class="form_bg2">
   
-            <div class="row align-items-center">
+    <div class="row align-items-center">
 <div class="row">
-  <div class="col-lg-8 .col-md-8 .col-sm-8">
+  <div class="col-lg-8 col-md-8 col-sm-8">
     <h2 class=" form_title2">Courses</h2>
   </div>
 
@@ -113,6 +112,7 @@ echo '</tr>';
 </div>   
         </div>
             </div>
+            
 
 
 <div class="form_bg2">
@@ -263,7 +263,7 @@ $unitsRes   = getUnits($conn);
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
-      <form action="includes/assign_units_inc.php" method="post">
+      <form action="includes/assign_units_inc.php" method="post" id="assignUnitsForm">
         <div class="modal-body">
 
           <!-- Choose Course -->
@@ -272,7 +272,7 @@ $unitsRes   = getUnits($conn);
               <label class="formFields mb-0">Choose Course</label>
             </div>
             <div class="col-9">
-              <select name="course_id" class="form-select placeholder_style" required>
+              <select name="course_id" id="courseSelect" class="form-select placeholder_style" required>
                 <option value="" disabled selected>Courses</option>
                 <?php while ($course = mysqli_fetch_assoc($coursesRes)): ?>
                    <option value="<?php echo (int)$course['course_id']; ?>">
@@ -293,7 +293,7 @@ $unitsRes   = getUnits($conn);
                 <label class="formFields mb-0">Choose Unit</label>
               </div>
               <div class="col-9">
-                <select name="unit_ids[]" class="form-select placeholder_style" required>
+                <select name="unit_ids[]" class="form-select placeholder_style unit-select" required>
                   <option value="" disabled selected>Units</option>
 
                   <?php
@@ -345,17 +345,96 @@ $unitsRes   = getUnits($conn);
   </div>
 </div>
 <script>
-  const addUnitBtn = document.getElementById('addUnitBtn');
+document.addEventListener('DOMContentLoaded', () => {
+  const assignModal = document.getElementById('assignUnitsModal');
+  const form = document.getElementById('assignUnitsForm');
   const unitsContainer = document.getElementById('unitsContainer');
+  const addUnitBtn = document.getElementById('addUnitBtn');
+  const courseSelect = document.getElementById('courseSelect');
 
+  // Grab the FIRST dropdown options HTML as the "template"
+  const firstSelect = unitsContainer.querySelector('select.unit-select');
+  const unitOptionsHTML = firstSelect ? firstSelect.innerHTML : '';
+
+  function buildUnitRow(selectedUnitId = "") {
+    const row = document.createElement('div');
+    row.className = 'row align-items-center mb-3 unit-row';
+
+    row.innerHTML = `
+      <div class="col-3">
+        <label class="formFields mb-0">Choose Unit</label>
+      </div>
+      <div class="col-7">
+        <select name="unit_ids[]" class="form-select placeholder_style unit-select" required>
+          ${unitOptionsHTML}
+        </select>
+      </div>
+      <div class="col-2 text-end">
+        <button type="button" class="btn button5 remove-unit-btn">Remove</button>
+      </div>
+    `;
+
+    const select = row.querySelector('select.unit-select');
+    if (selectedUnitId) select.value = String(selectedUnitId);
+
+    // remove row button
+    row.querySelector('.remove-unit-btn').addEventListener('click', () => {
+      row.remove();
+      // keep at least 1 row
+      if (unitsContainer.querySelectorAll('.unit-row').length === 0) {
+        unitsContainer.appendChild(buildUnitRow(""));
+      }
+    });
+
+    return row;
+  }
+
+  function resetUnitRowsToOneEmpty() {
+    unitsContainer.innerHTML = '';
+    unitsContainer.appendChild(buildUnitRow(""));
+  }
+
+  // Add another unit button
   addUnitBtn.addEventListener('click', () => {
-    const firstRow = unitsContainer.querySelector('.unit-row');
-    const clone = firstRow.cloneNode(true);
-
-    // reset selection
-    const select = clone.querySelector('select');
-    select.selectedIndex = 0;
-
-    unitsContainer.appendChild(clone);
+    unitsContainer.appendChild(buildUnitRow(""));
   });
+
+  // When course changes -> load assigned units
+  courseSelect.addEventListener('change', async () => {
+    const courseId = courseSelect.value;
+    if (!courseId) {
+      resetUnitRowsToOneEmpty();
+      return;
+    }
+
+    try {
+      const res = await fetch(`includes/get_assigned_units_inc.php?course_id=${encodeURIComponent(courseId)}`);
+      const assigned = await res.json();
+
+      unitsContainer.innerHTML = '';
+
+      if (Array.isArray(assigned) && assigned.length > 0) {
+        assigned.forEach(u => {
+          unitsContainer.appendChild(buildUnitRow(u.unit_id));
+        });
+      } else {
+        resetUnitRowsToOneEmpty();
+      }
+
+    } catch (e) {
+      console.error("Failed to load assigned units", e);
+      resetUnitRowsToOneEmpty();
+    }
+  });
+
+  // When modal closes -> clear only units (not closing via cancel)
+  assignModal.addEventListener('hidden.bs.modal', () => {
+    form.reset();
+    resetUnitRowsToOneEmpty();
+  });
+
+  // Start clean
+  resetUnitRowsToOneEmpty();
+});
 </script>
+
