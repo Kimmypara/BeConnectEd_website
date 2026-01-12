@@ -193,6 +193,7 @@
   padding-right: 2rem;
   padding-left: 2rem;
   justify-content: center;
+ text-align: center;
 }
 
 .nav-link:hover{
@@ -720,6 +721,10 @@ th {
 
 td:first-child, th:first-child {
      border-left: none;
+}
+
+.dropdown-header{
+  text-align: center;
 }
 
 @media (max-width: 1118px) {

@@ -37,19 +37,37 @@ switch ($role_id) {
 $first_name = $_SESSION['first_name'] ?? '';
 $last_name  = $_SESSION['last_name'] ?? '';
 $role_id    = $_SESSION['role_id'] ?? null;
+$profile_photo = $_SESSION['profile_photo'] ?? '';
 
-// Optional arrays (safe include)
 require_once __DIR__ . '/arrays.php';
 ?>
-
-
-
 
 
 <?php
 include 'includes/users.php';
 
 ?>
+
+<?php
+
+
+
+$user_id = (int)($_SESSION['user_id'] ?? 0);
+$user = null;
+
+$photoPath = "assets/images/default_user.png"; 
+
+if ($user_id > 0) {
+  $user = getUserById($conn, $user_id);
+
+  if (!empty($user['profile_photo'])) {
+    $photoPath = "upload_images/" . $user['profile_photo'];
+  }
+}
+
+
+?>
+
 
 
 <!DOCTYPE html>
@@ -106,11 +124,6 @@ $hour = date("H");
 
 
 
-
-
-
-
-
       </div>   
       <!--dark /light mode -->
       
@@ -127,73 +140,164 @@ $hour = date("H");
     </a>
 </div>
 
-    <!--profile icon-->
+
+<!-- PROFILE DROPDOWN -->
 <div class="col-1 text-end">
-    <div class="dropdown">
-        <a href="#"
-           class="dropdown-toggle d-flex align-items-center"
-           id="profileDropdown"
-           data-bs-toggle="dropdown"
-           aria-expanded="false"
-           style="text-decoration:none;">
+  <div class="dropdown">
+    <a href="#"
+       class="dropdown-toggle d-flex align-items-center justify-content-end"
+       id="profileDropdown"
+       data-bs-toggle="dropdown"
+       data-bs-auto-close="outside"
+       aria-expanded="false"
+       style="text-decoration:none;">
 
-            <svg class="profile-icon"
-            alt="profile icon"
-                 xmlns="http://www.w3.org/2000/svg"
-                 width="20"
-                 height="20"
-                 fill="var(--text-color)"
-                 viewBox="0 0 16 16">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                <path fill-rule="evenodd"
-                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-            </svg>
-        </a>
+      <svg class="profile-icon"
+           xmlns="http://www.w3.org/2000/svg"
+           width="20" height="20"
+           fill="var(--text-color)"
+           viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+        <path fill-rule="evenodd"
+              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+      </svg>
+    </a>
 
-        <!-- POPUP MENU -->
-        <ul class="dropdown-menu dropdown-menu-end shadow"
-            aria-labelledby="profileDropdown">
+    <?php
+      $user_id = (int)($_SESSION['user_id'] ?? 0);
+      $user = null;
 
-            <li class="dropdown-header">
-                <strong>
-                    <?php echo htmlspecialchars($_SESSION['first_name'] . ' ' . $_SESSION['last_name']); ?>
-                </strong><br>
-                <small >
-                    <?php
-                    $roles = [
-                        1 => 'Teacher',
-                        2 => 'Student',
-                        3 => 'Parent',
-                        4 => 'Administrator',
-                        5 => 'Independent'
-                    ];
-                    echo $roles[$_SESSION['role_id']] ?? '';
-                    ?>
-                </small>
-            </li>
+      if ($user_id > 0) {
+        $user = getUserById($conn, $user_id);
+      }
 
-                   <!--if user is logged in - show logout link-->
-<?php
+      $photoPath = "assets/images/default_user.png";
+      if (!empty($user['profile_photo'])) {
+        $photoPath = "upload_images/" . $user['profile_photo'];
+      }
+
+      $roles = [
+        1 => 'Teacher',
+        2 => 'Student',
+        3 => 'Parent',
+        4 => 'Administrator',
+        5 => 'Independent'
+      ];
+    ?>
+
+    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profileDropdown" style="width:16rem;">
+
+      <li class="dropdown-header d-flex justify-content-between align-items-start">
+        <div>
+          <strong>
+            <?php echo htmlspecialchars($_SESSION['first_name'] ?? ''); ?>
+            <?php echo ' ' . htmlspecialchars($_SESSION['last_name'] ?? ''); ?>
+          </strong><br>
+          <small><?php echo htmlspecialchars($roles[$_SESSION['role_id'] ?? 0] ?? ''); ?></small>
+        </div>
+
+        <button type="button" class="btn btn-sm" id="profileCloseBtn" aria-label="Close">
+          ✕
+        </button>
+      </li>
+
+      <!-- CURRENT PHOTO OR PREVIEW -->
+      <li class="px-3 py-2 text-center">
+        <img
+          id="profilePreviewImg"
+          src="<?php echo htmlspecialchars($photoPath); ?>?v=<?php echo time(); ?>"
+          alt="Profile photo"
+          class="profile-img"
+          style="width:8rem;height:8rem;object-fit:cover;border-radius:50%;"
+        >
+        <div class="small mt-2" id="uploadHint" style="display:none;">
+          Selected. Click <strong>Save</strong> to confirm.
+        </div>
+      </li>
+
+      <li><hr class="dropdown-divider"></li>
+
+      <!-- UPLOAD FORM -->
+      <li class="px-3 pb-2">
+        <form action="includes/upload_profile_photo.php"
+              method="post"
+              enctype="multipart/form-data"
+              id="profileUploadForm">
+
+          <!-- keeps you on the same page -->
+          <input type="hidden" name="redirect_to"
+                 value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
+
+          <!-- hidden file input -->
+          <input type="file"
+                 name="userFile"
+                 id="profileFile"
+                 class="d-none"
+                 accept=".jpg,.jpeg,.png,.webp">
+
+          <div class="d-flex justify-content-center gap-3 my-2">
+            <!-- Upload icon -->
+            <button type="button"
+                    class="btn p-0 border-0 bg-transparent"
+                    id="uploadIconBtn"
+                    aria-label="Choose file">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                   class="bi bi-upload" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+              </svg>
+            </button>
+
+            <!-- Clear selection -->
+            <button type="button"
+                    class="btn p-0 border-0 bg-transparent"
+                    id="clearFileBtn"
+                    aria-label="Clear selection">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                   class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Save uploads -->
+          <button type="submit"
+                  name="uploadFile"
+                  value="upload"
+                  class="btn button w-100 mt-2"
+                  id="saveProfileBtn"
+                  >
+            Save
+          </button>
+          
+
+        </form>
+      </li>
+
+      <li><hr class="dropdown-divider"></li>
+
+     <?php
 if(isset($_SESSION["user_id"])){?> 
 <li class="nav-item">
-  <a class="nav-link " href="includes/logout-inc.php">Logout</a>
+  <a class="nav-link " href="includes/logout-inc.php">SignOut</a>
 </li>
 <?php } else {?>
 <!--if user is logged out - show loginlink-->
   <li class="nav-item">
-  <a class="nav-link mt-1" href="login.php">Login</a>
+  <a class="nav-link " href="login.php">Login</a>
 
 <?php } ?>
-            </li>
 
-        </ul>
-    </div>
+
+    </ul>
+  </div>
+</div>
+  </div>
 </div>
 
-
-
-
-
+    </div>
+</div>
       
   </div>
 </div>
@@ -205,8 +309,57 @@ if(isset($_SESSION["user_id"])){?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="includes/darkmode.js" type="text/javascript" defer></script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const fileInput = document.getElementById('profileFile');
+  const uploadBtn = document.getElementById('uploadIconBtn');
+  const preview   = document.getElementById('profilePreviewImg');
+  const hint      = document.getElementById('uploadHint');
+  const form      = document.getElementById('profileUploadForm');
+  const toggleEl  = document.getElementById('profileDropdown');
+
+  if (!fileInput || !form || !toggleEl) return;
+
+  // Open file picker by clicking upload icon
+  if (uploadBtn) {
+    uploadBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      fileInput.click();
+    });
+  }
+
+  // Preview chosen file (not uploaded yet)
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+
+    if (preview) preview.src = URL.createObjectURL(file);
+    if (hint) hint.style.display = 'block';
+  });
+
+  // Save:
+  // If no file chosen -> close dropdown, don't submit
+  form.addEventListener('submit', (e) => {
+    const hasFile = fileInput.files && fileInput.files.length > 0;
+
+    if (!hasFile) {
+      e.preventDefault();
+      bootstrap.Dropdown.getOrCreateInstance(toggleEl).hide();
+    }
+  });
+});
+</script>
+
+
+
+
 </body>
 
 
 
 </html>
+
+

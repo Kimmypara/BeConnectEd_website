@@ -514,20 +514,18 @@ function invalidUnit_duration($unit_duration){
 
 
 //Validation functions for new user registration
-  function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $must_change_password, $institute_id){
+function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $institute_id) {
 
-    if (empty($role_id) || 
-        empty($first_name) || 
-        empty($last_name) || 
-        empty($email) || 
-        empty($date_of_birth) || 
-        $is_active === "" || 
-        $must_change_password === "") {
-
-        return true;
-    }
-
-      // if Independent_teacher(role_id = 5), institute MUST be empty
+    return (
+        trim((string)$role_id) === "" ||
+        trim((string)$first_name) === "" ||
+        trim((string)$last_name) === "" ||
+        trim((string)$email) === "" ||
+        trim((string)$date_of_birth) === "" ||
+        trim((string)$is_active) === "" ||     // ✅ allows "0"
+        trim((string)$institute_id) === ""     // ✅ allows "0" if ever used
+    );
+          // if Independent_teacher(role_id = 5), institute MUST be empty
     if($role_id == 5 && !empty($institute_id)){
         return true;
     }
@@ -537,7 +535,9 @@ function invalidUnit_duration($unit_duration){
     }
 
     return false;
+
 }
+
 
 
 

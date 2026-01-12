@@ -1,5 +1,6 @@
 <?php
 
+
 session_start();
 require_once "dbh.php";
 require_once "functions.php";
@@ -14,23 +15,22 @@ if (!isset($_POST["submit"])) {
 
 // Get form data correctly named
 $role_id = $_POST["role_id"] ?? "";
-$first_name = $_POST["first_name"];
-$last_name = $_POST["last_name"];
-$email = $_POST["email"];
-$date_of_birth = $_POST["date_of_birth"];
+$first_name = $_POST["first_name"] ?? "";
+$last_name = $_POST["last_name"] ?? "";
+$email = $_POST["email"] ?? "";
+$date_of_birth = $_POST["date_of_birth"] ?? "";
 $is_active = $_POST["is_active"] ?? "";
-$must_change_password = $_POST["must_change_password"] ?? "";
 $institute_id = $_POST["institute_id"] ?? "";
+
 //$qualifications = $_POST["qualifications"];
 
 $error = "";
 
 // Run validation
-if (emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $must_change_password, $institute_id)) {
-   
-
-    $error = $error."emptyinput=true&";
+if (emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $institute_id)) {
+    $error .= "emptyinput=true&";
 }
+
 
  if(invalidFirst_name($first_name)){
             $error = $error."invalidFirst_name=true&";

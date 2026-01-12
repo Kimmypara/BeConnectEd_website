@@ -117,7 +117,7 @@ include "includes/nav.php";
              <div class="row d-flex ">
               <div class="col-lg-3"></div>
                     <div class="col-lg-2">
-                        <button class="button" type="submit" name="submit"  id="submit">Register</button>
+                        <button class="button" type="submit" name="submit" value="1" id="submit">Register</button>
                     </div>
                     <div class="col-lg-2"></div>
                         
