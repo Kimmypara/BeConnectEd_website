@@ -141,18 +141,18 @@ $hour = date("H");
 </div>
 
 
-<!-- PROFILE DROPDOWN -->
-<div class="col-1 text-end">
+<!-- PROFILE pop-up -->
+<div class="col-1">
   <div class="dropdown">
     <a href="#"
-       class="dropdown-toggle d-flex align-items-center justify-content-end"
+       class="dropdown-toggle d-flex align-items-center profile-toggle"
        id="profileDropdown"
        data-bs-toggle="dropdown"
        data-bs-auto-close="outside"
        aria-expanded="false"
        style="text-decoration:none;">
 
-      <svg class="profile-icon"
+      <svg class="profile-icon "
            xmlns="http://www.w3.org/2000/svg"
            width="20" height="20"
            fill="var(--text-color)"
@@ -187,8 +187,8 @@ $hour = date("H");
 
     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profileDropdown" style="width:16rem;">
 
-      <li class="dropdown-header d-flex justify-content-between align-items-start">
-        <div>
+      <li class="dropdown-header  d-flex align-items-start justify-content-between ">
+        <div class="text-center w-100 pe-4">
           <strong>
             <?php echo htmlspecialchars($_SESSION['first_name'] ?? ''); ?>
             <?php echo ' ' . htmlspecialchars($_SESSION['last_name'] ?? ''); ?>
@@ -196,10 +196,28 @@ $hour = date("H");
           <small><?php echo htmlspecialchars($roles[$_SESSION['role_id'] ?? 0] ?? ''); ?></small>
         </div>
 
-        <button type="button" class="btn btn-sm" id="profileCloseBtn" aria-label="Close">
-          ✕
+        <button type="button" class="btn close1 ms-2" id="profileCloseBtn" aria-label="Close">
+         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+</svg>
         </button>
       </li>
+
+
+ <?php if (!empty($_SESSION['profile_error'])): ?>
+  <div class="small text-danger mt-2">
+    <?php echo htmlspecialchars($_SESSION['profile_error']); ?>
+  </div>
+  <?php unset($_SESSION['profile_error']); ?>
+<?php endif; ?>
+
+<?php if (!empty($_SESSION['profile_success'])): ?>
+  <div class="small text-success mt-2">
+    <?php echo htmlspecialchars($_SESSION['profile_success']); ?>
+  </div>
+  <?php unset($_SESSION['profile_success']); ?>
+<?php endif; ?>
+
 
       <!-- CURRENT PHOTO OR PREVIEW -->
       <li class="px-3 py-2 text-center">
@@ -215,67 +233,74 @@ $hour = date("H");
         </div>
       </li>
 
-      <li><hr class="dropdown-divider"></li>
+      <li><hr class="dropdown-divider "></li>
 
-      <!-- UPLOAD FORM -->
-      <li class="px-3 pb-2">
-        <form action="includes/upload_profile_photo.php"
-              method="post"
-              enctype="multipart/form-data"
-              id="profileUploadForm">
+      <!-- UPLOAD profile image form -->
+      
+<li class="px-3 pb-2">
+  <div class="d-flex justify-content-center gap-4 my-2 align-items-center">
 
-          <!-- keeps you on the same page -->
+    <!-- UPLOAD FORM  -->
+    <form action="includes/upload_profile_photo.php"
+          method="post"
+          enctype="multipart/form-data"
+          id="profileUploadForm"
+          class="d-inline">
+
+      <input type="hidden" name="redirect_to"
+             value="<?php echo basename($_SERVER['PHP_SELF']); ?>">
+
+      <input type="file"
+             name="userFile"
+             id="profileFile"
+             class="d-none"
+             accept=".jpg,.jpeg,.png,.webp">
+
+      <!-- Upload icon button -->
+      <button type="button"
+              class="btn p-0 border-0 bg-transparent icons "
+              id="uploadIconBtn"
+              aria-label="Choose file">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+             class="bi bi-upload" viewBox="0 0 16 16">
+          <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+          <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+        </svg>
+      </button>
+    </form>
+
+    <!-- DELETE profile photo form  -->
+    <form action="includes/delete_profile_photo.php" method="post"
+          id="deletePhotoForm" class="d-inline">
           <input type="hidden" name="redirect_to"
-                 value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
+          value="<?php echo basename($_SERVER['PHP_SELF']); ?>">
 
-          <!-- hidden file input -->
-          <input type="file"
-                 name="userFile"
-                 id="profileFile"
-                 class="d-none"
-                 accept=".jpg,.jpeg,.png,.webp">
+      <button type="submit"
+              class="btn p-0 border-0 bg-transparent icons"
+              id="profileTrashBtn"
+              aria-label="Remove photo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+             class="bi bi-trash" viewBox="0 0 16 16">
+          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+          <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+        </svg>
+      </button>
+    </form>
 
-          <div class="d-flex justify-content-center gap-3 my-2">
-            <!-- Upload icon -->
-            <button type="button"
-                    class="btn p-0 border-0 bg-transparent"
-                    id="uploadIconBtn"
-                    aria-label="Choose file">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                   class="bi bi-upload" viewBox="0 0 16 16">
-                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
-                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
-              </svg>
-            </button>
+  </div>
 
-            <!-- Clear selection -->
-            <button type="button"
-                    class="btn p-0 border-0 bg-transparent"
-                    id="clearFileBtn"
-                    aria-label="Clear selection">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                   class="bi bi-trash" viewBox="0 0 16 16">
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-              </svg>
-            </button>
-          </div>
+  <!-- SAVE button belongs to upload form -->
+  <button type="submit"
+          form="profileUploadForm"
+          name="uploadFile"
+          value="upload"
+          class="btn button w-100 mt-2"
+          id="saveProfileBtn">
+    Save
+  </button>
+</li>
 
-          <!-- Save uploads -->
-          <button type="submit"
-                  name="uploadFile"
-                  value="upload"
-                  class="btn button w-100 mt-2"
-                  id="saveProfileBtn"
-                  >
-            Save
-          </button>
-          
-
-        </form>
-      </li>
-
-      <li><hr class="dropdown-divider"></li>
+      <li><hr class="dropdown-divider "></li>
 
      <?php
 if(isset($_SESSION["user_id"])){?> 
@@ -319,11 +344,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const hint      = document.getElementById('uploadHint');
   const form      = document.getElementById('profileUploadForm');
   const toggleEl  = document.getElementById('profileDropdown');
+  const closeBtn  = document.getElementById('profileCloseBtn'); 
+  const trashBtn  = document.getElementById('profileTrashBtn');
 
-  if (!fileInput || !form || !toggleEl) return;
+
+  const defaultImg = "assets/images/default_user.png";
+
+  if (!form || !toggleEl) return;
 
   // Open file picker by clicking upload icon
-  if (uploadBtn) {
+  if (uploadBtn && fileInput) {
     uploadBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -332,26 +362,53 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Preview chosen file (not uploaded yet)
-  fileInput.addEventListener('change', () => {
-    const file = fileInput.files?.[0];
-    if (!file) return;
+  if (fileInput) {
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files?.[0];
+      if (!file) return;
 
-    if (preview) preview.src = URL.createObjectURL(file);
-    if (hint) hint.style.display = 'block';
-  });
+      if (preview) preview.src = URL.createObjectURL(file);
+      if (hint) hint.style.display = 'block';
+    });
+  }
 
-  // Save:
-  // If no file chosen -> close dropdown, don't submit
+  // Save: if no file chosen -> close dropdown, don't submit
   form.addEventListener('submit', (e) => {
-    const hasFile = fileInput.files && fileInput.files.length > 0;
+    const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
 
     if (!hasFile) {
       e.preventDefault();
       bootstrap.Dropdown.getOrCreateInstance(toggleEl).hide();
     }
   });
+
+  //  Close button closes dropdown
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation(); 
+      bootstrap.Dropdown.getOrCreateInstance(toggleEl).hide();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+  const hasMsg = document.querySelector('.text-danger, .text-success');
+  const toggleEl = document.getElementById('profileDropdown');
+
+  if (hasMsg && toggleEl) {
+    bootstrap.Dropdown.getOrCreateInstance(toggleEl).show();
+  }
+});
+
+ //  Trash: reset preview to default + clear chosen file
+trashBtn?.addEventListener('click', () => {
+ 
+  preview.src = defaultImg + "?v=" + Date.now();
+});
+
 });
 </script>
+
 
 
 

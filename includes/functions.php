@@ -398,6 +398,21 @@ function editUnit($conn, $unit_id, $unit_name,  $unit_code, $ects_credits, $unit
     mysqli_stmt_close($stmt);
 }
 
+function deleteProfilePhoto($conn, $user_id){
+  $sql = "UPDATE users SET profile_photo = NULL WHERE user_id = ?";
+  $stmt = mysqli_stmt_init($conn);
+
+  if(!mysqli_stmt_prepare($stmt, $sql)){
+    return false;
+  }
+
+  mysqli_stmt_bind_param($stmt, "i", $user_id);
+  mysqli_stmt_execute($stmt);
+  mysqli_stmt_close($stmt);
+  return true;
+}
+
+
 
 //Validation functions for courses
 function emptyCourseInput($course_name,  $course_code, $institute_id, $is_active,  $MQF_level,  $duration,$credits,$course_description){

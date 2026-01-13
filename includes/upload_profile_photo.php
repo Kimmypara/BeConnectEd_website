@@ -2,56 +2,77 @@
 require_once "dbh.php";
 require_once "functions.php";
 
+
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-if (!isset($_SESSION["user_id"])) {
+if (empty($_SESSION["user_id"])) {
   header("Location: ../login.php");
   exit();
 }
 
 $user_id = (int)$_SESSION["user_id"];
 
-// Where to go back
-$redirect = $_POST['redirect_to'] ?? '/BeConnectEd_website/index.php';
-if (strpos($redirect, '/') !== 0) {
-  $redirect = '/BeConnectEd_website/index.php';
+
+//Redirect helper+ message
+ 
+function back($redirectPage, $type, $msg) {
+  if ($type === "error") $_SESSION["profile_error"] = $msg;
+  if ($type === "success") $_SESSION["profile_success"] = $msg;
+  header("Location: ../" . $redirectPage);
+  exit();
 }
 
-// Validate the submit + file
+/**
+ * ✅ Redirect target (SAFE)
+ * Expecting redirect_to like "admin_index.php" (NOT full path)
+ */
+$redirectPage = $_POST["redirect_to"] ?? "index.php";
+$redirectPage = basename($redirectPage); // prevents /BeConnectEd_website/BeConnectEd_website/...
+
+// Validate submit
 if (!isset($_POST["uploadFile"]) || $_POST["uploadFile"] !== "upload") {
-  header("Location: ../" . ltrim($redirect, "/"));
-  exit();
+  back($redirectPage, "error", "Invalid upload request.");
 }
 
-if (!isset($_FILES["userFile"]) || $_FILES["userFile"]["error"] === UPLOAD_ERR_NO_FILE) {
-  header("Location: ../" . ltrim($redirect, "/"));
-  exit();
+// Validate file presence
+if (!isset($_FILES["userFile"])) {
+  back($redirectPage, "error", "No file received.");
 }
 
-$fileName = $_FILES["userFile"]["name"];
-$fileTmp  = $_FILES["userFile"]["tmp_name"];
-$fileSize = $_FILES["userFile"]["size"];
-$fileErr  = $_FILES["userFile"]["error"];
+$f = $_FILES["userFile"];
 
-if ($fileErr !== UPLOAD_ERR_OK) {
-  header("Location: ../" . ltrim($redirect, "/"));
-  exit();
+// Handle PHP upload errors (this is what happens with large files)
+if ($f["error"] !== UPLOAD_ERR_OK) {
+  if ($f["error"] === UPLOAD_ERR_INI_SIZE || $f["error"] === UPLOAD_ERR_FORM_SIZE) {
+    back($redirectPage, "error", "File too large. Please choose an image under 5MB.");
+  }
+  if ($f["error"] === UPLOAD_ERR_NO_FILE) {
+    back($redirectPage, "error", "No file selected.");
+  }
+  back($redirectPage, "error", "Upload failed (error code: {$f['error']}).");
 }
 
-$allowed = ["jpg","jpeg","png","webp"];
+// Basic file info
+$fileName = $f["name"];
+$fileTmp  = $f["tmp_name"];
+$fileSize = $f["size"];
+
+// Validate extension
+$allowed = ["jpg", "jpeg", "png", "webp"];
 $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-if (!in_array($ext, $allowed)) {
-  header("Location: ../" . ltrim($redirect, "/"));
-  exit();
+if (!in_array($ext, $allowed, true)) {
+  back($redirectPage, "error", "Invalid file type. Please upload JPG, PNG, or WEBP.");
 }
 
-if ($fileSize > 5 * 1024 * 1024) { // 5MB
-  header("Location: ../" . ltrim($redirect, "/"));
-  exit();
+// Validate size (your own limit)
+$maxBytes = 5 * 1024 * 1024; // 5MB
+if ($fileSize > $maxBytes) {
+  back($redirectPage, "error", "File too large. Please choose an image under 5MB.");
 }
 
 // Ensure folder exists
@@ -61,14 +82,15 @@ if (!is_dir($uploadDir)) {
 }
 
 if (!is_writable($uploadDir)) {
-  die("upload_images folder is not writable");
+  back($redirectPage, "error", "Server error: upload_images folder is not writable.");
 }
 
+// Move file
 $newFileName = $user_id . "-" . uniqid("", true) . "." . $ext;
 $targetPath  = $uploadDir . $newFileName;
 
 if (!move_uploaded_file($fileTmp, $targetPath)) {
-  die("move_uploaded_file failed");
+  back($redirectPage, "error", "Server error: could not save the uploaded file.");
 }
 
 // Save filename in DB
@@ -76,16 +98,11 @@ $sql = "UPDATE users SET profile_photo = ? WHERE user_id = ?";
 $stmt = mysqli_stmt_init($conn);
 
 if (!mysqli_stmt_prepare($stmt, $sql)) {
-  die("SQL prepare failed");
+  back($redirectPage, "error", "Database error: could not update profile photo.");
 }
 
 mysqli_stmt_bind_param($stmt, "si", $newFileName, $user_id);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 
-// ✅ redirect ONLY AFTER successful upload
-header("Location: " . $redirect);
-exit();
-
-
-
+back($redirectPage, "success", "Profile photo updated.");

@@ -117,12 +117,12 @@ include "includes/nav.php";
              <div class="row d-flex ">
               <div class="col-lg-3"></div>
                     <div class="col-lg-2">
-                        <button class="button" type="submit" name="submit" value="1" id="submit">Register</button>
+                        <button class="button btn" type="submit" name="submit" value="1" id="submit">Register</button>
                     </div>
                     <div class="col-lg-2"></div>
                         
                     <div class="col-lg-2">
-                        <button href="registration_admin.php" class="button " type="reset" name="reset"  id="reset">Cancel</button>
+                        <button href="registration_admin.php" class="button btn" type="reset" name="reset"  id="reset">Cancel</button>
                     </div>
                         <div class="col-lg-3"></div>
                 </div>

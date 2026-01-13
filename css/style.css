@@ -152,6 +152,51 @@
   justify-content: end;
 }
 
+.profile-icon:hover{
+   box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--secondary-text);
+  border-radius: .5rem;
+}
+
+.profile-icon:focus{
+   box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+}
+
+
+.profile-toggle:focus,
+.profile-toggle:focus-visible {
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+}
+
+.icons{
+color: var(--text-color);
+
+}
+
+
+
+.icons:hover{
+  box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--text-color);
+  border-radius: .5rem;
+ height:2rem ;
+    width: 2rem;
+}
+
+.icons:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+  box-shadow: 2px 1px 10px 0 #1a5b71;
+    border-radius: .5rem;
+    height:2rem ;
+    width: 2rem;
+}
 
 
     body {
@@ -408,6 +453,29 @@ input:autofill {
   
 }
 
+.close1{
+   position: absolute;           
+  top: .6rem;
+  right: .6rem;
+  text-decoration: none;
+  color: var(--base-variant);
+  border-radius: .5rem;
+  padding: .3rem .5rem;
+  background-color: var(--button-color);
+  line-height: 1;
+}
+.dropdown-menu{
+  width: 20rem !important;
+  background-color:var(--base-variant) !important;
+  box-shadow: 0 0 10px var(--secondary-text);
+  outline: none !important;
+}
+
+.dropdown-header{
+  text-align: center !important;
+  margin: auto !important;
+   color: var(--text-color);
+}
 
 .loginbtn{
   width: 50% !important;
@@ -524,6 +592,13 @@ min-width: fit-content;
   background-color: var( --hover-button);
 }
 
+.close1:hover{
+  box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--base-variant);
+  border-radius: .5rem;
+  background-color: var( --hover-button);
+}
+
 .button:hover{
   box-shadow: 0 0 10px var(--secondary-text);
   color: var(--base-variant);
@@ -580,6 +655,13 @@ min-width: fit-content;
    background-color: var( --base-variant);
 }
 
+.close1:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --base-variant);
+}
 
 .button:focus{
   box-shadow: 0 0 10px var(--secondary-text);
