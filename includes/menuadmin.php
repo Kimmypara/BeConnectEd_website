@@ -64,6 +64,12 @@
 </li>
 
 <li class="nav-item">
+  <a class="nav-link <?php if ($currentPage == 'classes_admin.php') echo 'active'; ?>" href="classes_admin.php">
+     Classes
+  </a>
+</li>
+
+<li class="nav-item">
   <a class="nav-link <?php if ($currentPage == 'notifications_admin.php') echo 'active'; ?>" href="notifications_admin.php">
       Notifications
   </a>

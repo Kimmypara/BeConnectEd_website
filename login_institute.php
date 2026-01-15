@@ -23,29 +23,70 @@ include 'includes/users.php';
 <body>
 
 <form action="/BeConnectEd_website/includes/login_inc.php" method="POST">
-<div class="login_bg d-flex ">
+<div class="login_bg d-flex align-items-center">
 
-  <div class="container login-layout pb-5">
+  <div class="container ">
     <div class="row align-items-center">
  
       <!-- LEFT COLUMN: LOGO -->
-      <div class="col-lg-6 col-md-6 col-sm-12 text-center text-md-start mb-4 mb-md-0">
-        <img src="assets/images/logo.png"
-             alt="BeConnectEd logo"
-             class="form-logo">
-      </div>
+      <div class="col-lg-6 text-center mb-4 ">
+             
+  <img class="form-logo logo-img light"  src="assets/images/logo.png"  alt="be connected logo">
+  <img class="form-logo logo-img dark" src="assets/images/logo-darkmode.png"  alt="be connected logo">
 
+      </div>
+<div class="col-md-1"></div>
    
       <!-- RIGHT COLUMN: PATH SELECTION -->
-      <div class="form-login col-lg-4 col-md-6 col-sm-12 mx-2">
+      <div class="form-login col-lg-4 col-md-5 col-sm-12 ">
        
        <input type="email" id="email" name="email" class="d-block  button3" placeholder="email" required>
+   
 
         <input type="password" id="password" name="password" placeholder="password" class="d-block button3" required>
 
-              <p class="mt-3">
+ <?php
+if (isset($_GET["error"])) {
+
+  $error = "<h5>Could not log in:</h5><ul>";
+
+  if ($_GET["error"] === "emptyinput") {
+    $error .= "<li>You have some empty fields.</li>";
+  }
+
+  if ($_GET["error"] === "emailnotfound") {
+    $error .= "<li>This email is not registered.</li>";
+  }
+
+  if ($_GET["error"] === "wrongpassword") {
+    $error .= "<li>Incorrect password.</li>";
+  }
+
+  if ($_GET["error"] === "inactive") {
+    $error .= "<li>Your account is inactive. Please contact the administrator.</li>";
+  }
+
+  if ($_GET["error"] === "mustchangepassword") {
+    $error .= "<li>This is your first login. Please set your password.</li>";
+  }
+
+  if ($_GET["error"] === "invalidrole") {
+    $error .= "<li>Your account role is invalid. Please contact support.</li>";
+  }
+
+  if ($_GET["error"] === "stmtfailed") {
+    $error .= "<li>Server error. Please try again.</li>";
+  }
+
+  $error .= "</ul>";
+
+  echo $error;
+}
+?>
+
+              <p class="mt-3 formFields">
     New user?
-    <a href="reset_password.php">Click here to set your password</a>
+    <a class="formFields2" href="reset_password.php">Click here to set your password</a>
 </p>
         <div class="row">
         <div class="col">
@@ -64,6 +105,10 @@ include 'includes/users.php';
 
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="includes/darkmode.js" type="text/javascript" defer></script>
+
+
+
+
 
 
 

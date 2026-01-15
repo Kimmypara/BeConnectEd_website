@@ -29,9 +29,8 @@ include 'includes/users.php';
 
       <!-- LEFT COLUMN: LOGO -->
       <div class="col-lg-6 col-md- col-sm-12 text-center text-md-start mb-4 mb-md-0">
-        <img src="assets/images/logo.png"
-             alt="BeConnectEd logo"
-             class="form-logo">
+          <img class="form-logo logo-img light"  src="assets/images/logo.png"  alt="be connected logo">
+  <img class="form-logo logo-img dark" src="assets/images/logo-darkmode.png"  alt="be connected logo">
       </div>
 
       <!-- RIGHT COLUMN: PATH SELECTION -->

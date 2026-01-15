@@ -15,7 +15,7 @@ if ($course_id <= 0 || !is_array($unit_ids)) {
   exit();
 }
 
-// Clean unit_ids (unique, int, remove empty)
+
 $clean = [];
 foreach ($unit_ids as $uid) {
   $id = (int)$uid;

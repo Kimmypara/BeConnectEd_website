@@ -22,20 +22,19 @@ include 'includes/users.php';
 <body>
 
 
-<div class="login_bg d-flex ">
+<div class="login_bg d-flex align-items-center">
 
   <div class="container login-layout pb-5">
     <div class="row align-items-center">
 
       <!-- LEFT COLUMN: LOGO -->
-      <div class="col-lg-6 col-md-4 col-sm-12 text-center text-md-start mb-4 mb-md-0">
-        <img src="assets/images/logo.png"
-             alt="BeConnectEd logo"
-             class="form-logo ">
+      <div class="col-lg-6 col-sm-12 text-center mb-4">
+          <img class="form-logo logo-img light"  src="assets/images/logo.png"  alt="be connected logo">
+  <img class="form-logo logo-img dark" src="assets/images/logo-darkmode.png"  alt="be connected logo">
       </div>
-
+<div class="col-md-1"></div>
       <!-- RIGHT COLUMN: PATH SELECTION -->
-      <div class="form-login col-lg-4 col-md-4 col-sm-12 mx-5">
+      <div class="form-login col-lg-4 col-md-4 col-sm-12 ">
         <h4 class="form-title mb-3">Choose your Path</h4>
 
         <a href="login_institute.php" class="d-block button mb-2">

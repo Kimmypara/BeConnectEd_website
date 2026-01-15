@@ -22,6 +22,11 @@ mysqli_stmt_close($stmt);
 return $result;
 }
 
+
+
+
+
+
 function getUserById($conn, $user_id){
     $sql = "SELECT * FROM users WHERE user_id = ?";
     $stmt = mysqli_stmt_init($conn);
@@ -114,6 +119,29 @@ mysqli_stmt_close($stmt);
 
 return $result;
 }
+
+function getTeachersActive($conn){
+   $sql = "SELECT user_id, first_name, last_name 
+          FROM users
+          WHERE is_active = 1 AND role_id = 1";
+        
+$stmt = mysqli_stmt_init($conn);
+
+if(!mysqli_stmt_prepare($stmt, $sql)) {
+    //echo"<p>We have an error.</p>";
+    exit();
+}
+
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+mysqli_stmt_close($stmt); 
+
+return $result;
+}
+
+
+
 
 function getUnitById($conn, $unit_id){
     $sql = "SELECT * FROM unit WHERE unit_id = ?";
@@ -460,7 +488,6 @@ function courseCodeExists($conn, $course_code){
     return $exists;
 }
 
-
 function invalidMQF_Level($MQF_level){
     return empty($MQF_level);
 }
@@ -471,6 +498,47 @@ function invalidCredits($credits){
 function invalidDuration($duration){
     return empty($duration);
 }
+
+function getClasses($conn){
+  $sql = "
+    SELECT 
+      c.class_id,
+      c.class_name,
+      co.course_name,
+      co.course_code,
+      GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) 
+                   ORDER BY u.first_name SEPARATOR ', ') AS teachers
+    FROM classes c
+    LEFT JOIN course co ON co.course_id = c.course_id
+    LEFT JOIN unit_teacher ut ON ut.class_id = c.class_id
+    LEFT JOIN users u ON u.user_id = ut.teacher_id
+    GROUP BY c.class_id, c.class_name, co.course_name, co.course_code
+    ORDER BY c.class_name
+  ";
+
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)) return false;
+
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
+  return $result;
+}
+
+//Validation functions for classes
+
+
+function emptyClassInput($class_name, $course_id){
+  return (trim($class_name) === "" || (int)$course_id <= 0);
+}
+
+function invalidClass_name($class_name){
+  // letters, numbers, spaces, dash, dot, &, /
+  return !preg_match("/^[a-zA-Z0-9\s\.\-&\/]+$/", $class_name);
+}
+
+
+  
 
 //Validation functions for units
 function emptyUnitInput($unit_name,  $unit_code, $ects_credits, $is_active,  $unit_description,  $unit_duration){
@@ -657,15 +725,33 @@ function invalidDate_of_birth($date_of_birth){
      return str_shuffle($random_password);
    } 
 
+
+
 function getUserByEmail($conn, $email) {
-    $sql = "SELECT * FROM users WHERE email = ?";
-    $stmt = mysqli_stmt_init($conn);
-    mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $email);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    return mysqli_fetch_assoc($result);
+  $sql = "SELECT user_id, role_id, first_name, last_name, email, password_hash, must_change_password, is_active
+          FROM users
+          WHERE email = ? LIMIT 1";
+  $stmt = mysqli_stmt_init($conn);
+
+  if(!mysqli_stmt_prepare($stmt, $sql)){
+    return false;
+  }
+
+  mysqli_stmt_bind_param($stmt, "s", $email);
+  mysqli_stmt_execute($stmt);
+
+  $result = mysqli_stmt_get_result($stmt);
+  $user = mysqli_fetch_assoc($result);
+
+  mysqli_stmt_close($stmt);
+  return $user ?: false;
 }
+
+function isUserActive($user) {
+  return isset($user['is_active']) && (int)$user['is_active'] === 1;
+}
+
+
 
 function userExists($conn, $first_name){
     $sql = "SELECT user_id FROM user WHERE first_name = ?;";
@@ -694,6 +780,45 @@ function userExists($conn, $first_name){
 }
     
   
+function loginUser($conn, $email, $plainPassword) {
+  $email = trim(strtolower($email));
+
+  // check email exists
+  $user = getUserByEmail($conn, $email);
+  if(!$user){
+    header("Location: ../login_institute.php?error=emailnotfound");
+    exit();
+  }
+
+  //  inactive account
+  if(isset($user['is_active']) && (int)$user['is_active'] === 0){
+    header("Location: ../login_institute.php?error=inactive");
+    exit();
+  }
+
+  //  must change password (first time login)
+  if(isset($user['must_change_password']) && (int)$user['must_change_password'] === 1){
+    header("Location: ../reset_password.php?email=" . urlencode($email) . "&error=mustchange");
+    exit();
+  }
+
+  // verify password
+  if(!password_verify($plainPassword, $user['password_hash'])){
+    header("Location: ../login_institute.php?error=wrongpassword");
+    exit();
+  }
+
+  //  login OK start session
+  if (session_status() === PHP_SESSION_NONE) session_start();
+  $_SESSION["user_id"] = (int)$user["user_id"];
+  $_SESSION["email"] = $user["email"];
+  $_SESSION["role_id"] = (int)$user["role_id"];
+  $_SESSION["first_name"] = $user["first_name"];
+  $_SESSION["last_name"] = $user["last_name"];
+
+  header("Location: ../index.php");
+  exit();
+}
 
    
 

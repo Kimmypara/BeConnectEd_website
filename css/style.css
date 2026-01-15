@@ -383,8 +383,18 @@ color: var(--text-color);
   text-align: left;
 }
 
-
-
+.formFields2{
+   color: var(--secondary-text);
+  font-size: .7rem;
+  text-decoration: none ;
+  font-weight: 400 ;
+}
+.formFields2:hover{
+   color:  #288daf;
+  font-size: .7rem;
+  text-decoration: none ;
+  font-weight: 400 ;
+}
 .placeholder_style{
    width: 70%;
     color: var( --secondary-text);
@@ -842,7 +852,17 @@ margin-right: 1rem;
   .form-login{
    margin-top: 5rem !important;
    margin:auto;
+   margin-left: 5rem;
+   margin-right: 5rem;
   }
+  .logo{
+  position: fixed;
+  text-align: center;
+  width: 7rem ;
+  margin-top:1rem;
+  margin: auto;
+ 
+}
 }
 
 
@@ -894,9 +914,8 @@ margin-right: 1rem;
 .form-logo {
   width: 10rem;
 margin: auto;
-margin-top: 10rem;
-margin-left: 1rem;
-margin-right: 1rem;
+
+
 }
 
   .form-login{
@@ -912,7 +931,7 @@ margin-right: 1rem;
 
 .logo{
   position: fixed;
-  width: 7rem ;
+  width: 4rem ;
   margin-top:1rem;
   margin: auto;
  
@@ -945,6 +964,15 @@ margin-right: 1rem;
    margin:auto;
   
   }
+  .logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem ;
+  margin-top:1rem;
+  margin: auto;
+ 
+}
 }
 
 

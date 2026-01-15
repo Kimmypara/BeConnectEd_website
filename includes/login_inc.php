@@ -31,15 +31,29 @@ $result = mysqli_stmt_get_result($stmt);
 $user = mysqli_fetch_assoc($result);
 
 if (!$user) {
-    header("location: ../login_institute.php?error=incorrectlogin");
+  header("location: ../login_institute.php?error=emailnotfound");
+  exit();
+}
+
+// first time login (must change password)
+if ((int)$user["must_change_password"] === 1) {
+    header("location: ../login_institute.php?error=mustchangepassword");
     exit();
 }
 
+// inactive user (optional)
+if (isset($user["is_active"]) && (int)$user["is_active"] === 0) {
+  header("location: ../login_institute.php?error=inactive");
+  exit();
+}
+
+
 // Verify password
 if (!password_verify($password, $user["password_hash"])) {
-    header("location: ../login_institute.php?error=incorrectlogin");
+    header("location: ../login_institute.php?error=wrongpassword");
     exit();
 }
+
 
 // Login success
 session_start();
@@ -56,28 +70,28 @@ $_SESSION["last_name"] = $user["last_name"];
 // 🚦 Role-based redirect
     switch ($user['role_id']) {
 
-        case 1: // Admin
+        case 1: 
             header("Location: ../teacher_index.php");
             break;
 
-        case 2: // Teacher
+        case 2: 
             header("Location: ../student_index.php");
             break;
 
-        case 3: // Student
+        case 3: 
             header("Location: ../parent_index.php");
             break;
 
-        case 4: // Parent
+        case 4: 
             header("Location: ../admin_index.php");
             break;
 
-             case 5: // Parent
+             case 5: 
             header("Location: ../independent_index.php");
             break;
 
         default:
-            // Safety fallback
+           
             header("Location: ../login_institute.php?error=invalidrole");
             break;
     }
