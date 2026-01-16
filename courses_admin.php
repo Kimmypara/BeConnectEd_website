@@ -20,7 +20,7 @@ include "includes/nav.php";
   <div class="col-lg-9 col-md-8">
       <div class="row">  
         <div class="col-12">  
-            <div class="form_bg mb-4">
+            <div class="form_bg4 mb-4">
 
             <!-- SEARCH + BUTTON ROW -->
             

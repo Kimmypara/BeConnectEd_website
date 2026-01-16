@@ -56,7 +56,9 @@ if (emptyCourseInput($course_name,  $course_code, $institute_id, $is_active,  $M
     exit();
 }
 
-
+registerCourse($conn, $course_name, $course_code, $institute_id, $is_active, $MQF_level, $duration, $credits, $course_description);
+header("location: ../add_course.php?success=true");
+exit();
 
 
 ?>

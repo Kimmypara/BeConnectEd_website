@@ -328,8 +328,8 @@ color: var(--text-color);
     width: 48%;
     margin-top: 1rem;
     margin-left: 1rem;
-    min-height: 75vh;   
-    max-height: 75vh;
+    min-height: 65vh;   
+    max-height: 65vh;
     padding: 1rem .5rem;
     text-align: center;
      overflow-y: auto;
@@ -357,6 +357,25 @@ color: var(--text-color);
       justify-content: top;
 }
 
+.form_bg4{
+    box-shadow: 0 0 10px var(--secondary-text);
+    color: var(--secondary-text);
+    border-radius: .5rem;
+    background-color: var(--base-variant);
+    width: 100%;
+    margin-top: 1rem;
+   margin-left: -2rem;
+     min-height: 75vh;
+  max-height: 75vh;
+    padding: 1rem;
+    text-align: center;
+     overflow-y: hidden;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+      justify-content: top;
+}
+
 .form_bg::-webkit-scrollbar {
   width: 8px;
 }
@@ -364,8 +383,27 @@ color: var(--text-color);
   background: var(--secondary-text);
   border-radius: 10px;
 }
-
-
+.form_bg2::-webkit-scrollbar {
+  width: 8px;
+}
+.form_bg2::-webkit-scrollbar-thumb {
+  background: var(--secondary-text);
+  border-radius: 10px;
+}
+.form_bg3::-webkit-scrollbar {
+  width: 8px;
+}
+.form_bg3::-webkit-scrollbar-thumb {
+  background: var(--secondary-text);
+  border-radius: 10px;
+}
+.form_bg4::-webkit-scrollbar {
+  width: 8px;
+}
+.form_bg4::-webkit-scrollbar-thumb {
+  background: var(--secondary-text);
+  border-radius: 10px;
+}
 .form_title{
      margin-top: 1.3rem;
        display: block;
@@ -402,6 +440,10 @@ color: var(--text-color);
   margin-left: 1rem;
   min-height: 2rem;
 }
+
+.table_admin ul { margin: 0; }
+.table_admin p { line-height: .9; }
+
 
 .input{
    color: var( --secondary-text) !important;
@@ -441,6 +483,10 @@ input:autofill {
 .form-control{
   width: 100% !important;
    margin:  .9rem .9rem .9rem 0rem;
+}
+
+.form-select{
+  margin: 0% !important;
 }
 
 .button {
@@ -832,7 +878,7 @@ td:first-child, th:first-child {
     min-height: auto;          
     max-height: none;          
   }
- /* table spacing becomes nicer on stacked layout */
+ 
   .form_bg2 table {
     margin: 1.5rem auto !important;
     width: 95% !important;

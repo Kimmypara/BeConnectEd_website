@@ -53,30 +53,41 @@ error_reporting(E_ALL);
                 </div>
 
       <!--Table -->  
-<div class="col-lg-11 col-md-11 col-sm-11">
+<div class="col-lg-12 col-md-12 col-sm-12">
 <table class="table_admin"  >
   <tr>
     <th>Class Name</th>
     <th>Course</th>
-    <th>Assigned Teachers</th>
+    <th>Assigned Units codes</th>
       <th></th>
   </tr>
 
   <?php
-$result = getClasses($conn);
+$result = getClassesWithUnits($conn);
 
 if ($result) {
   while($row = mysqli_fetch_assoc($result)){
     echo '<tr>';
     echo '<td>' . htmlspecialchars($row['class_name']) . '</td>';
     echo '<td>' . htmlspecialchars(($row['course_code'] ?? '') . ' - ' . ($row['course_name'] ?? '')) . '</td>';
-     echo '<td>' . htmlspecialchars($row['teachers'] ?? '—') . '</td>';
+     
+
+
+ echo '<td>';
+  if (!empty($row['unit_codes'])) {
+    $codes = explode(', ', $row['unit_codes']);
+    echo '<p class="mb-0 mt-1 ps-3">';
+    foreach ($codes as $code) {
+      echo '<p >' . htmlspecialchars($code) . '</p>';
+    }
+    echo '</p>';
+  } else {
+    echo '—';
+  }
+  echo '</td>';
 
     echo '<td class="text-center">
-
-            <a href="edit-class.php?class_id=' . (int)$row['class_id'] . '" class="button_table">
-              View / Edit
-            </a>
+<a href="edit_class.php?class_id=' . (int)$row['class_id'] . '" class="button_table">View / Edit</a>  
           </td>';
 
     echo '</tr>';

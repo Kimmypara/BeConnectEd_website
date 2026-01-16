@@ -57,7 +57,7 @@ error_reporting(E_ALL);
                 </div>
 
       <!--Table -->  
-<div class="col-lg-11 col-md-11 col-sm-11">
+<div class="col-lg-12 col-md-12 col-sm-12">
 <table class="table_admin"  >
   <tr>
     <th>User Role</th>

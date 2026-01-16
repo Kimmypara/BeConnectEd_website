@@ -106,27 +106,7 @@ include "includes/nav.php";
               rows="10"></textarea>
           </div>
 
-           
-
-             <div class="row d-flex ">
-              <div class="col-lg-3"></div>
-                    <div class="col-lg-2">
-                        <button class="button" type="submit" name="submit"  id="submit">Save</button>
-                    </div>
-                    <div class="col-lg-2"></div>
-                        
-                    <div class="col-lg-2">
-                        <button href="add_course.php" class="button " type="reset" name="reset"  id="reset">Cancel</button>
-                    </div>
-                        <div class="col-lg-3"></div>
-                </div>
-
-            </form>
-          </div>
-        </div>
-
-              <?php
-
+   <?php        
 if (isset($_SESSION['reset_link'])) {
     echo "<div class='alert alert-info'>
             <strong>Reset link (dev only):</strong><br>
@@ -136,9 +116,9 @@ if (isset($_SESSION['reset_link'])) {
           </div>";
     unset($_SESSION['reset_link']); // show once
 }
-?>
 
-  <?php 
+
+   
         if(isset($_GET["error"])) { 
             $error = "<h5>Could not Save course:</h5><ul>";
             if (isset($_GET["emptyinput"])){
@@ -193,6 +173,26 @@ if (isset($_SESSION['reset_link'])) {
                 <div class="col"></div>
             </div>
     <?php } ?>
+
+             <div class="row d-flex ">
+              <div class="col-lg-3"></div>
+                    <div class="col-lg-2">
+                        <button class="button" type="submit" name="submit"  id="submit">Save</button>
+                    </div>
+                    <div class="col-lg-2"></div>
+                        
+                    <div class="col-lg-2">
+                        <button href="add_course.php" class="button " type="reset" name="reset"  id="reset">Cancel</button>
+                    </div>
+                        <div class="col-lg-3"></div>
+                </div>
+
+            </form>
+          </div>
+        </div>
+
+             
+
 
 
     

@@ -121,12 +121,12 @@ if(isset($_GET["unit_id"])){
              <div class="row d-flex ">
               <div class="col-lg-3"></div>
                     <div class="col-lg-2">
-                        <button class="button" type="submit" name="submit"  id="submit">Update</button>
+                        <button class="button btn" type="submit" name="submit"  id="submit">Update</button>
                     </div>
                     <div class="col-lg-2"></div>
                         
                     <div class="col-lg-2">
-                        <button href="courses_admin.php" class="button " type="reset" name="reset"  id="reset">Cancel</button>
+                        <button href="courses_admin.php" class="button btn" type="reset" name="reset"  id="reset">Cancel</button>
                     </div>
                         <div class="col-lg-3"></div>
                 </div>

@@ -23,10 +23,6 @@ return $result;
 }
 
 
-
-
-
-
 function getUserById($conn, $user_id){
     $sql = "SELECT * FROM users WHERE user_id = ?";
     $stmt = mysqli_stmt_init($conn);
@@ -199,6 +195,24 @@ function getUnitsByCourseId($conn, $course_id){
     mysqli_stmt_close($stmt);
 
     return $result;
+}
+
+function getClassById($conn, $class_id){
+    $sql = "SELECT * FROM classes WHERE class_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $class_id);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    $class = mysqli_fetch_assoc($result);
+
+    mysqli_stmt_close($stmt);
+    return $class;
 }
 
 
@@ -459,7 +473,7 @@ function emptyCourseInput($course_name,  $course_code, $institute_id, $is_active
 }
 
 function invalidCourse_name($course_name){
-       if(!preg_match("/^[a-zA-Z0-9\s\-]+$/", $course_name)){
+       if(!preg_match("/^[\p{L}\p{N}\s\-\x{2013}\x{2014}\(\)&'\"\x{2018}\x{2019}\x{201C}\x{201D},\.\/:]+$/u", $course_name)){
             return true;
         }
     }
@@ -499,6 +513,60 @@ function invalidDuration($duration){
     return empty($duration);
 }
 
+function getTeacherClassUnitSummary($conn){
+  $sql = "
+    SELECT ut.teacher_id, ut.class_id, CONCAT(u2.first_name, ' ', u2.last_name) AS teacher_name,
+      c.class_name,
+      GROUP_CONCAT(DISTINCT u.unit_code ORDER BY u.unit_code SEPARATOR ', ') AS unit_codes
+    FROM unit_teacher ut
+    JOIN users u2 ON u2.user_id = ut.teacher_id
+    JOIN classes c ON c.class_id = ut.class_id
+    JOIN unit u ON u.unit_id = ut.unit_id
+    WHERE ut.class_id IS NOT NULL
+    GROUP BY ut.teacher_id, ut.class_id
+    ORDER BY teacher_name, c.class_name
+  ";
+
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)){
+    return false;
+  }
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
+  return $result;
+}
+
+
+
+function getClassesWithUnits($conn){
+  $sql = "
+    SELECT 
+      c.class_id,
+      c.class_name,
+      co.course_name,
+      co.course_code,
+      GROUP_CONCAT(u.unit_code ORDER BY u.unit_code SEPARATOR ', ') AS unit_codes
+    FROM classes c
+    LEFT JOIN course co ON co.course_id = c.course_id
+    LEFT JOIN course_units cu ON cu.course_id = c.course_id
+    LEFT JOIN unit u ON u.unit_id = cu.unit_id
+    GROUP BY c.class_id, c.class_name, co.course_name, co.course_code
+    ORDER BY c.class_name
+  ";
+
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)){
+    return false;
+  }
+
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
+  return $result;
+}
+
+
 function getClasses($conn){
   $sql = "
     SELECT 
@@ -525,6 +593,8 @@ function getClasses($conn){
   return $result;
 }
 
+
+
 //Validation functions for classes
 
 
@@ -535,6 +605,21 @@ function emptyClassInput($class_name, $course_id){
 function invalidClass_name($class_name){
   // letters, numbers, spaces, dash, dot, &, /
   return !preg_match("/^[a-zA-Z0-9\s\.\-&\/]+$/", $class_name);
+}
+
+function editClass($conn, $class_id, $class_name, $course_id){
+  $sql = "UPDATE classes SET class_name = ?, course_id = ? WHERE class_id = ?";
+  $stmt = mysqli_stmt_init($conn);
+
+  if(!mysqli_stmt_prepare($stmt, $sql)){
+    return false;
+  }
+
+  mysqli_stmt_bind_param($stmt, "sii", $class_name, $course_id, $class_id);
+  $ok = mysqli_stmt_execute($stmt);
+  mysqli_stmt_close($stmt);
+
+  return $ok;
 }
 
 
@@ -555,7 +640,7 @@ function emptyUnitInput($unit_name,  $unit_code, $ects_credits, $is_active,  $un
 }
 
 function invalidUnit_name($unit_name){
-       if(!preg_match("/^[a-zA-Z0-9\s\-]+$/", $unit_name)){
+       if(!preg_match("/^[\p{L}\p{N}\s\-\x{2013}\x{2014}\(\)&'\"\x{2018}\x{2019}\x{201C}\x{201D},\.\/:]+$/u", $unit_name)){
             return true;
         }
     }
