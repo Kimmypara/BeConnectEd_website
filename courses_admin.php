@@ -1,5 +1,6 @@
 <?php session_start(); ?>
 <?php
+include "includes/conditions.php";
 include "includes/nav.php";
 
 ?>
@@ -17,7 +18,7 @@ include "includes/nav.php";
      
 
 <div class="col-1"></div>
-  <div class="col-lg-9 col-md-8">
+  <div class="col-lg-9 col-md-8 col-sm-12">
       <div class="row">  
         <div class="col-12">  
             <div class="form_bg4 mb-4">
@@ -52,7 +53,7 @@ include "includes/nav.php";
   
     <div class="row align-items-center">
 <div class="row">
-  <div class="col-lg-8 col-md-8 col-sm-8">
+  <div class="col-lg-8 col-md-8 col-sm-12">
     <h2 class=" form_title2">Courses</h2>
   </div>
 
@@ -62,7 +63,7 @@ include "includes/nav.php";
 </div>
                 
       <!--Table -->  
-<div class="col-lg-11 col-md-11 col-sm-11">
+<div class="col-lg-11 col-md-11 col-sm-12">
 <table class="table_admin"  >
   <tr>
     <th>Course Code</th>
@@ -118,7 +119,7 @@ echo '</tr>';
 <div class="form_bg2">
   <div class="row align-items-center">
    <div class="row">
-  <div class="col-lg-8 .col-md-8 .col-sm-8">
+  <div class="col-lg-8 .col-md-8 .col-sm-12">
     <h2 class=" form_title2">Units</h2>
   </div>
 
@@ -129,7 +130,7 @@ echo '</tr>';
             
 
       <!--Table -->  
-<div class="col-lg-11 col-md-11 col-sm-11">
+<div class="col-lg-11 col-md-11 col-sm-12">
 <table class="table_admin"  >
   <tr>
      <th>Unit Code</th>
@@ -246,7 +247,8 @@ confirmModalEl.addEventListener('show.bs.modal', function (event) {
   } else if (type === 'unit') {
     confirmBtn.href = `includes/update_unit_status.php?unit_id=${id}&action=${action}`;
   }
-});
+}
+);
 </script>
 
 <?php
@@ -336,8 +338,6 @@ $unitsRes   = getUnits($conn);
                 </div>
 
         </div>
-
-       
 
       </form>
 

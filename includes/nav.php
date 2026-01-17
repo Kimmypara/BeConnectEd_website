@@ -111,9 +111,11 @@ $hour = date("H");
 <span class="greeting">
     <?php echo htmlspecialchars($greeting) . ' '; ?>
 
+<?php
+$first = $_SESSION['first_name'] ?? '';
+$last  = $_SESSION['last_name'] ?? '';
+echo '&nbsp;' . htmlspecialchars(trim($first . ' ' . $last));
 
-
-    <?php echo '&nbsp;'. htmlspecialchars($_SESSION['first_name'] . ' ' . $_SESSION['last_name']); 
     
      if (isset($message)) {
         echo ' — ' . htmlspecialchars($message[array_rand($message)]);

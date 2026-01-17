@@ -1,7 +1,7 @@
 <?php
 session_start();
-include "includes/nav.php";
 include "includes/conditions.php";
+include "includes/nav.php";
 require_once "includes/users.php";
 ?>
 
@@ -64,10 +64,24 @@ require_once "includes/users.php";
                         <tr>
                           <td><?php echo htmlspecialchars($row['teacher_name']); ?></td>
                           <td><?php echo htmlspecialchars($row['class_name']); ?></td>
-                          <td><?php echo htmlspecialchars($row['unit_codes'] ?? '—'); ?></td>
+                         
+
+                           <?php echo '<td>';
+  if (!empty($row['unit_codes'])) {
+    $codes = explode(', ', $row['unit_codes']);
+    echo '<p class="mb-0 mt-1 ps-3">';
+    foreach ($codes as $code) {
+      echo '<p >' . htmlspecialchars($code) . '</p>';
+    }
+    echo '</p>';
+  } else {
+    echo '—';
+  }
+  echo '</td>';?>
                           <td class="text-center">
                             <a class="button_table"
-                               href="edit-assignment.php?teacher_id=<?php echo $teacherId; ?>&class_id=<?php echo $classId; ?>">
+                               href="edit_assign_teachers_admin.php?teacher_id=<?php echo $teacherId; ?>&class_id=<?php echo $classId; ?>">
+                               
                               View / Edit
                             </a>
                           </td>
@@ -188,4 +202,4 @@ require_once "includes/users.php";
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+

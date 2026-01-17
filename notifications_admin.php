@@ -1,8 +1,9 @@
 
 
 <?php
+include "includes/conditions.php";
 include "includes/nav.php";
-include 'includes/conditions.php'
+
 ?>
 
 

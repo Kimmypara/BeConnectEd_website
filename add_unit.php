@@ -1,5 +1,6 @@
 <?php session_start(); ?>
 <?php
+include "includes/conditions.php";
 include "includes/nav.php";
 ?>
 

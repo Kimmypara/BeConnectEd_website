@@ -22,6 +22,31 @@ mysqli_stmt_close($stmt);
 return $result;
 }
 
+function getStudentsByCourseId($conn, $course_id){
+  $sql = "SELECT users.user_id, users.first_name, users.last_name, users.email
+    FROM enrolment 
+    INNER JOIN users  ON users.user_id = enrolment.student_id
+    WHERE enrolment.course_id = ?
+  AND users.role_id = 2
+  AND users.is_active = 1
+
+    ORDER BY users.first_name, users.last_name
+  ";
+
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)){
+    return false;
+  }
+
+  mysqli_stmt_bind_param($stmt, "i", $course_id);
+  mysqli_stmt_execute($stmt);
+
+  $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
+
+  return $result;
+}
+
 
 function getUserById($conn, $user_id){
     $sql = "SELECT * FROM users WHERE user_id = ?";
@@ -40,6 +65,47 @@ function getUserById($conn, $user_id){
     mysqli_stmt_close($stmt);
     return $user;
 }
+
+function getEnrolment($conn){
+  $sql = "SELECT enrolment.enrolment_id, enrolment.course_id, enrolment.student_id,
+      course.course_name, course.course_code,
+      users.first_name, users.last_name
+    FROM enrolment 
+    INNER JOIN course  ON course.course_id = enrolment.course_id
+    INNER JOIN users   ON users.user_id  = enrolment.student_id
+    ORDER BY course.course_name, users.first_name, users.last_name
+  ";
+
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)){
+    return false;
+  }
+
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
+
+  return $result;
+}
+
+function enrolmentExists($conn, $student_id, $course_id){
+  $sql = "SELECT enrolment_id FROM enrolment WHERE student_id = ? AND course_id = ? LIMIT 1";
+  $stmt = mysqli_stmt_init($conn);
+
+  if(!mysqli_stmt_prepare($stmt, $sql)){
+    return false;
+  }
+
+  mysqli_stmt_bind_param($stmt, "ii", $student_id, $course_id);
+  mysqli_stmt_execute($stmt);
+
+  $result = mysqli_stmt_get_result($stmt);
+  $exists = mysqli_fetch_assoc($result) ? true : false;
+
+  mysqli_stmt_close($stmt);
+  return $exists;
+}
+
 
 
 function getCourses($conn){
@@ -61,6 +127,8 @@ mysqli_stmt_close($stmt);
 
 return $result;
 }
+
+
 
 function getCourseById($conn, $course_id){
     $sql = "SELECT * FROM course WHERE course_id = ?";
@@ -135,8 +203,58 @@ mysqli_stmt_close($stmt);
 
 return $result;
 }
+function getStudentsActive($conn){
+   $sql = "SELECT user_id, first_name, last_name 
+          FROM users
+          WHERE is_active = 1 AND role_id = 2";
+        
+$stmt = mysqli_stmt_init($conn);
+
+if(!mysqli_stmt_prepare($stmt, $sql)) {
+    //echo"<p>We have an error.</p>";
+    exit();
+}
+
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+mysqli_stmt_close($stmt); 
+
+return $result;
+}
 
 
+
+function getTeachersActiveById($conn, $teacher_id){
+  $sql = "SELECT user_id, first_name, last_name
+          FROM users
+          WHERE user_id = ? AND is_active = 1 AND role_id = 1
+          LIMIT 1";
+
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)) return false;
+
+  mysqli_stmt_bind_param($stmt, "i", $teacher_id);
+  mysqli_stmt_execute($stmt);
+
+  $result = mysqli_stmt_get_result($stmt);
+  $row = mysqli_fetch_assoc($result);
+
+  mysqli_stmt_close($stmt);
+  return $row ?: false;
+}
+
+
+function getUnitIdsByTeacherAndClass($conn, $teacher_id, $class_id){
+  $sql = "SELECT unit_id FROM unit_teacher WHERE teacher_id = ? AND class_id = ?";
+  $stmt = mysqli_stmt_init($conn);
+  if(!mysqli_stmt_prepare($stmt, $sql)) return false;
+  mysqli_stmt_bind_param($stmt, "ii", $teacher_id, $class_id);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
+  return $result;
+}
 
 
 function getUnitById($conn, $unit_id){
@@ -196,6 +314,9 @@ function getUnitsByCourseId($conn, $course_id){
 
     return $result;
 }
+
+
+
 
 function getClassById($conn, $class_id){
     $sql = "SELECT * FROM classes WHERE class_id = ?";

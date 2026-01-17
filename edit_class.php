@@ -1,7 +1,7 @@
 <?php
 session_start();
+include "includes/conditions.php";
 include "includes/nav.php";
-include 'includes/conditions.php';
 require_once "includes/dbh.php";
 require_once "includes/functions.php";
 
@@ -48,7 +48,7 @@ $coursesRes = getCourses($conn);
              
 
 
-              <!-- Your form -->
+              <!--  form -->
       <div class="row">
  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div>
