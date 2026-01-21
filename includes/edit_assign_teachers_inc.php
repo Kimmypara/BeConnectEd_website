@@ -16,7 +16,7 @@ if ($teacher_id <= 0 || $class_id <= 0 || !is_array($unit_ids)) {
   exit();
 }
 
-// clean unit ids
+//  unit ids
 $clean = [];
 foreach ($unit_ids as $uid) {
   $id = (int)$uid;

@@ -41,7 +41,7 @@ require_once "includes/users.php";
                 <!-- REGISTER BUTTON -->
                  
                 <button type="button" class="btn button7" data-bs-toggle="modal" data-bs-target="#assignTeacherModal">
-                  Assign Teachers to Units
+                  Assign New Teacher to Unit and Class
                 </button>
              
               <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
@@ -104,13 +104,13 @@ require_once "includes/users.php";
   </div>
 </div>
 
-<!-- MODAL: keep your existing form inside -->
+<!-- MODAL -->
 <div class="modal fade" id="assignTeacherModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content form_bg3">
 
       <div class="modal-header">
-        <h5 class="modal-title">Assign Teacher to Unit and Class</h5>
+        <h5 class="modal-title">Assign New Teacher to Unit and Class</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 

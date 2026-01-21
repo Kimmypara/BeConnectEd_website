@@ -26,7 +26,7 @@
     <div class="offcanvas-body">
         <ul class="nav flex-column">
            <li class="nav-item">
-  <a class="nav-link <?php if ($currentPage == 'index.php') echo 'active'; ?>" href="index.php">
+  <a class="nav-link <?php if ($currentPage == 'student_index.php') echo 'active'; ?>" href="student_index.php">
       Home
   </a>
 </li>

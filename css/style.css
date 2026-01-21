@@ -176,17 +176,20 @@
 
 .icons{
 color: var(--text-color);
-
+margin-left: 2rem;
+margin-right: 2rem;
 }
-
+.icon_text{
+  font-size: .5rem;
+}
 
 
 .icons:hover{
   box-shadow: 0 0 10px var(--secondary-text);
   color: var(--text-color);
   border-radius: .5rem;
- height:2rem ;
-    width: 2rem;
+ height:3rem ;
+    width: 4rem;
 }
 
 .icons:focus{
@@ -194,8 +197,8 @@ color: var(--text-color);
    color: var(--text-color);
   box-shadow: 2px 1px 10px 0 #1a5b71;
     border-radius: .5rem;
-    height:2rem ;
-    width: 2rem;
+    height:3rem ;
+    width: 4rem;
 }
 
 
@@ -474,7 +477,21 @@ text-align: center;
   text-align: left !important;
 }
 
+.course-section{
+  text-align: left;
+  color: var(--text-color);
+  font-size:  .8rem;
+}
 
+.title{
+  font-weight: 700;
+  font-size:  .9rem;
+  display: flex;
+}
+
+.label{
+  font-weight: 400;
+}
 
 .placeholder_style{
    width: 70%;
@@ -485,8 +502,14 @@ text-align: center;
 }
 
 .table_admin ul { margin: 0; }
-.table_admin p { line-height: .9; }
-
+.table_admin p { 
+  line-height: .8; 
+}
+.table_admin td form { margin: 0; }
+.table_admin td .btn { white-space: nowrap; }
+td{
+  text-align: left;
+}
 
 .input{
    color: var( --secondary-text) !important;
