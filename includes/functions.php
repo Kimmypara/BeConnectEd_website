@@ -10,7 +10,7 @@ function getUsers($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    //echo"<p>We have an error.</p>";
+    
     exit();
 }
 
@@ -193,7 +193,7 @@ function getUnits($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    //echo"<p>We have an error.</p>";
+   
     exit();
 }
 
@@ -211,7 +211,7 @@ function getUnitsActive($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    //echo"<p>We have an error.</p>";
+   
     exit();
 }
 
@@ -231,7 +231,7 @@ function getTeachersActive($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    //echo"<p>We have an error.</p>";
+    
     exit();
 }
 
@@ -250,7 +250,7 @@ function getStudentsActive($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    //echo"<p>We have an error.</p>";
+    
     exit();
 }
 
@@ -344,7 +344,7 @@ function getUnitById($conn, $unit_id){
     return $unit;
 }
 
-//Get units assigned to the course
+
 function getUnitIdsByCourseId($conn, $course_id){
   $sql = "SELECT unit_id FROM course_units WHERE course_id = ?";
   $stmt = mysqli_stmt_init($conn);
@@ -412,7 +412,7 @@ function getRole($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    //echo"<p>We have an error.</p>";
+    
     exit();
 }
 
@@ -430,7 +430,7 @@ function getInstitute($conn){
 $stmt = mysqli_stmt_init($conn);
 
 if(!mysqli_stmt_prepare($stmt, $sql)) {
-    //echo"<p>We have an error.</p>";
+    
     exit();
 }
 
@@ -478,36 +478,41 @@ function editUser($conn, $user_id, $role_id, $first_name, $last_name, $email, $d
 
 
 
-function registerUser($conn, $role_id, $first_name, $last_name, $email, $hashedPassword, $date_of_birth, $is_active,$must_change_password, $institute_id){
-    $sql = "INSERT INTO users (role_id, first_name, last_name, email,password_hash, date_of_birth, is_active,must_change_password, institute_id) 
-            VALUES (?,?,?,?,?,?,?,?,?)";
-    
-    $stmt = mysqli_stmt_init($conn);
+function registerUser($conn, $role_id, $first_name, $last_name, $email, $hashedPassword, $date_of_birth, $is_active, $must_change_password, $institute_id, $is_independent) {
 
-    if(!mysqli_stmt_prepare($stmt, $sql)){
-        header("location: ../new_registration_admin.php?error=stmtfailed");
-        exit();
-    }
+  $sql = "INSERT INTO users 
+            (role_id, first_name, last_name, email, password_hash, date_of_birth, is_active, must_change_password, institute_id, is_independent)
+          VALUES 
+            (?, ?, ?, ?, ?, ?, ?, ?, NULLIF(?,0), ?)";
 
-    mysqli_stmt_bind_param(
-        $stmt,
-        "isssssisi",   // changed ORDER to match your data types
-        $role_id,
-        $first_name,
-        $last_name,
-        $email,
-        $hashedPassword,
-        $date_of_birth,
-        $is_active,
-        $must_change_password,
-        $institute_id,
-        //$qualifications,
-       
-    );
+  $stmt = mysqli_stmt_init($conn);
+  if (!mysqli_stmt_prepare($stmt, $sql)) {
+    die("Prepare failed: " . mysqli_error($conn));
+  }
 
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
+  
+  $institute_id_param = (empty($institute_id) ? 0 : (int)$institute_id);
+
+  mysqli_stmt_bind_param(
+    $stmt,
+    "isssssiiii",
+    $role_id,
+    $first_name,
+    $last_name,
+    $email,
+    $hashedPassword,
+    $date_of_birth,
+    $is_active,
+    $must_change_password,
+    $institute_id_param,
+    $is_independent
+  );
+
+  mysqli_stmt_execute($stmt);
+  mysqli_stmt_close($stmt);
 }
+
+
 
 function registerCourse($conn,$course_name,  $course_code, $institute_id, $is_active,  $MQF_Level,  $duration,$credits,$course_description){
     $sql = "INSERT INTO course (course_name, course_code, institute_id, is_active, MQF_Level, duration, credits, course_description) 
@@ -703,6 +708,7 @@ function invalidDuration($duration){
     return empty($duration);
 }
 
+//Validation functions for classes
 function getTeacherClassUnitSummary($conn){
   $sql = "
     SELECT ut.teacher_id, ut.class_id, CONCAT(u2.first_name, ' ', u2.last_name) AS teacher_name,
@@ -872,29 +878,32 @@ function invalidUnit_duration($unit_duration){
 
 
 //Validation functions for new user registration
-function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $institute_id) {
+function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $institute_id, $is_independent = 0) {
 
-    return (
-        trim((string)$role_id) === "" ||
-        trim((string)$first_name) === "" ||
-        trim((string)$last_name) === "" ||
-        trim((string)$email) === "" ||
-        trim((string)$date_of_birth) === "" ||
-        trim((string)$is_active) === "" ||     // ✅ allows "0"
-        trim((string)$institute_id) === ""     // ✅ allows "0" if ever used
-    );
-          // if Independent_teacher(role_id = 5), institute MUST be empty
-    if($role_id == 5 && !empty($institute_id)){
-        return true;
+  // required for everyone
+  if (
+    trim((string)$role_id) === "" ||
+    trim((string)$first_name) === "" ||
+    trim((string)$last_name) === "" ||
+    trim((string)$email) === "" ||
+    trim((string)$date_of_birth) === "" ||
+    trim((string)$is_active) === ""
+  ) {
+    return true;
+  }
+
+  // institute required ONLY for non-independent users
+  if ((int)$is_independent === 0) {
+    if (trim((string)$institute_id) === "" || (int)$institute_id === 0) {
+      return true;
     }
+  }
 
-       if ($role_id != 5 && empty($institute_id)) {
-        return true;
-    }
-
-    return false;
-
+  return false;
 }
+
+
+
 
 
 

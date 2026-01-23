@@ -38,7 +38,7 @@ include "includes/nav.php";
              
 
 
-              <!-- Your form -->
+              <!-- form -->
       <div class="row">
  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div>
@@ -120,7 +120,7 @@ if (isset($_SESSION['reset_link'])) {
                 {$_SESSION['reset_link']}
             </a>
           </div>";
-    unset($_SESSION['reset_link']); // show once
+    unset($_SESSION['reset_link']); 
 }
 ?>
 

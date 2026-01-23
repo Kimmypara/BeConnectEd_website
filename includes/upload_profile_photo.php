@@ -17,7 +17,7 @@ if (empty($_SESSION["user_id"])) {
 $user_id = (int)$_SESSION["user_id"];
 
 
-//Redirect helper+ message
+//Redirect
  
 function back($redirectPage, $type, $msg) {
   if ($type === "error") $_SESSION["profile_error"] = $msg;
@@ -26,26 +26,22 @@ function back($redirectPage, $type, $msg) {
   exit();
 }
 
-/**
- * ✅ Redirect target (SAFE)
- * Expecting redirect_to like "admin_index.php" (NOT full path)
- */
 $redirectPage = $_POST["redirect_to"] ?? "index.php";
 $redirectPage = basename($redirectPage); // prevents /BeConnectEd_website/BeConnectEd_website/...
 
-// Validate submit
+// Validate 
 if (!isset($_POST["uploadFile"]) || $_POST["uploadFile"] !== "upload") {
   back($redirectPage, "error", "Invalid upload request.");
 }
 
-// Validate file presence
+
 if (!isset($_FILES["userFile"])) {
   back($redirectPage, "error", "No file received.");
 }
 
 $f = $_FILES["userFile"];
 
-// Handle PHP upload errors (this is what happens with large files)
+// if large files
 if ($f["error"] !== UPLOAD_ERR_OK) {
   if ($f["error"] === UPLOAD_ERR_INI_SIZE || $f["error"] === UPLOAD_ERR_FORM_SIZE) {
     back($redirectPage, "error", "File too large. Please choose an image under 5MB.");
@@ -56,7 +52,7 @@ if ($f["error"] !== UPLOAD_ERR_OK) {
   back($redirectPage, "error", "Upload failed (error code: {$f['error']}).");
 }
 
-// Basic file info
+
 $fileName = $f["name"];
 $fileTmp  = $f["tmp_name"];
 $fileSize = $f["size"];
@@ -69,13 +65,12 @@ if (!in_array($ext, $allowed, true)) {
   back($redirectPage, "error", "Invalid file type. Please upload JPG, PNG, or WEBP.");
 }
 
-// Validate size (your own limit)
+// Validate size 
 $maxBytes = 5 * 1024 * 1024; // 5MB
 if ($fileSize > $maxBytes) {
   back($redirectPage, "error", "File too large. Please choose an image under 5MB.");
 }
 
-// Ensure folder exists
 $uploadDir = __DIR__ . "/../upload_images/";
 if (!is_dir($uploadDir)) {
   mkdir($uploadDir, 0777, true);
@@ -85,7 +80,7 @@ if (!is_writable($uploadDir)) {
   back($redirectPage, "error", "Server error: upload_images folder is not writable.");
 }
 
-// Move file
+
 $newFileName = $user_id . "-" . uniqid("", true) . "." . $ext;
 $targetPath  = $uploadDir . $newFileName;
 

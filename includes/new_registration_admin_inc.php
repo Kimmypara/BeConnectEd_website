@@ -7,29 +7,49 @@ require_once "functions.php";
 
 
 
+
+$success_to = $_POST['success_to'] ?? '/BeConnectEd_website/new_registration_admin.php?success=true';
+$error_to   = $_POST['error_to']   ?? '/BeConnectEd_website/new_registration_admin.php';
+
+$is_independent = isset($_POST["is_independent"]) ? (int)$_POST["is_independent"] : 0;
+
+if ($is_independent === 1) {
+    $is_active = 1;
+    $institute_id = null;  
+}
+
+
 // Check if form submitted
 if (!isset($_POST["submit"])) {
     header("location: ../new_registration_admin.php");
     exit();
 }
 
-// Get form data correctly named
-$role_id = $_POST["role_id"] ?? "";
-$first_name = $_POST["first_name"] ?? "";
-$last_name = $_POST["last_name"] ?? "";
-$email = $_POST["email"] ?? "";
-$date_of_birth = $_POST["date_of_birth"] ?? "";
-$is_active = $_POST["is_active"] ?? "";
-$institute_id = $_POST["institute_id"] ?? "";
 
-//$qualifications = $_POST["qualifications"];
+$role_id       = $_POST["role_id"] ?? "";
+$first_name    = $_POST["first_name"] ?? "";
+$last_name     = $_POST["last_name"] ?? "";
+$email         = $_POST["email"] ?? "";
+$date_of_birth = $_POST["date_of_birth"] ?? "";
+$is_active     = $_POST["is_active"] ?? "";
+$institute_id  = $_POST["institute_id"] ?? "";
+
+
+
+
+// Independent 
+if ($is_independent === 1) {
+    $is_active = 1;       // always active
+    $institute_id = 0;   
+}
 
 $error = "";
 
-// Run validation
-if (emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $institute_id)) {
+// Validation 
+if (emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $institute_id, $is_independent)) {
     $error .= "emptyinput=true&";
 }
+
 
 
  if(invalidFirst_name($first_name)){
@@ -52,13 +72,14 @@ if (emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date_of_b
             $error = $error."invalidDate_of_birth=true&";
         }
 
-            if ($error != "") {
-    header("location: ../new_registration_admin.php?error=true&$error");
-    exit();
+if ($error != "") {
+  $error = rtrim($error, "&");
+  header("Location: " . $error_to . "?error=1&" . $error);
+  exit();
 }
 
 
-// Generate temporary password (not used for login)
+// Generate temporary password 
 $plainPassword = random_password();
 
 // Hash password before saving
@@ -70,7 +91,7 @@ $must_change_password = 1;
 
 
 // Register user
-registerUser($conn, $role_id, $first_name, $last_name, $email, $hashedPassword, $date_of_birth, $is_active, $must_change_password, $institute_id );
+registerUser($conn, $role_id, $first_name, $last_name, $email, $hashedPassword, $date_of_birth, $is_active, $must_change_password, $institute_id, $is_independent);
 
 
 $user_id = mysqli_insert_id($conn);
@@ -118,7 +139,7 @@ mail($to, $subject, $message, $headers);
 
 $_SESSION['reset_link'] = $resetLink;
 
-header("location: ../registration_admin.php?success=true");
+header("Location: " . $success_to);
 exit();
 
 

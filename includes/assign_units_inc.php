@@ -34,7 +34,7 @@ mysqli_stmt_bind_param($stmtDel, "i", $course_id);
 mysqli_stmt_execute($stmtDel);
 mysqli_stmt_close($stmtDel);
 
-// 2) insert the remaining ones (if any)
+
 if (count($clean) > 0) {
   $sqlIns = "INSERT INTO course_units (course_id, unit_id) VALUES (?, ?)";
   $stmtIns = mysqli_stmt_init($conn);

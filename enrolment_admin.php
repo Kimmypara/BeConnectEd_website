@@ -12,10 +12,10 @@ $class_id  = (int)($_GET['class_id'] ?? 0);
 
 $classesRes = ($course_id > 0) ? getClassesByCourseId($conn, $course_id) : false;
 
-// Students to add
+// active Students 
 $studentsRes = getStudentsActive($conn);
 
-// Enrolled list (by class)
+// Enrolled list by class
 $enrolledStudentsRes = ($class_id > 0) ? getStudentsByClassId($conn, $class_id) : false;
 ?>
 

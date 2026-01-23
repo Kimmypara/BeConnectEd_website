@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $role_id = $_SESSION['role_id'] ?? null;
 
-// Default fallback
+// Default page when open website
 $homeUrl = 'login.php';
 
 switch ($role_id) {
@@ -237,7 +237,7 @@ echo '&nbsp;' . htmlspecialchars(trim($first . ' ' . $last));
 
       <li><hr class="dropdown-divider "></li>
 
-      <!-- UPLOAD profile image form -->
+     
       
 <li class="px-3 pb-2">
   <div class="d-flex justify-content-center gap-4 my-2 align-items-center">
@@ -292,7 +292,7 @@ echo '&nbsp;' . htmlspecialchars(trim($first . ' ' . $last));
 
   </div>
 
-  <!-- SAVE button belongs to upload form -->
+  <!-- SAVE button  -->
   <button type="submit"
           form="profileUploadForm"
           name="uploadFile"
@@ -311,7 +311,7 @@ if(isset($_SESSION["user_id"])){?>
   <a class="nav-link " href="includes/logout-inc.php">SignOut</a>
 </li>
 <?php } else {?>
-<!--if user is logged out - show loginlink-->
+
   <li class="nav-item">
   <a class="nav-link " href="login.php">Login</a>
 
@@ -375,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Save: if no file chosen -> close dropdown, don't submit
+  // Save but if no file chosen, close dropdown and don't submit
   form.addEventListener('submit', (e) => {
     const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
 
@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  //  Close button closes dropdown
+  //  Close button 
   if (closeBtn) {
     closeBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
- //  Trash: reset preview to default + clear chosen file
+ //  Trash
 trashBtn?.addEventListener('click', () => {
  
   preview.src = defaultImg + "?v=" + Date.now();

@@ -21,7 +21,7 @@ $date_of_birth = $_POST["date_of_birth"] ?? "";
 $is_active = $_POST["is_active"] ?? "";
 $institute_id = $_POST["institute_id"] ?? "";
 
-// if you don't show must_change_password in the edit form, keep current value OR default:
+
 $must_change_password = $_POST["must_change_password"] ?? 0;
 
 editUser($conn, $user_id, $role_id, $first_name, $last_name, $email, $date_of_birth, $is_active, $must_change_password, $institute_id);

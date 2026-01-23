@@ -24,7 +24,7 @@ if (!$teacher) {
 $classesRes = getClasses($conn);
 $unitsRes   = getUnitsActive($conn);
 
-// currently assigned units for this teacher+class
+
 $assignedIds = [];
 $assignedRes = getUnitIdsByTeacherAndClass($conn, $teacher_id, $old_class_id);
 if ($assignedRes) {

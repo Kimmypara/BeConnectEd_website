@@ -40,7 +40,8 @@ include 'includes/users.php';
    
       <!-- RIGHT COLUMN: PATH SELECTION -->
       <div class="form-login col-lg-4 col-md-5 col-sm-12 ">
-       
+       <input type="hidden" name="login_type" value="institute">
+
        <input type="email" id="email" name="email" class="d-block  button3" placeholder="email" required>
    
 
@@ -71,6 +72,10 @@ if (isset($_GET["error"])) {
     $error .= "<li>This is your first login. Please set your password.</li>";
   }
 
+   if ($_GET["error"] === "independentUser") {
+    $error .= "<li>Your registration is as an Independent user. Please Login as Independent.</li>";
+  }
+
   if ($_GET["error"] === "invalidrole") {
     $error .= "<li>Your account role is invalid. Please contact support.</li>";
   }
@@ -85,10 +90,11 @@ if (isset($_GET["error"])) {
 }
 ?>
 
-              <p class="mt-3 formFields">
+              <p class="col-12 mt-3 ">
     New user?
     <a class="formFields2" href="reset_password.php">Click here to set your password</a>
 </p>
+<p><a class="formFields2" href="reset_password.php">Forgot password</a></p>
         <div class="row">
         <div class="col">
             <button  type="submit" id="submit" name="submit" class="button loginbtn">Login</button>

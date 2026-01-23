@@ -188,10 +188,10 @@ require_once "includes/users.php";
 
           <div class="row">
             <div class="col-lg-6">
-              <button type="submit" name="submit" class="btn button8 w-100">Save</button>
+              <button type="submit" name="submit" class="button btn">Save</button>
             </div>
             <div class="col-lg-6">
-              <button type="button" class="btn button8 w-100" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="button btn" data-bs-dismiss="modal">Cancel</button>
             </div>
           </div>
 

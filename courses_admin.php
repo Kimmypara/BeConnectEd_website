@@ -22,8 +22,6 @@ include "includes/nav.php";
       <div class="row">  
         <div class="col-12">  
             <div class="form_bg4 mb-4">
-
-            <!-- SEARCH + BUTTON ROW -->
             
                 <div class="row align-items-center">
 
@@ -86,12 +84,12 @@ echo '<td class="text-center">';
 
 
 echo '
-<button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
+<span  type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
     data-type="course"
     data-id="' . (int)$row['course_id'] . '"
     data-action="' . ($row['is_active'] ? 'deactivate' : 'activate') . '">
     ' . ($row['is_active'] ? 'Deregister' : 'Register') . '
-</button>';
+</span>';
 
 
 if(isset($_GET["course_id"])){
@@ -151,12 +149,12 @@ echo '<td class="text-center">';
 
 
 echo '
-<button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
+<span type="button" class="button4" label="Register or Deregister" data-bs-toggle="modal" data-bs-target="#confirmModal"
     data-type="unit"
     data-id="' . (int)$row['unit_id'] . '"
     data-action="' . ($row['is_active'] ? 'deactivate' : 'activate') . '">
     ' . ($row['is_active'] ? 'Deregister' : 'Register') . '
-</button>';
+</span>';
 
 
 if(isset($_GET["unit_id"])){
@@ -232,7 +230,7 @@ confirmModalEl.addEventListener('show.bs.modal', function (event) {
   const confirmBtn = document.getElementById('confirmActionBtn');
   const message = document.getElementById('confirmMessage');
 
-  // Message + button color
+  // Message 
   if (action === 'activate') {
     message.textContent = `Are you sure you want to register this ${type}?`;
     confirmBtn.className = 'btn btn-success';
@@ -241,7 +239,7 @@ confirmModalEl.addEventListener('show.bs.modal', function (event) {
     confirmBtn.className = 'btn btn-danger';
   }
 
-  // Send to correct PHP file
+  
   if (type === 'course') {
     confirmBtn.href = `includes/update_course_status.php?course_id=${id}&action=${action}`;
   } else if (type === 'unit') {
@@ -299,7 +297,7 @@ $unitsRes   = getUnits($conn);
                   <option value="" disabled selected>Units</option>
 
                   <?php
-                  // IMPORTANT: we need units again because we looped once
+                  
                  
                   $unitsRes2 = getUnitsActive($conn);
                   while ($unit = mysqli_fetch_assoc($unitsRes2)):
@@ -352,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const addUnitBtn = document.getElementById('addUnitBtn');
   const courseSelect = document.getElementById('courseSelect');
 
-  // Grab the FIRST dropdown options HTML as the "template"
+ 
   const firstSelect = unitsContainer.querySelector('select.unit-select');
   const unitOptionsHTML = firstSelect ? firstSelect.innerHTML : '';
 
@@ -399,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
     unitsContainer.appendChild(buildUnitRow(""));
   });
 
-  // When course changes -> load assigned units
+  // When course changes, load assigned units
   courseSelect.addEventListener('change', async () => {
     const courseId = courseSelect.value;
     if (!courseId) {
@@ -427,13 +425,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // When modal closes -> clear only units (not closing via cancel)
+  // When modal closes, clear only units 
   assignModal.addEventListener('hidden.bs.modal', () => {
     form.reset();
     resetUnitRowsToOneEmpty();
   });
 
-  // Start clean
+  
   resetUnitRowsToOneEmpty();
 });
 </script>

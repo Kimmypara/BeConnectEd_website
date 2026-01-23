@@ -11,10 +11,6 @@ include "includes/nav.php";
 </style>
 
 
-
-
-
-
 <div class="container-fluid">
   <div class="row">
 
@@ -42,11 +38,17 @@ include "includes/nav.php";
              
 
 
-              <!-- Your form -->
+              <!--  form -->
       <div class="row">
  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div>
             <form action="includes/new_registration_admin_inc.php" method="post">
+
+<input type="hidden" name="success_to" value="/BeConnectEd_website/new_registration_admin.php?success=true">
+<input type="hidden" name="error_to" value="/BeConnectEd_website/new_registration_admin.php">
+
+            <input type="hidden" name="is_independent" value="0">
+
 
               <label class="formFields" for="role_id">User Role</label>
               <select class="placeholder_style mb-2" id="role_id" name="role_id" >
@@ -133,17 +135,18 @@ include "includes/nav.php";
         </div>
 
               <?php
-
-if (isset($_SESSION['reset_link'])) {
-    echo "<div class='alert alert-info'>
-            <strong>Reset link (dev only):</strong><br>
-            <a href='{$_SESSION['reset_link']}' target='_blank'>
-                {$_SESSION['reset_link']}
-            </a>
-          </div>";
-    unset($_SESSION['reset_link']); // show once
-}
+if (isset($_SESSION['reset_link']) && ($_SERVER['SERVER_NAME'] === 'localhost')): ?>
+  <div class="alert alert-info">
+    <strong>Reset link (dev only):</strong><br>
+    <a href="<?php echo htmlspecialchars($_SESSION['reset_link']); ?>" target="_blank">
+      <?php echo htmlspecialchars($_SESSION['reset_link']); ?>
+    </a>
+  </div>
+<?php
+  unset($_SESSION['reset_link']);
+endif;
 ?>
+
 
   <?php 
         if(isset($_GET["error"])) { 

@@ -433,11 +433,25 @@ margin-right: 2rem;
   text-align: left;
 }
 
+
+
 .formFields2{
    color: var(--secondary-text);
   font-size: .7rem;
   text-decoration: none ;
   font-weight: 400 ;
+justify-content: right;
+
+}
+
+.formFields2:focus{
+ padding-left: 1rem;
+ padding-right: 1rem;
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --base-variant);
 }
 
 .formFields3{
@@ -565,6 +579,40 @@ input:autofill {
     background-color:var(--button-color);
      
 }
+
+button.button,
+a.button{
+  width: 100%;
+  text-decoration: none;
+  color: var(--base-variant);
+  border-radius: .5rem;
+  margin-top: 1rem;
+  padding: .5rem 1rem;
+  background-color: var(--button-color);
+  border: none;
+  display: block;      
+  text-align: center;  
+}
+
+button.button:hover,
+a.button:hover{
+  box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--base-variant);
+  background-color: var(--hover-button);
+}
+
+
+button.button:focus,
+a.button:focus{
+    box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --base-variant);
+}
+
+
+
 .close{
   position: fixed;
    text-decoration: none;

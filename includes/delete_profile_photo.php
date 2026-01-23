@@ -15,7 +15,7 @@ $user_id = (int)$_SESSION["user_id"];
 $redirectPage = $_POST["redirect_to"] ?? "index.php";
 $redirectPage = basename($redirectPage);
 
-//  get current filename from DB 
+ 
 $sql = "SELECT profile_photo FROM users WHERE user_id = ?";
 $stmt = mysqli_stmt_init($conn);
 

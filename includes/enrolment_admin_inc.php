@@ -23,7 +23,7 @@ if (isset($_POST['add'])) {
         goBack($course_id, $class_id, "error=missing");
     }
 
-    // Prevent duplicates (same student in same class)
+    // Prevent duplicates student in same class
     $checkSql = "SELECT enrolment_id
                 FROM enrolment
                 WHERE student_id = ? AND course_id = ? AND class_id = ?";

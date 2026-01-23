@@ -22,9 +22,7 @@ while($row = mysqli_fetch_assoc($result)){
     $institute_id = $row['institute_id'];
     $must_change_password = $row['must_change_password'];
 
-   //echo "<div >";
-  //echo "<td>{$email}</td><td>{$first_name} {$last_name}<td> <td>{$role_id}</td>";
-   //echo "</div>";
+  
 
    
 }

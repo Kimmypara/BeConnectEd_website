@@ -16,7 +16,7 @@ if ($class_id <= 0) {
   exit();
 }
 
-// validation (optional but recommended)
+// validation 
 $error = "";
 if (emptyClassInput($class_name, $course_id)) $error .= "emptyinput=true&";
 if (invalidClass_name($class_name)) $error .= "invalidClass_name=true&";

@@ -54,7 +54,7 @@ if (!move_uploaded_file($file["tmp_name"], $target)) {
   exit();
 }
 
-// Optional: remember pending temp file in session
+
 $_SESSION["pending_profile_photo"] = $newName;
 
 echo json_encode([

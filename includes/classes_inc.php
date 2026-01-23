@@ -26,13 +26,13 @@ if ($course_id <= 0) {
 }
 
 if ($error !== "") {
-  // remove last &
+ 
   $error = rtrim($error, "&");
   header("location: ../classes_admin.php?error=true&$error");
   exit();
 }
 
-// ✅ INSERT into DB
+// INSERT into DB
 $sql = "INSERT INTO classes (class_name, course_id) VALUES (?, ?)";
 $stmt = mysqli_stmt_init($conn);
 
