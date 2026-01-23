@@ -35,7 +35,7 @@ include 'includes/users.php';
       </div>
 <div class="col-md-1"></div>
       
-      <div class="form-login col-lg-5 col-md-4 col-sm-12 ">
+      <div class="form-login col-lg-5 col-md-8 col-sm-12 ">
         <div class="row">
 
         <div class="col-12">

@@ -31,6 +31,7 @@ The project is aimed for two account types
         - shift + space – to scroll up 
     - Alt Text for images
     - Colour Contrast 
+    - Responsive to different screens 
 
 ### Profile
 * The profile shows the user's name, surname and role
@@ -45,7 +46,7 @@ The project is aimed for two account types
     * positive messages 
 
 ### Login with Institute 
-    - Note to login with institute 
+    - Note to login with institute - Demo accounts (for testing):
         - katiakurmi@gmail.com  password: katia123456 (Administrator)
         - kevinp@gmail.com  password: kevin123456  (Student)
         - ian@gmail.com password: ian123456  (Teacher)
@@ -60,6 +61,17 @@ The project is aimed for two account types
 * Registered users who login for the first time are obliged to change the password by redirect them to the Reset Password page. (At later stage a verification Code will be sent to the user for authentication)
 * Registered users should write e-mail and password and be able to login 
 * The registered users can change password through the Reset Password page
+* The users will be redirected to the institute home page depending on the role (at later stage independent pages will be created)
+
+## Home Pages (Role-Based)
+* After login, users are redirected to a role-based home page:
+  - Administrator - `admin_index.php`
+  - Teacher - `teacher_index.php`
+  - Student - `student_index.php`
+  - Parent - ` parent_index.php `(still empty)
+  - Independent teacher - `independent_teacher_index.php`(Not created yet)
+  - Independent student - `independent_student_index.php`(Not created yet)
+* Each home page includes shared navigation and a welcome banner.
 
 ### Administrators 
 #### Register users 
@@ -84,8 +96,37 @@ The project is aimed for two account types
     - Write course name, course code, MQF Level, Course Duration, Credits(int) and Description
     - Choose is active or inactive
     - Choose which institute you are creating the course for 
-* Edit/View - Administrators can edit the data of the users and update the database 
+* Edit/View - Administrators can edit the data of the course and update the database 
 
+* Fill in the Add Unit form 
+    - Write unit name, unit code, ECTS credits, unit duration and unit description 
+    - Choose is active or inactive 
+* Edit/View - Administrators can edit the data of the unit and update the database 
+#### Assign Units to Course 
+* Fill in the form 
+    - Choose a course 
+    - Choose multiple unit 
+    - Remove one or more units and updates the DB 
+#### Classes 
+* Fill in the New Class form 
+    - Write class name 
+    - Choose a course 
+ * Edit/View - Administrators can change the class name and the course it is assigned with and update the database  
+ #### Assign Teachers 
+ * Fill in the Assign New Teacher to Unit and Class form 
+    - Choose a unit 
+    - Choose a teacher 
+    - Choose a class 
+* Edit/View - Administrators can change the class and tick or untick multiple units that the teacher will be teaching to that particular class
+
+### Students 
+#### Enrolment 
+* The Enrolment page for the students is view only, showing the particular course details that the student is enrolled in 
+    - Course name
+    - Course Code
+    - Unit name
+    - Unit Code
+    - Lecturer name/s
 
 ### Authentication & Security (implemented so far)
 * Passwords are stored securely using password_hash()
