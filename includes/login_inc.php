@@ -81,25 +81,51 @@ $_SESSION["role_id"] = $user["role_id"];
 $_SESSION["first_name"] = $user["first_name"];
 $_SESSION["last_name"] = $user["last_name"];
 
-// Role-based redirect
-switch ((int)$user["role_id"]) {
-  case 1:
-    header("Location: ../teacher_index.php");
-    break;
-  case 2:
-    header("Location: ../student_index.php");
-    break;
-  case 3:
-    header("Location: ../parent_index.php");
-    break;
-  case 4:
-    header("Location: ../admin_index.php");
-    break;
-  case 5:
-    header("Location: ../independent_index.php");
-    break;
-  default:
-    header("Location: $back?error=invalidrole");
-    break;
+
+
+
+// Role-based redirect 
+if ((int)$user["is_independent"] === 1) {
+
+  // Independent dashboards
+  switch ((int)$user["role_id"]) {
+    case 1:
+      header("Location: ../ind_teacher_index.php");
+      break;
+
+    case 2:
+      header("Location: ../ind_student_index.php");
+      break;
+
+    default:
+      header("Location: $back?error=invalidrole");
+      break;
+  }
+
+} else {
+
+  // Institute dashboards
+  switch ((int)$user["role_id"]) {
+    case 1:
+      header("Location: ../teacher_index.php");
+      break;
+
+    case 2:
+      header("Location: ../student_index.php");
+      break;
+
+    case 3:
+      header("Location: ../parent_index.php");
+      break;
+
+    case 4:
+      header("Location: ../admin_index.php");
+      break;
+
+    default:
+      header("Location: $back?error=invalidrole");
+      break;
+  }
 }
+
 exit();

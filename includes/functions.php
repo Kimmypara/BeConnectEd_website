@@ -905,9 +905,6 @@ function emptyRegistrationInput($role_id, $first_name, $last_name, $email, $date
 
 
 
-
-
-
 function invalidFirst_name($first_name){
         // allow letters and numbers, but nothing else
         if(!preg_match("/^[a-zA-Z0-9]*$/",$first_name)){
@@ -941,6 +938,9 @@ function emailExists($conn, $email){
 
     return mysqli_fetch_assoc($result) ? true : false;
 }
+
+
+
 
 
 function invalidDate_of_birth($date_of_birth){

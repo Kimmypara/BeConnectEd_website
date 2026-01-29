@@ -61,7 +61,7 @@ The project is aimed for two account types
 * Registered users who login for the first time are obliged to change the password by redirect them to the Reset Password page. (At later stage a verification Code will be sent to the user for authentication)
 * Registered users should write e-mail and password and be able to login 
 * The registered users can change password through the Reset Password page
-* The users will be redirected to the institute home page depending on the role (at later stage independent pages will be created)
+* The users will be redirected to their home page depending on the role 
 
 ## Home Pages (Role-Based)
 * After login, users are redirected to a role-based home page:
@@ -69,8 +69,8 @@ The project is aimed for two account types
   - Teacher - `teacher_index.php`
   - Student - `student_index.php`
   - Parent - ` parent_index.php `(still empty)
-  - Independent teacher - `independent_teacher_index.php`(Not created yet)
-  - Independent student - `independent_student_index.php`(Not created yet)
+  - Independent teacher - `ind_teacher_index.php`(Still empty just nav)
+  - Independent student - `ind_student_index.php`(Still empty just nav)
 * Each home page includes shared navigation and a welcome banner.
 
 ### Administrators 

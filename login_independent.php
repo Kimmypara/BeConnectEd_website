@@ -23,7 +23,7 @@ include 'includes/users.php';
 </head>
 <body>
 
-<form action="/BeConnectEd_website/includes/login_inc.php" method="POST">
+<form action="includes/login_inc.php" method="POST">
 <div class="login_bg d-flex align-items-center">
 
   <div class="container ">
@@ -50,34 +50,36 @@ include 'includes/users.php';
  <?php
 if (isset($_GET["error"])) {
 
-  $error = "<h5>Could not log in:</h5><ul>";
+  $error = "<h5 class='error-msg'>Could not log in:</h5><ul>";
 
   if ($_GET["error"] === "emptyinput") {
-    $error .= "<li>You have some empty fields.</li>";
+    $error .= "<li class='error-msg'>You have some empty fields.</li>";
   }
 
   if ($_GET["error"] === "emailnotfound") {
-    $error .= "<li>This email is not registered.</li>";
+    $error .= "<li class='error-msg'>This email is not registered, please create a new account.</li>";
   }
 
+  
+
   if ($_GET["error"] === "wrongpassword") {
-    $error .= "<li>Incorrect password.</li>";
+    $error .= "<li class='error-msg'>Incorrect password.</li>";
   }
 
   if ($_GET["error"] === "inactive") {
-    $error .= "<li>Your account is inactive. Please contact the administrator.</li>";
+    $error .= "<li class='error-msg'>Your account is inactive. Please contact the administrator.</li>";
   }
 
   if ($_GET["error"] === "mustchangepassword") {
-    $error .= "<li>This is your first login. Please set your password.</li>";
+    $error .= "<li class='error-msg'>This is your first login. Please set your password.</li>";
   }
 
   if ($_GET["error"] === "invalidrole") {
-    $error .= "<li>Your account role is invalid. Please contact support.</li>";
+    $error .= "<li class='error-msg'>Your account role is invalid. Please contact support.</li>";
   }
 
   if ($_GET["error"] === "stmtfailed") {
-    $error .= "<li>Server error. Please try again.</li>";
+    $error .= "<li class='error-msg'>Server error. Please try again.</li>";
   }
 
   $error .= "</ul>";
@@ -85,8 +87,19 @@ if (isset($_GET["error"])) {
   echo $error;
 }
 ?>
+<?php
+$error = $_GET['error'] ?? '';
 
-              <p class="col-12 mt-3 ">
+if ($error === 'notIndependentUser') {
+  echo '<li class="error-msg">
+          Your account is not an Independent account. Please log in with Institute.
+        </li>';
+}
+?>
+
+
+
+              <p class="col-12 mt-3 error-msg">
     New user?
     <a class="formFields2" href="create_account.php">Create an Account</a>
 </p>

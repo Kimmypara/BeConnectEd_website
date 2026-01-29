@@ -108,6 +108,36 @@ include 'includes/users.php';
     </div>
   </div>
 
+ <?php 
+if (isset($_GET["error"])) {
+
+  $errorHtml = '<h5 class="error-msg">Could not create a new account:</h5><ul class="error-list">';
+
+  if (isset($_GET["emptyinput"])) {
+    $errorHtml .= '<li class="error-msg">You have some empty fields.</li>';
+  }
+  if (isset($_GET["invalidFirst_name"])) {
+    $errorHtml .= '<li class="error-msg">First name format invalid.</li>';
+  }
+  if (isset($_GET["invalidLast_name"])) {
+    $errorHtml .= '<li class="error-msg">Last name format invalid.</li>';
+  }
+  if (isset($_GET["invalidEmail"])) {
+    $errorHtml .= '<li class="error-msg">Email format invalid.</li>';
+  }
+  if (isset($_GET["emailExists"])) {
+    $errorHtml .= '<li class="error-msg">Email already exists.</li>';
+  }
+  if (isset($_GET["invalidDate_of_birth"])) {
+    $errorHtml .= '<li class="error-msg">Date of Birth format invalid.</li>';
+  }
+
+  $errorHtml .= '</ul>';
+
+  echo $errorHtml;
+}
+?>
+
   <!-- Buttons -->
   <div class="row">
     <div class="col-6 ">

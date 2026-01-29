@@ -57,8 +57,8 @@ error_reporting(E_ALL);
 <div class="col-lg-12 col-md-12 col-sm-12">
 <table class="table_admin"  >
   <tr>
-    <th>Class Name</th>
     <th>Course</th>
+    <th>Class Name</th>
     <th>Assigned Units codes</th>
       <th></th>
   </tr>
@@ -69,9 +69,22 @@ $result = getClassesWithUnits($conn);
 if ($result) {
   while($row = mysqli_fetch_assoc($result)){
     echo '<tr>';
-    echo '<td>' . htmlspecialchars($row['class_name']) . '</td>';
     echo '<td>' . htmlspecialchars(($row['course_code'] ?? '') . ' - ' . ($row['course_name'] ?? '')) . '</td>';
-     
+    
+   
+    
+      echo '<td>';
+  if (!empty($row['class_name'])) {
+    $class = explode(', ', $row['class_name']);
+    echo '<p class="mb-0 mt-1 ps-3">';
+    foreach ($class as $class) {
+      echo '<p >' . htmlspecialchars($class) . '</p>';
+    }
+    echo '</p>';
+  } else {
+    echo '—';
+  }
+  echo '</td>';
 
 
  echo '<td>';
@@ -111,7 +124,9 @@ if ($result) {
 
       <div class="modal-header">
         <h5 class="modal-title">New Class</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn close3" data-bs-dismiss="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+</svg></button>
       </div>
 
       <form action="includes/classes_inc.php" method="post">
@@ -172,7 +187,7 @@ if (isset($_GET["error"])) {
             </div>
 
             <div class="col-lg-6 text-end">
-              <button type="button" class="btn button8" data-bs-dismiss="modal">Cancel</button>
+              <button type="reset" class="btn button8" name="reset">Cancel</button>
             </div>
           </div>
 

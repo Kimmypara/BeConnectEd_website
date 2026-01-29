@@ -159,14 +159,14 @@ endif;
             }
 
              if (isset($_GET["invalidLast_name"])){
-                $error = $error."<ol>Lastt name format invalid.</ol>";
+                $error = $error."<ol>Last name format invalid.</ol>";
             }
             if (isset($_GET["invalidEmail"])){
                 $error = $error."<ol>Email format invalid.</ol>";
             }
 
              if (isset($_GET["emailExists"])){
-                $error = $error."<ol>Email already exist.</ol>";
+                $error = $error."<ol>Email already exists.</ol>";
             }
 
               if (isset($_GET["invalidDate_of_birth"])){

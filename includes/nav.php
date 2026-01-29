@@ -8,29 +8,21 @@ if (session_status() === PHP_SESSION_NONE) {
 $role_id = $_SESSION['role_id'] ?? null;
 
 // Default page when open website
-$homeUrl = 'login.php';
+$homeUrl = 'login.php'; // fallback
 
-switch ($role_id) {
-    case 1: // Teacher
-        $homeUrl = 'teacher_index.php';
-        break;
+switch ((int)$role_id) {
+  case 1: $homeUrl = 'teacher_index.php'; break;
+  case 2: $homeUrl = 'student_index.php'; break;
+  case 3: $homeUrl = 'parent_index.php'; break;
+  case 4: $homeUrl = 'admin_index.php'; break;
 
-    case 2: // Student
-        $homeUrl = 'student_index.php';
-        break;
+  case 5: $homeUrl = 'ind_teacher_index.php'; break;  // Independent teacher
+  case 6: $homeUrl = 'ind_student_index.php'; break;  // Independent student
 
-    case 3: // Parent
-        $homeUrl = 'parent_index.php';
-        break;
-
-    case 4: // Admin
-        $homeUrl = 'admin_index.php';
-        break;
-
-    case 5: // Independent
-        $homeUrl = 'independent_index.php';
-        break;
+  default: $homeUrl = 'login.php'; break;
 }
+
+
 
 
 // Session data
@@ -84,12 +76,13 @@ if ($user_id > 0) {
 </head>
 <body >
   
+  
 
 <!--logo-->
-<div class="container-fluid  px-4">
+<div class="container-fluid  px-3">
   <div class="row">
     
-    <div class="col-3 ">
+    <div class="col-lg-3 col-md-3 col-sm-12 ">
 <a href="<?php echo $homeUrl; ?>" id="logo">
   <img class="logo logo-img light"  src="assets/images/logo.png"  alt="be connected logo">
   <img class="logo logo-img dark" src="assets/images/logo-darkmode.png"  alt="be connected logo">
@@ -178,13 +171,15 @@ echo '&nbsp;' . htmlspecialchars(trim($first . ' ' . $last));
         $photoPath = "upload_images/" . $user['profile_photo'];
       }
 
-      $roles = [
-        1 => 'Teacher',
-        2 => 'Student',
-        3 => 'Parent',
-        4 => 'Administrator',
-        5 => 'Independent'
-      ];
+     $roles = [
+  1 => 'Teacher',
+  2 => 'Student',
+  3 => 'Parent',
+  4 => 'Administrator',
+  5 => 'Independent Teacher',
+  6 => 'Independent Student'
+];
+
     ?>
 
     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profileDropdown" style="width:16rem;">

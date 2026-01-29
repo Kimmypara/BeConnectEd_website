@@ -58,21 +58,21 @@ if (isset($_GET["error"])) {
 
 
   if ($_GET["error"] === "emptyinput") {
-    $error .= "<li>You have some empty fields.</li>";
+    $error .= "<li class='error-msg'>You have some empty fields.</li>";
   }
 
   if ($_GET["error"] === "emailnotfound") {
-    $error .= "<li>This email is not registered.</li>";
+    $error .= "<li class='error-msg'>This email is not registered.</li>";
   }
 
   if ($_GET["error"] === "passwordmismatch") {
-    $error .= "<li>Password does not match.</li>";
+    $error .= "<li class='error-msg'>Password does not match.</li>";
   }
   if ($_GET["error"] === "noactiveaccount") {
-    $error .= "<li>Your account is not active. Please contact the administrator</li>";
+    $error .= "<li class='error-msg'>Your account is not active. Please contact the administrator</li>";
   }
     if ($_GET["error"] === "stmtfailed") {
-    $error .= "<li>Server error. Please try again.</li>";
+    $error .= "<li class='error-msg'>Server error. Please try again.</li>";
   }
 
   $error .= "</ul>";

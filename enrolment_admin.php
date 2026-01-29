@@ -149,11 +149,11 @@ $enrolledStudentsRes = ($class_id > 0) ? getStudentsByClassId($conn, $class_id) 
                   </table>
 
                 <?php elseif ($course_id > 0 && $class_id > 0): ?>
-                  <p class="text-muted mb-0">No students enrolled to this class yet.</p>
+                  <p class="error-msg text-muted mb-0">No students enrolled to this class yet.</p>
                 <?php elseif ($course_id > 0): ?>
-                  <p class="text-muted mb-0">Select a class to view enrolled students.</p>
+                  <p class="error-msg text-muted mb-0">Select a class to view enrolled students.</p>
                 <?php else: ?>
-                  <p class="text-muted mb-0">Select a course first.</p>
+                  <p class="error-msg text-muted  mb-0">Select a course first.</p>
                 <?php endif; ?>
 
               </div>

@@ -19,10 +19,6 @@ if(isset($_GET["user_id"]) && is_numeric($_GET["user_id"])){
 </style>
 
 
-
-
-
-
 <div class="container-fluid">
   <div class="row">
 
@@ -67,7 +63,7 @@ if(isset($_GET["user_id"])){
             <form action="<?php echo $selectedFormAction; ?>" method="post">
 
               <label class="formFields" for="role_id">User Role</label>
-              <select class="placeholder_style mb-2" id="role_id" name="role_id" >
+              <select class="placeholder_style mb-2" id="role_id" name="role_id" required>
 
             <option class="input" value="1" <?php echo (($user['role_id'] ?? '') == 1) ? 'selected' : ''; ?>>Teacher</option>
             <option class="input" value="2" <?php echo (($user['role_id'] ?? '') == 2) ? 'selected' : ''; ?>>Student</option>
@@ -82,19 +78,18 @@ if(isset($_GET["user_id"])){
                       <label class="formFields" for="first_name">First Name</label>
                     <input type="text" name="first_name" id="first_name"
                      value="<?php echo htmlspecialchars($user['first_name'] ?? ''); ?>"
-                    placeholder="first name" class="placeholder_style mb-2 ">
+                    placeholder="first name" class="placeholder_style mb-2 " required>
 
                     </div>
                 </div>
 
-                
 
                 <div class="row">
                     <div class="col">
                       <label class="formFields" for="last_name">Last Name</label>
                         <input type="text" name="last_name" id="last_name" 
                         value="<?php echo htmlspecialchars($user['last_name'] ?? ''); ?>"
-                        placeholder="last name" class="placeholder_style mb-2">
+                        placeholder="last name" class="placeholder_style mb-2" required>
                     </div>
                 </div>  
 
@@ -103,7 +98,7 @@ if(isset($_GET["user_id"])){
                       <label class="formFields" for="email">E-mail</label>
                         <input type="email" name="email" id="email" 
                          value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>"
-                         placeholder="E-mail" class="placeholder_style mb-2">
+                         placeholder="E-mail" class="placeholder_style mb-2" required>
                     </div>
                 </div>  
 
@@ -112,13 +107,13 @@ if(isset($_GET["user_id"])){
                       <label class="formFields" for="date_of_birth">Date of Birth</label>
                         <input type="date" name="date_of_birth" id="date_of_birth" 
                          value="<?php echo htmlspecialchars($user['date_of_birth'] ?? ''); ?>"
-                         placeholder="date of birth" class="placeholder_style mb-2">
+                         placeholder="date of birth" class="placeholder_style mb-2" required>
                     </div>
                 </div> 
 
               
               <label class="formFields" for="is_active">Active or Inactive?</label>
-              <select  class="placeholder_style mb-2" id="is_active" name="is_active" >
+              <select  class="placeholder_style mb-2" id="is_active" name="is_active" required>
               <option class="input" value="" disabled selected>Choose if user is Active or Inactive</option>
               <option class="input" value="1" <?php echo (($user['is_active'] ?? '') == 1) ? 'selected' : ''; ?>>Active</option>
               <option class="input" value="0" <?php echo (($user['is_active'] ?? '') == 0) ? 'selected' : ''; ?>>Inactive</option>
@@ -126,7 +121,7 @@ if(isset($_GET["user_id"])){
 
                
               <label class="formFields" for="institute_id">Institute</label>
-              <select  class="placeholder_style mb-2" id="institute_id" name="institute_id" >
+              <select  class="placeholder_style mb-2" id="institute_id" name="institute_id" required>
               <option class="input" value="" disabled selected>Choose an Institute</option>
               <option class="input" value="1" <?php echo (($user['institute_id'] ?? '') == 1) ? 'selected' : ''; ?>>MCAST Institute for the Creative Arts</option>
               <option class="input" value="2" <?php echo (($user['institute_id'] ?? '') == 2) ? 'selected' : ''; ?>>MCAST Institute of Applied Sciences</option>
@@ -140,7 +135,29 @@ if(isset($_GET["user_id"])){
               rows="10"></textarea>
           </div> -->
 
-           
+         <?php 
+if (isset($_GET["error"])) { 
+  $error = "<h5>Could not update account:</h5><ul>";
+
+  if (isset($_GET["emptyinput"])) $error .= "<li>You have some empty fields.</li>";
+  if (isset($_GET["invalidFirst_name"])) $error .= "<li>First name format invalid.</li>";
+  if (isset($_GET["invalidLast_name"])) $error .= "<li>Last name format invalid.</li>";
+  if (isset($_GET["invalidEmail"])) $error .= "<li>Email format invalid.</li>";
+  if (isset($_GET["emailExists"])) $error .= "<li>Email already exists.</li>";
+  if (isset($_GET["invalidDate_of_birth"])) $error .= "<li>Date of Birth format invalid.</li>";
+  if (isset($_GET["stmtfailed"])) $error .= "<li>Server error. Please try again.</li>";
+
+  $error .= "</ul>";
+  ?>
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-6 border border-danger text-danger rounded">
+      <p><?php echo $error; ?></p>
+    </div>
+    <div class="col"></div>
+  </div>
+<?php } ?>
+
 
              <div class="row d-flex ">
               <div class="col-lg-3"></div>

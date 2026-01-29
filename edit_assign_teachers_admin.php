@@ -112,7 +112,7 @@ if ($assignedRes) {
                   </div>
                 <?php endwhile; ?>
               </div>
-              <small class="text-muted">Tick to keep/add. Untick to remove.</small>
+              <small class="text-muted error-msg">Tick to keep/add. Untick to remove.</small>
             </div>
           </div>
 
@@ -120,7 +120,7 @@ if ($assignedRes) {
             <p class="text-success small">Saved successfully.</p>
           <?php endif; ?>
           <?php if (isset($_GET['error'])): ?>
-            <p class="text-danger small">Something went wrong.</p>
+            <p class="text-danger small">Please, check one or more units.</p>
           <?php endif; ?>
 
 
