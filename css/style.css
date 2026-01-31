@@ -79,6 +79,7 @@
   text-align: left;
 }
 
+
 .login-layout{
     margin: 10rem;
 }
@@ -314,7 +315,7 @@ margin-right: 2rem;
 
 
 .form_bg{
-    box-shadow: 0 0 10px var(--secondary-text);
+    box-shadow:0 8px 15px 0 #0000004d;
     color: var(--secondary-text);
     border-radius: .5rem;
     background-color: var(--base-variant);
@@ -332,7 +333,20 @@ margin-right: 2rem;
       justify-content: top;
 }
 
+.card{
+   box-shadow: 0 0 10px var(--secondary-text);
+    color: var(--text-color);
+    border-radius: .5rem;
+    background-color: var(--base-variant);
+ gap: 20px;
+}
 
+.card-subtitle{
+  font-size: .8rem;
+  font-weight: 400;
+  text-align: left;
+  margin-top: 1rem;
+}
 
 .form_bg2{
     box-shadow: 0 0 10px var(--secondary-text);
@@ -774,7 +788,48 @@ min-width: fit-content;
  justify-content: center;
 }
 
+.button9{
+   text-decoration: none;
+    color: var( --base-variant);
+    border-radius: .5rem;
+    background-color:var(--button-color);
+ display: flex;
+ text-align: center; 
+ display:table-cell;
+}
 
+.button-icon{
+     text-decoration: none;
+    color: var( --base-variant);
+    border-radius: .5rem;
+    background-color:var(--button-color);
+ display: flex;
+ text-align: center; 
+  font-size: .6rem;
+  display: flex;
+  flex-direction: column;   
+  align-items: center;      
+  justify-content: center;  
+  gap: .05rem;              
+  padding: 5px 5px;  
+  fill:var( --base-variant) ;
+  flex-direction: column;
+
+}
+
+.button-icon svg{
+  display: block;
+}
+
+.bi .bi-download{
+text-align: center !important;
+justify-content: center;
+}
+
+.wrap{
+  display: flex;
+  justify-content: flex-end;
+}
 .dashboard-inner {
   margin-left: auto;
   margin-right: auto;
@@ -865,6 +920,20 @@ min-width: fit-content;
   border-radius: .5rem;
   background-color: var( --hover-button);
 }
+
+.button9:hover{
+  box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--base-variant);
+  border-radius: .5rem;
+  background-color: var( --hover-button);
+}
+
+.button-icon:hover{
+  box-shadow: 0 0 10px var(--secondary-text);
+  color: var(--base-variant);
+  border-radius: .5rem;
+  background-color: var( --hover-button);
+}
 .close:focus{
   box-shadow: 0 0 10px var(--secondary-text);
    color: var(--text-color);
@@ -950,6 +1019,23 @@ min-width: fit-content;
     border-radius: .5rem;
    outline: none !important;
    background-color: var( --base-variant);
+}
+
+.button9:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --base-variant);
+}
+
+.button-icon:focus{
+  box-shadow: 0 0 10px var(--secondary-text);
+   color: var(--text-color);
+    border-radius: .5rem;
+   outline: none !important;
+   background-color: var( --base-variant);
+   
 }
 
 .button2:focus{
@@ -1071,6 +1157,8 @@ td:first-child, th:first-child {
   padding-right: 1rem;
   z-index:  3;
 }
+
+
   .form_bg {
     display: block; 
   }

@@ -17,6 +17,11 @@ The project is aimed for two account types
 * Teachers or Lecturers 
 * Administrators 
 
+### Please note 
+These pages are created only with HTML temporarily
+    * my_units.php 
+    * students_files.php
+
 ## What has been implemented so far
 
 ### Accessibility 
