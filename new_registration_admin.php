@@ -6,10 +6,6 @@ include "includes/nav.php";
 ?>
 
 
-<style>
-<?php include 'css/style.css'; ?>
-</style>
-
 
 <div class="container-fluid">
   <div class="row">

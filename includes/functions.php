@@ -46,7 +46,7 @@ function getStudentsByCourseId($conn, $course_id){
 
 
 function getStudentsByClassId($conn, $class_id){
-  $sql = "SELECT u.user_id, u.first_name, u.last_name
+  $sql = "SELECT u.user_id, u.first_name, u.last_name, u.email
           FROM enrolment e
           INNER JOIN users u ON u.user_id = e.student_id
           WHERE e.class_id = ?
@@ -265,33 +265,79 @@ return $result;
 
 function getStudentEnrolmentWithUnits($conn, $student_id) {
 
+  $sql = "SELECT
+            c.course_id, c.course_name, c.course_code,
+
+            e.class_id,
+            cl.class_name,
+
+            u.unit_id, u.unit_name, u.unit_code,
+
+            GROUP_CONCAT(DISTINCT CONCAT(t.first_name, ' ', t.last_name) SEPARATOR ', ') AS teacher_names
+
+          FROM enrolment e
+          JOIN course c ON c.course_id = e.course_id
+
+          LEFT JOIN classes cl ON cl.class_id = e.class_id
+
+          LEFT JOIN course_units cu ON cu.course_id = c.course_id
+          LEFT JOIN unit u ON u.unit_id = cu.unit_id AND u.is_active = 1
+
+          LEFT JOIN unit_teacher ut ON ut.unit_id = u.unit_id AND ut.class_id = e.class_id
+          LEFT JOIN users t ON t.user_id = ut.teacher_id AND t.role_id = 1
+
+          WHERE e.student_id = ?
+            AND c.is_active = 1
+
+          GROUP BY
+            c.course_id, c.course_name, c.course_code,
+            e.class_id, cl.class_name,
+            u.unit_id, u.unit_name, u.unit_code
+
+          ORDER BY c.course_name, cl.class_name, u.unit_name";
+
+  $stmt = mysqli_stmt_init($conn);
+  if (!mysqli_stmt_prepare($stmt, $sql)) {
+    die('SQL prepare failed: ' . mysqli_error($conn));
+  }
+
+  mysqli_stmt_bind_param($stmt, "i", $student_id);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  mysqli_stmt_close($stmt);
+
+  return $result;
+}
+
+
+
+function getTeacherEnrolmentWithUnit($conn, $teacher_id) {
+
     $sql = "SELECT
                 c.course_id, c.course_name, c.course_code,
                 u.unit_id, u.unit_name, u.unit_code,
-                GROUP_CONCAT(DISTINCT CONCAT(t.first_name, ' ', t.last_name) SEPARATOR ', ') AS teacher_names
-            FROM enrolment e
-            JOIN course c ON c.course_id = e.course_id
-            LEFT JOIN course_units cu ON cu.course_id = c.course_id
-            LEFT JOIN unit u ON u.unit_id = cu.unit_id AND u.is_active = 1
-            LEFT JOIN unit_teacher ut ON ut.unit_id = u.unit_id AND ut.class_id = e.class_id
-            LEFT JOIN users t ON t.user_id = ut.teacher_id AND t.role_id = 1
-            WHERE e.student_id = ?
-              AND c.is_active = 1
-            GROUP BY c.course_id, c.course_name, c.course_code,
-                     u.unit_id, u.unit_name, u.unit_code
-            ORDER BY c.course_name, u.unit_name";
-
+                  cl.class_id, cl.class_name
+            FROM unit_teacher ut
+             INNER JOIN unit u ON u.unit_id = ut.unit_id
+    INNER JOIN course_units cu ON cu.unit_id = u.unit_id
+    INNER JOIN course c ON c.course_id = cu.course_id
+    LEFT JOIN classes cl ON cl.class_id = ut.class_id
+    WHERE ut.teacher_id = ?
+      AND u.is_active = 1
+    ORDER BY c.course_name ASC, u.unit_name ASC, cl.class_name ASC";
+           
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         die("SQL prepare failed: " . mysqli_error($conn));
     }
-    mysqli_stmt_bind_param($stmt, "i", $student_id);
+    mysqli_stmt_bind_param($stmt, "i", $teacher_id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     mysqli_stmt_close($stmt);
     return $result;
 }
 
+    
 
 
 function getTeachersActiveById($conn, $teacher_id){

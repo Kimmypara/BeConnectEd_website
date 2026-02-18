@@ -22,6 +22,7 @@ if ($res === false) {
 
 
 $current_course_id = null;
+$current_class_id = null;
 ?>
 
 
@@ -46,60 +47,52 @@ $current_course_id = null;
 <?php while ($row = mysqli_fetch_assoc($res)): ?>
   <?php $hasRows = true; ?>
 
-  <?php if ($current_course_id !== $row['course_id']): ?>
+  <div class="course-section mb-3">
+     <hr class="divider">
 
-    <?php if ($current_course_id !== null): ?>
-        </div> 
-    <?php endif; ?>
-
-    <?php $current_course_id = $row['course_id']; ?>
-
-    <div class="course-section">
-     
-        <div class="course-col">
-          <div class="title">Course Title: <p class="label"><?php echo'&nbsp;' .'&nbsp;' . htmlspecialchars($row['course_name']); ?></p></div>
-          
-       
-
-        <div class="course-col">
-          <div class="title">Course Code: <p class="label"><?php echo '&nbsp;' .'&nbsp;' . htmlspecialchars($row['course_code']); ?></p></div>
-          
-        </div>
+    <div class="course-col">
+      <div class="title">Course Title:
+        <p class="label"><?php echo '&nbsp;&nbsp;' . htmlspecialchars($row['course_name']); ?></p>
       </div>
 
-      <hr class="divider">
-
-  <?php endif; ?>
-
-  <?php if (!empty($row['unit_id'])): ?>
-    <div class="unit-block">
-      <div class="line">
-        <div class="title">Unit</div>
-        <div class="title">Unit Name: <p class="label"><?php echo '&nbsp;' .'&nbsp;' . htmlspecialchars($row['unit_name']); ?></p></div>
-       
-     
-     <div class="title">Unit Code: <p class="label"><?php echo '&nbsp;' .'&nbsp;' . htmlspecialchars($row['unit_code']); ?></p></div>
-
-      <div class="line mt">
-        <div class="title">Lecturer: <p class="label"><?php echo '&nbsp;' .'&nbsp;' . htmlspecialchars($row['teacher_names'] ?: 'Not assigned'); ?></p></div>
+      <div class="title">Course Code:
+        <p class="label"><?php echo '&nbsp;&nbsp;' . htmlspecialchars($row['course_code']); ?></p>
       </div>
-     
     </div>
 
-    <hr class="divider">
-  <?php else: ?>
-    <p class="sub-value">No units found for this course.</p>
-  <?php endif; ?>
+   
 
+    <?php if (!empty($row['unit_id'])): ?>
+      <div class="unit-block">
+        <div class="line">
+          <div class="title">Class Name:
+            <p class="label"><?php echo '&nbsp;&nbsp;' . htmlspecialchars($row['class_name'] ?? 'Not assigned'); ?></p>
+          </div>
+
+          <div class="title">Unit Name:
+            <p class="label"><?php echo '&nbsp;&nbsp;' . htmlspecialchars($row['unit_name']); ?></p>
+          </div>
+
+          <div class="title">Unit Code:
+            <p class="label"><?php echo '&nbsp;&nbsp;' . htmlspecialchars($row['unit_code']); ?></p>
+          </div>
+
+          <div class="title">Lecturer:
+            <p class="label"><?php echo '&nbsp;&nbsp;' . htmlspecialchars($row['teacher_names'] ?: 'Not assigned'); ?></p>
+          </div>
+        </div>
+      </div>
+    <?php else: ?>
+      <p class="sub-value">No units found for this course.</p>
+    <?php endif; ?>
+
+  </div>
 <?php endwhile; ?>
 
-<?php if ($hasRows === false): ?>
+<?php if (!$hasRows): ?>
   <p class="sub-value">No enrolments found.</p>
 <?php endif; ?>
 
-<?php if ($current_course_id !== null): ?>
-  </div> 
-<?php endif; ?>
 
 </div>
 

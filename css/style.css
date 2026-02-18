@@ -521,12 +521,27 @@ text-align: center;
 
 .title{
   font-weight: 700;
-  font-size:  .9rem;
+  font-size:  .8rem;
   display: flex;
 }
 
 .label{
-  font-weight: 400;
+  font-weight: 300;
+  text-align: left ;
+  font-size: .8rem;
+}
+
+.links{
+   font-weight: 300;
+  text-align: left ;
+  font-size: .8rem;
+  text-decoration: none;
+  color: var(--secondary-text);
+  
+}
+
+.links:hover{
+   color: var(--text-color);
 }
 
 .placeholder_style{

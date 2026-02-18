@@ -23,6 +23,7 @@ if (!$teacher) {
 // all classes + all active units
 $classesRes = getClasses($conn);
 $unitsRes   = getUnitsActive($conn);
+$userRes   = getTeachersActive($conn);
 
 
 $assignedIds = [];
@@ -59,8 +60,7 @@ if ($assignedRes) {
 <div class="row">
   <div class="col-lg-12 formFields3">
         
-          <strong strong>Teacher:</strong>
-          <?php echo '&nbsp;' . htmlspecialchars($teacher['first_name'] . " " . $teacher['last_name']); ?>
+          
         
         </div>
 </div>
@@ -69,6 +69,25 @@ if ($assignedRes) {
         <form action="includes/edit_assign_teachers_inc.php" method="post">
           <input type="hidden" name="teacher_id" value="<?php echo $teacher_id; ?>">
           <input type="hidden" name="old_class_id" value="<?php echo $old_class_id; ?>">
+
+              <!-- Change teacher -->
+          <div class="row align-items-center mb-3">
+            <div class="col-3">
+              <label class="formFields mb-0">Lecturer </label>
+            </div>
+            <div class="col-9">
+              <select name="teacher_id" class="form-select placeholder_style" required>
+                <option value="" disabled>Select Lecturer</option>
+                <?php while ($u = mysqli_fetch_assoc($userRes)): ?>
+                  <option value="<?php echo (int)$u['user_id']; ?>"
+                    <?php echo ((int)$u['user_id']) ? 'selected' : ''; ?>>
+                    <?php echo htmlspecialchars($u['first_name']); ?>
+                    <?php echo htmlspecialchars($u['last_name']); ?>
+                  </option>
+                <?php endwhile; ?>
+              </select>
+            </div>
+          </div>
 
           <!-- Change class -->
           <div class="row align-items-center mb-3">
