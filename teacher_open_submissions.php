@@ -17,7 +17,10 @@ if ($unit_id <= 0 || $class_id <= 0 || $teacher_id <= 0) {
 $success = isset($_GET['success']) ? $_GET['success'] : null;
 $error   = isset($_GET['error']) ? $_GET['error'] : null;
 
+$row = [];
+$submissions = [];
 $assignments = [];
+
 
 if ($unit_id > 0 && $teacher_id > 0) {
 
@@ -85,10 +88,10 @@ if (!$unit) exit("<div class='alert alert-danger'>Unit not found.</div>");
             <h2 class="form_title">Assignments for <?php echo '&nbsp;' .htmlspecialchars($unit['unit_name']); ?></h2>
 </div>
 <div class="col-3">
-<a href="teacher_open_submissions.php?unit_id=<?php echo $unit_id; ?>&class_id=<?php echo $class_id;?> &teacher_id=<?php echo $teacher_id;?>" class="btn button9">
-  
+<button type="button" class="btn button9" data-bs-toggle="modal" data-bs-target="#openSubmissionModal">
   Open submission
-</a>
+</button>
+
 </div>
 
             <?php if ($success): ?>
@@ -135,7 +138,7 @@ if (!$unit) exit("<div class='alert alert-danger'>Unit not found.</div>");
 
                         <?php if (!empty($a['description'])): ?>
                           <div class="card-subtitle mb-1">
-                            <strong>Description:</strong><?php echo nl2br(htmlspecialchars($a['description'])); ?>
+                            <strong>Description:</strong><?php echo '&nbsp' . nl2br(htmlspecialchars($a['description'])); ?>
                           </div>
                         <?php endif; ?>
 
@@ -165,8 +168,7 @@ if (!$unit) exit("<div class='alert alert-danger'>Unit not found.</div>");
                             </svg>
                             <span>Download</span>
                           </a>
-                        <?php else: ?>
-                          <div class="card-subtitle mb-3"><strong>File Name:</strong> —</div>
+                        
                         <?php endif; ?>
 
                         <!-- Upload form -->
@@ -175,23 +177,14 @@ if (!$unit) exit("<div class='alert alert-danger'>Unit not found.</div>");
                           <input type="hidden" name="assignment_id" value="<?php echo (int)$a['assignment_id']; ?>">
                           <input type="hidden" name="unit_id" value="<?php echo (int)$unit_id; ?>">
 
-                          <input type="file"
-                                 name="userFile"
-                                 id="userFile_<?php echo (int)$a['assignment_id']; ?>"
-                                 class="visually-hidden"
-                                 accept=".pdf,.pptx,.docx,.xlsx">
+                       
+               
+  <a href="teachers_view_submissions.php?assignment_id=<?php echo (int)$a['assignment_id']; ?>&unit_id=<?php echo (int)$unit_id; ?>&class_id=<?php echo (int)$class_id; ?>"
+   class="btn button w-100 mt-2">
+   View Submissions
+</a>
 
-                          <label for="userFile_<?php echo (int)$a['assignment_id']; ?>" class="attach-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16" aria-hidden="true">
-                              <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z"/>
-                            </svg>
-                            Attach a file
-                          </label>
-
-                          <button type="submit" name="uploadFile" value="upload" class="btn button w-100 mt-2">
-                            Submit
-                          </button>
+                         
 
                         </form>
 
@@ -208,5 +201,83 @@ if (!$unit) exit("<div class='alert alert-danger'>Unit not found.</div>");
       </div>
     </div>
 
+  </div>
+</div>
+<!-- OPEN SUBMISSION MODAL -->
+<div class="modal fade" id="openSubmissionModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content form_bg3">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Open New Submission</h5>
+
+        <button type="button" class="btn close3" data-bs-dismiss="modal" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </button>
+      </div>
+
+      <form action="includes/create_assignment_inc.php" method="post">
+        <div class="modal-body">
+
+          <!-- keep unit/class hidden -->
+          <input type="hidden" name="unit_id" value="<?php echo (int)$unit_id; ?>">
+          <input type="hidden" name="class_id" value="<?php echo (int)$class_id; ?>">
+          <input type="hidden" name="teacher_id" value="<?php echo (int)$teacher_id; ?>">
+
+          <!-- Task title -->
+          <div class="row align-items-center mb-3">
+            <div class="col-3">
+              <label class="formFields mb-0">Task Title</label>
+            </div>
+            <div class="col-9">
+              <input type="text" name="task_title" class="form-control placeholder_style" required>
+            </div>
+          </div>
+
+          <!-- Due date -->
+          <div class="row align-items-center mb-3">
+            <div class="col-3">
+              <label class="formFields mb-0">Due Date</label>
+            </div>
+            <div class="col-9">
+              <input type="date" name="due_date" class="form-control placeholder_style">
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="row align-items-center mb-3">
+            <div class="col-3">
+              <label class="formFields mb-0">Description</label>
+            </div>
+            <div class="col-9">
+              <textarea name="description" class="form-control placeholder_style" rows="4"></textarea>
+            </div>
+          </div>
+
+          <!-- Feedback message inside modal -->
+          <div class="col-12 mt-2">
+            <?php if (isset($_GET['success']) && $_GET['success'] === 'assignment_created'): ?>
+              <p class="text-success small mb-0">Submission opened successfully.</p>
+            <?php endif; ?>
+            <?php if (isset($_GET['error']) && $_GET['error'] === 'create_failed'): ?>
+              <p class="text-danger small mb-0">Something went wrong. Please try again.</p>
+            <?php endif; ?>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-lg-6">
+              <button type="submit" name="submit" class="button btn w-100">Save</button>
+            </div>
+            <div class="col-lg-6">
+              <button type="button" class="button btn w-100" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
   </div>
 </div>

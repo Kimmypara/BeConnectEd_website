@@ -313,18 +313,21 @@ function getStudentEnrolmentWithUnits($conn, $student_id) {
 
 function getTeacherEnrolmentWithUnit($conn, $teacher_id) {
 
-    $sql = "SELECT
-                c.course_id, c.course_name, c.course_code,
-                u.unit_id, u.unit_name, u.unit_code,
-                  cl.class_id, cl.class_name
-            FROM unit_teacher ut
-             INNER JOIN unit u ON u.unit_id = ut.unit_id
-    INNER JOIN course_units cu ON cu.unit_id = u.unit_id
-    INNER JOIN course c ON c.course_id = cu.course_id
-    LEFT JOIN classes cl ON cl.class_id = ut.class_id
-    WHERE ut.teacher_id = ?
-      AND u.is_active = 1
-    ORDER BY c.course_name ASC, u.unit_name ASC, cl.class_name ASC";
+  $sql = "SELECT
+          c.course_id, c.course_name, c.course_code,
+          u.unit_id, u.unit_name, u.unit_code,
+          cl.class_id, cl.class_name
+        FROM unit_teacher ut
+        JOIN unit u      ON u.unit_id = ut.unit_id
+        JOIN classes cl  ON cl.class_id = ut.class_id
+        JOIN course c    ON c.course_id = cl.course_id
+        WHERE ut.teacher_id = ?
+          AND u.is_active = 1
+        ORDER BY c.course_name ASC, u.unit_name ASC, cl.class_name ASC";
+
+
+
+
            
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {

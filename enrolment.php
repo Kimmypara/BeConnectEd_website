@@ -43,7 +43,7 @@ $current_class_id = null;
             
             <div class="row">
               <div class="col-lg-12">
-
+<h2 class=" form_title" >Enrolment</h2>
 <?php while ($row = mysqli_fetch_assoc($res)): ?>
   <?php $hasRows = true; ?>
 

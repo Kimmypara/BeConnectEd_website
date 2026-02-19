@@ -3,6 +3,7 @@ include "includes/conditions.php";
 include "includes/nav.php";
 require_once "includes/dbh.php";
 
+$class_id = (int)($_GET['class_id'] ?? 0);
 $student_id = (int)($_SESSION['user_id'] ?? 0);
 $units = [];
 $classes = [];
@@ -88,8 +89,11 @@ if (mysqli_stmt_prepare($stmt, $sql)) {
              <div class="title">Credits:<p class="label"> <?php echo '&nbsp;' .htmlspecialchars($u['ects_credits']); ?></p></div>
             <div class="title">Lecturer:
             <p class="label">
-  <?php echo '&nbsp;&nbsp;' . htmlspecialchars(($u['teacher_names'] ?? '') ?: 'Not assigned'); ?>
+             
+
+  <?php echo '&nbsp;&nbsp;' . htmlspecialchars(!empty($u['teacher_names']) ? $u['teacher_names'] : 'Not assigned'); ?>
 </p>
+
 
 
           </div>              
@@ -98,14 +102,14 @@ if (mysqli_stmt_prepare($stmt, $sql)) {
 
                         <div class="row g-3 justify-content-center">
                           <div class="col-sm-8 col-md-4 col-lg-3 d-grid">
-                           <a href="students_files.php?unit_id=<?php echo (int)$u['unit_id']; ?>"
+                           <a href="students_files.php?unit_id=<?php echo (int)$u['unit_id']; ?>&class_id=<?php echo (int)$u['class_id']; ?>"
    class="btn button9 w-100">Files</a>
 
 
                           </div>
 
                           <div class="col-sm-8 col-md-4 col-lg-3 d-grid">
-                            <a href="students_assignments.php?unit_id=<?php echo (int)$u['unit_id']; ?>" class="btn button9 w-100">Assignments</a>
+                            <a href="students_assignments.php?unit_id=<?php echo (int)$u['unit_id']; ?>&class_id=<?php echo (int)$u['class_id']; ?>" class="btn button9 w-100">Assignments</a>
                           </div>
 
                           <div class="col-sm-8 col-md-4 col-lg-3 d-grid">

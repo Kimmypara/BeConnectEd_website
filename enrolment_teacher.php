@@ -53,7 +53,7 @@ $current_course_id = null;
     <?php endif; ?>
 
     <?php $current_course_id = $row['course_id']; ?>
-
+   
     <div class="course-section">
       <hr class="divider">
         <div class="course-col">
@@ -67,7 +67,7 @@ $current_course_id = null;
         </div>
       </div>
 
-      <hr class="divider">
+  
 
   <?php endif; ?>
 

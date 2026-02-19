@@ -97,6 +97,9 @@
     bottom: 10%;
   }
 
+  .attach-btn{
+    cursor: pointer;
+  }
 
 #logo img.active{
   color: var(--secondary-text);
@@ -312,6 +315,16 @@ margin-right: 2rem;
   font-weight: 600;
   margin-top: 2.5rem;
 }
+
+.table-responsive::-webkit-scrollbar {
+  width: 8px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+  background: var(--secondary-text);
+  border-radius: 10px;
+}
+
+
 
 
 .form_bg{
