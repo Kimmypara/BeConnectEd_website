@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2026 at 09:58 AM
+-- Generation Time: Feb 19, 2026 at 07:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,10 +30,22 @@ SET time_zone = "+00:00";
 CREATE TABLE `assignment` (
   `assignment_id` int(11) NOT NULL,
   `unit_id` int(11) DEFAULT NULL,
+  `class_id` int(11) NOT NULL,
+  `teacher_id` int(11) NOT NULL,
   `task_title` varchar(255) DEFAULT NULL,
   `due_date` datetime DEFAULT NULL,
+  `total_marks` int(11) DEFAULT NULL,
+  `is_published` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `assignment`
+--
+
+INSERT INTO `assignment` (`assignment_id`, `unit_id`, `class_id`, `teacher_id`, `task_title`, `due_date`, `total_marks`, `is_published`, `created_at`, `description`) VALUES
+(1, 1, 1, 48, 'Task 2', '2026-02-28 00:00:00', NULL, 0, '2026-02-19 19:17:03', 'Be sure to upload all files');
 
 -- --------------------------------------------------------
 
@@ -173,13 +185,12 @@ CREATE TABLE `enrolment` (
 --
 
 INSERT INTO `enrolment` (`enrolment_id`, `student_id`, `course_id`, `class_id`) VALUES
-(20, 42, 1, 4),
-(22, 52, 1, 4),
-(25, 53, 4, 4),
+(39, 41, 1, 1),
+(46, 52, 1, 3),
+(44, 42, 2, 4),
 (27, 46, 4, 1),
-(32, 42, 4, 2),
-(33, 53, 4, 2),
-(39, 41, 1, 1);
+(45, 45, 4, 2),
+(25, 53, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -211,9 +222,17 @@ CREATE TABLE `file` (
   `file_name` varchar(255) DEFAULT NULL,
   `category` varchar(100) DEFAULT NULL,
   `file_path` varchar(800) DEFAULT NULL,
-  `uploaded_at` datetime DEFAULT NULL,
-  `notes` text DEFAULT NULL
+  `uploaded_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `notes` text DEFAULT NULL,
+  `class_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `file`
+--
+
+INSERT INTO `file` (`file_id`, `unit_id`, `uploaded_by`, `file_name`, `category`, `file_path`, `uploaded_at`, `notes`, `class_id`) VALUES
+(4, 1, 48, 'Brief 3DAF 24-25.pdf', 'Assignment Brief', '48-1-1-6997536d19bde4.28619275.pdf', '2026-02-19 19:16:13', 'Read carefully', 1);
 
 -- --------------------------------------------------------
 
@@ -324,11 +343,7 @@ INSERT INTO `reset_password` (`reset_password_id`, `user_id`, `reset_token`, `ex
 (11, 51, '400f5024b3de0432008a8386d840ee98cd27faf0e08813fa1313f74dc239b727', '2026-01-12 16:40:00'),
 (12, 52, '7c973c6eb6ea6c8ebcc026dbb586e9a6ad13eca73709de1d5de36c09c606f89e', '2026-01-14 15:31:55'),
 (13, 53, '74056e61f3eb86a1244f980086a3977fa9fbd7e9f77ca338b730d9a7f24d76bc', '2026-01-15 20:52:07'),
-(14, 54, 'e939edc827f70c00cb18912e3670a9743eafed78499d9dac1583ba7789a1f9d8', '2026-01-18 18:26:54'),
-(15, 55, '11cf98e2c1df88a51171decc268f86a8c0c172f2dfc85c677e91d2307ebf4e41', '2026-01-22 15:25:51'),
-(16, 56, '47f426bb9b8e7c79421c42e50e91ce89846bec894c2fec55006da7ab1c3bc0da', '2026-01-22 15:28:21'),
-(17, 58, '127af9da5c7a0f09e7c18e1defaa6c2f51f7bb5c6c09769089850d25fbd20da7', '2026-01-22 16:13:25'),
-(18, 59, 'b8653e868b8fc76bd33930b48dc8281757b323cd0323386cd0a8c3fa7aeb4514', '2026-01-22 16:14:56');
+(14, 54, 'e939edc827f70c00cb18912e3670a9743eafed78499d9dac1583ba7789a1f9d8', '2026-01-18 18:26:54');
 
 -- --------------------------------------------------------
 
@@ -377,6 +392,34 @@ CREATE TABLE `submission` (
   `file_path` varchar(800) DEFAULT NULL,
   `submitted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `submission`
+--
+
+INSERT INTO `submission` (`submission_id`, `assignment_id`, `student_id`, `file_path`, `submitted_at`) VALUES
+(1, 1, 46, NULL, '2026-02-19 19:58:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `submission_files`
+--
+
+CREATE TABLE `submission_files` (
+  `submission_file_id` int(11) NOT NULL,
+  `submission_id` int(11) NOT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `original_name` varchar(255) NOT NULL,
+  `uploaded_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `submission_files`
+--
+
+INSERT INTO `submission_files` (`submission_file_id`, `submission_id`, `file_path`, `original_name`, `uploaded_at`) VALUES
+(1, 1, '1-f9a2714dcd78fbc4.docx', 'Notes for me.docx', '2026-02-19 19:58:28');
 
 -- --------------------------------------------------------
 
@@ -436,24 +479,17 @@ CREATE TABLE `unit_teacher` (
 --
 
 INSERT INTO `unit_teacher` (`unit_teacher_id`, `unit_id`, `class_id`, `teacher_id`) VALUES
-(50, 1, 1, 40),
 (44, 1, 1, 48),
-(26, 1, 2, 44),
-(17, 1, 2, 51),
-(32, 1, 4, 44),
+(53, 1, 3, 48),
+(54, 2, 1, 40),
 (45, 2, 1, 44),
-(27, 2, 2, 44),
-(22, 2, 3, 48),
-(33, 2, 4, 44),
-(48, 3, 1, 51),
-(28, 3, 2, 44),
-(34, 3, 4, 44),
+(56, 3, 1, 51),
+(57, 3, 2, 51),
+(55, 3, 3, 51),
 (46, 4, 1, 47),
-(29, 4, 2, 44),
-(35, 4, 4, 44),
-(49, 5, 1, 51),
-(30, 5, 2, 44),
-(36, 5, 4, 44);
+(58, 5, 2, 44),
+(59, 5, 3, 44),
+(60, 5, 4, 44);
 
 -- --------------------------------------------------------
 
@@ -473,33 +509,28 @@ CREATE TABLE `users` (
   `profile_photo` varchar(255) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   `institute_id` int(11) DEFAULT NULL,
-  `must_change_password` tinyint(1) DEFAULT 1,
-  `is_independent` tinyint(1) NOT NULL DEFAULT 1
+  `must_change_password` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `email`, `password_hash`, `first_name`, `last_name`, `date_of_birth`, `is_active`, `created_at`, `profile_photo`, `role_id`, `institute_id`, `must_change_password`, `is_independent`) VALUES
-(40, 'kparascandalo@gmail.com', NULL, 'Charmaine', 'Parascandalo Hili', '2025-12-03', 1, '2025-12-15 18:15:34', NULL, 1, 1, 0, 0),
-(41, 'kimberly.parascandalo.e22247@mcast.edu.mt', '$2y$10$hNWIM.VGnNqKzxZBDkA/IOWKwnM9w8V7SjbNPySwfAUpnWEKlVilO', 'Kimberly', 'Parascandalo', '2003-05-09', 1, '2025-12-15 18:39:04', NULL, 2, 1, 0, 0),
-(42, 'kevinpara@gmail.com', '$2y$10$zYT1qPlQjoulOPs5XPJHbONB11Q2D2Omgrt3JVdlE/jDPn6D.WGYO', 'Kevin Ray', 'Parascandalo', '2019-05-14', 1, '2025-12-15 19:45:18', NULL, 2, 2, 0, 0),
-(44, 'maryborg@gmail.com', '$2y$10$Njw2d9RXi4bfLDLwXFa1mOKW.1C.KE7BPMIsyU4LVYWbT.igFFpOe', 'Mary', 'Borg', '2025-12-01', 1, '2025-12-16 09:40:00', NULL, 1, 1, 0, 0),
-(45, 'katehili@gmail.com', '$2y$10$Fwz4WfGBGG7Fay8Y/ki/JuUBUcE.k28ktB7CJMPsa1SGUFUO8XjVq', 'Kate', 'Hili', '2025-12-01', 1, '2025-12-16 10:03:35', NULL, 2, 1, 1, 0),
-(46, 'mayborg@gmail.com', '$2y$10$Qf4A9LdXTL.GkRYUvOeDyO3LXUrrma0DUHzE1AKRNwuwQrb3n7uMO', 'May', 'Borg', '2025-11-30', 1, '2025-12-16 10:07:34', NULL, 2, 1, 1, 0),
-(47, 'royborg@gmail.com', '$2y$10$co3Kvpzopb0MFVGbaYgmteaQoyQEoe4lf6./aKHGx.fhLaKMfq8gG', 'Roy', 'Borg', '2025-12-01', 1, '2025-12-16 10:10:23', NULL, 1, 3, 1, 0),
-(48, 'raycassar@gmail.com', '$2y$10$VESVxZ5Gst9JIJywoIkLb.KUf6NeUdXjcs3J5fX..TYoMKwloLdJu', 'Ray', 'Cassar', '2025-12-03', 1, '2025-12-16 10:18:31', NULL, 1, 1, 0, 0),
-(49, 'kimdelia@gmail.com', '$2y$10$oNdbXSGjzTQkLjUb2Tv/L.lUM5vXqlOZpgQRrPGZmKOAevs537l8O', 'Kim', 'Delia', '2025-12-03', 1, '2025-12-16 10:33:43', NULL, 2, 1, 0, 0),
-(50, 'katiakurmi@gmail.com', '$2y$10$mS1SYCBBLM2ANW0BfOwRCOFWOBZQhuoMEgbnwTLEytFBokRuVubBK', 'Katia', 'Curmi', '2025-12-04', 1, '2025-12-16 11:55:33', NULL, 4, 1, 0, 0),
-(51, 'ian@gmail.com', '$2y$10$JqlvZAbYQYRMBGNdfhA6Vu2ixULRO5YkLxrptoLXyZpMvFhrmiFOC', 'Ian', 'Vella', '2025-02-25', 1, '2026-01-12 15:40:00', '51-69654400b05aa9.96099892.png', 1, 1, 0, 0),
-(52, 'pam@gmail.com', '$2y$10$v3o5ozmH.BxbdZxxBnzJeeoJmSku4yKP1t019FKxAG3r6nBTMlzz2', 'Pam', 'Callus', '2018-01-15', 1, '2026-01-14 14:31:55', '52-69679e253fd2b0.96273244.png', 2, 1, 0, 0),
-(53, 'kevinp@gmail.com', '$2y$10$KMuaEX.frEb/339ICg2TjuJTVoqX8S5wUkodCZRVwHoNgAOruC/XS', 'kevin', 'p', '1970-08-18', 1, '2026-01-15 19:52:07', NULL, 2, 2, 0, 0),
-(54, 'ahiliangels@gmail.com', '$2y$10$Xl3IW4.SEzURtbMAelyBUecHMiOAfc9OGHobEpRZeesM9hSItQnAy', 'Lawrence', 'Hili', '1951-09-24', 1, '2026-01-18 17:26:54', '54-696d0ada5e8422.83668195.png', 4, 1, 0, 0),
-(55, 'kurt@gmail.com', '$2y$10$0AjGRqvABaRUZ22HNDgx5Ofr/ep.K8EQDWaZTU9Kg8HgmknWRxBfa', 'Kurt', 'Camilleri', '1890-03-23', 1, '2026-01-22 14:25:51', NULL, 2, 1, 1, 0),
-(56, 'charles@gmail.com', '$2y$10$EROXuv2jx5gHEmGpQ4qUVeW2MRHnB4DJVheLLsXlSbPxvJjbKW/4O', 'Charles', 'Vella', '1990-02-03', 1, '2026-01-22 14:28:21', NULL, 1, 1, 1, 0),
-(58, 'peter@gmail.com', '$2y$10$NP04E7lkp.TyzAQFCNqTe.XG8TmMWPwNAIoYUAWWk8UYG/TnNCI1m', 'Peter', 'Portelli', '2000-07-09', 1, '2026-01-22 15:13:25', NULL, 1, NULL, 0, 1),
-(59, 'tim@gmail.com', '$2y$10$PtdffiKU8AaWzHv8PKD1L.plNpWM9O0tW2qIbPj6TjJmvveSPtPwa', 'Tim', 'Vella', '2001-03-06', 1, '2026-01-22 15:14:56', NULL, 2, NULL, 0, 1);
+INSERT INTO `users` (`user_id`, `email`, `password_hash`, `first_name`, `last_name`, `date_of_birth`, `is_active`, `created_at`, `profile_photo`, `role_id`, `institute_id`, `must_change_password`) VALUES
+(40, 'kparascandalo@gmail.com', NULL, 'Charmaine', 'Parascandalo Hili', '2025-12-03', 1, '2025-12-15 18:15:34', NULL, 1, 1, 0),
+(41, 'kimberly.parascandalo.e22247@mcast.edu.mt', '$2y$10$hNWIM.VGnNqKzxZBDkA/IOWKwnM9w8V7SjbNPySwfAUpnWEKlVilO', 'Kimberly', 'Parascandalo', '2003-05-09', 1, '2025-12-15 18:39:04', NULL, 2, 1, 0),
+(42, 'kevinpara@gmail.com', '$2y$10$zYT1qPlQjoulOPs5XPJHbONB11Q2D2Omgrt3JVdlE/jDPn6D.WGYO', 'Kevin Ray', 'Parascandalo', '2019-05-14', 1, '2025-12-15 19:45:18', NULL, 2, 2, 0),
+(44, 'maryborg@gmail.com', '$2y$10$Njw2d9RXi4bfLDLwXFa1mOKW.1C.KE7BPMIsyU4LVYWbT.igFFpOe', 'Mary', 'Borg', '2025-12-01', 1, '2025-12-16 09:40:00', NULL, 1, 1, 0),
+(45, 'katehili@gmail.com', '$2y$10$Fwz4WfGBGG7Fay8Y/ki/JuUBUcE.k28ktB7CJMPsa1SGUFUO8XjVq', 'Kate', 'Hili', '2025-12-01', 1, '2025-12-16 10:03:35', NULL, 2, 1, 1),
+(46, 'mayborg@gmail.com', '$2y$10$yJDfDQapAhJjVxqPbrAsaOR5o7BXEAxE70.ZFuZqfRyZ6EgP/Q/Ia', 'May', 'Borg', '2025-11-30', 1, '2025-12-16 10:07:34', NULL, 2, 1, 0),
+(47, 'royborg@gmail.com', '$2y$10$co3Kvpzopb0MFVGbaYgmteaQoyQEoe4lf6./aKHGx.fhLaKMfq8gG', 'Roy', 'Borg', '2025-12-01', 1, '2025-12-16 10:10:23', NULL, 1, 3, 1),
+(48, 'raycassar@gmail.com', '$2y$10$VESVxZ5Gst9JIJywoIkLb.KUf6NeUdXjcs3J5fX..TYoMKwloLdJu', 'Ray', 'Cassar', '2025-12-03', 1, '2025-12-16 10:18:31', NULL, 1, 1, 0),
+(49, 'kimdelia@gmail.com', '$2y$10$oNdbXSGjzTQkLjUb2Tv/L.lUM5vXqlOZpgQRrPGZmKOAevs537l8O', 'Kim', 'Delia', '2025-12-03', 1, '2025-12-16 10:33:43', NULL, 2, 1, 0),
+(50, 'katiakurmi@gmail.com', '$2y$10$mS1SYCBBLM2ANW0BfOwRCOFWOBZQhuoMEgbnwTLEytFBokRuVubBK', 'Katia', 'Curmi', '2025-12-04', 1, '2025-12-16 11:55:33', NULL, 4, 1, 0),
+(51, 'ian@gmail.com', '$2y$10$JqlvZAbYQYRMBGNdfhA6Vu2ixULRO5YkLxrptoLXyZpMvFhrmiFOC', 'Ian', 'Vella', '2025-02-25', 1, '2026-01-12 15:40:00', '51-69654400b05aa9.96099892.png', 1, 1, 0),
+(52, 'pam@gmail.com', '$2y$10$v3o5ozmH.BxbdZxxBnzJeeoJmSku4yKP1t019FKxAG3r6nBTMlzz2', 'Pam', 'Callus', '2018-01-15', 1, '2026-01-14 14:31:55', '52-69679e253fd2b0.96273244.png', 2, 1, 0),
+(53, 'kevinp@gmail.com', '$2y$10$KMuaEX.frEb/339ICg2TjuJTVoqX8S5wUkodCZRVwHoNgAOruC/XS', 'kevin', 'p', '1970-08-18', 1, '2026-01-15 19:52:07', NULL, 2, 2, 0),
+(54, 'ahiliangels@gmail.com', '$2y$10$Xl3IW4.SEzURtbMAelyBUecHMiOAfc9OGHobEpRZeesM9hSItQnAy', 'Lawrence', 'Hili', '1951-09-24', 1, '2026-01-18 17:26:54', '54-696d0ada5e8422.83668195.png', 4, 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -510,7 +541,9 @@ INSERT INTO `users` (`user_id`, `email`, `password_hash`, `first_name`, `last_na
 --
 ALTER TABLE `assignment`
   ADD PRIMARY KEY (`assignment_id`),
-  ADD KEY `FK_assignment_unit` (`unit_id`);
+  ADD KEY `FK_assignment_unit` (`unit_id`),
+  ADD KEY `FK_assignment_class` (`class_id`),
+  ADD KEY `FK_assignment_teacher` (`teacher_id`);
 
 --
 -- Indexes for table `chat`
@@ -563,6 +596,7 @@ ALTER TABLE `course_units`
 --
 ALTER TABLE `enrolment`
   ADD PRIMARY KEY (`enrolment_id`),
+  ADD UNIQUE KEY `unique_enrol` (`course_id`,`class_id`,`student_id`),
   ADD KEY `FK_enrolment_student` (`student_id`),
   ADD KEY `FK_enrolment_course` (`course_id`),
   ADD KEY `fk_enrolment_class` (`class_id`);
@@ -582,7 +616,8 @@ ALTER TABLE `events`
 ALTER TABLE `file`
   ADD PRIMARY KEY (`file_id`),
   ADD KEY `FK_file_uploadBy` (`uploaded_by`),
-  ADD KEY `FK_file_unit` (`unit_id`);
+  ADD KEY `FK_file_unit` (`unit_id`),
+  ADD KEY `fk_file_class` (`class_id`);
 
 --
 -- Indexes for table `grade`
@@ -651,6 +686,13 @@ ALTER TABLE `submission`
   ADD KEY `FK_submission_student` (`student_id`);
 
 --
+-- Indexes for table `submission_files`
+--
+ALTER TABLE `submission_files`
+  ADD PRIMARY KEY (`submission_file_id`),
+  ADD KEY `idx_sub_files_submission` (`submission_id`);
+
+--
 -- Indexes for table `teacher_profile`
 --
 ALTER TABLE `teacher_profile`
@@ -691,7 +733,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `chat`
@@ -733,7 +775,7 @@ ALTER TABLE `course_units`
 -- AUTO_INCREMENT for table `enrolment`
 --
 ALTER TABLE `enrolment`
-  MODIFY `enrolment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `enrolment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -745,7 +787,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `file`
 --
 ALTER TABLE `file`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `grade`
@@ -781,7 +823,7 @@ ALTER TABLE `parent_student`
 -- AUTO_INCREMENT for table `reset_password`
 --
 ALTER TABLE `reset_password`
-  MODIFY `reset_password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `reset_password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -799,7 +841,13 @@ ALTER TABLE `settings_theme`
 -- AUTO_INCREMENT for table `submission`
 --
 ALTER TABLE `submission`
-  MODIFY `submission_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `submission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `submission_files`
+--
+ALTER TABLE `submission_files`
+  MODIFY `submission_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `teacher_profile`
@@ -817,13 +865,13 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `unit_teacher`
 --
 ALTER TABLE `unit_teacher`
-  MODIFY `unit_teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `unit_teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- Constraints for dumped tables
@@ -833,6 +881,8 @@ ALTER TABLE `users`
 -- Constraints for table `assignment`
 --
 ALTER TABLE `assignment`
+  ADD CONSTRAINT `FK_assignment_class` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_assignment_teacher` FOREIGN KEY (`teacher_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_assignment_unit` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`unit_id`) ON UPDATE CASCADE;
 
 --
@@ -890,7 +940,8 @@ ALTER TABLE `events`
 --
 ALTER TABLE `file`
   ADD CONSTRAINT `FK_file_unit` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`unit_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_file_uploadBy` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_file_uploadBy` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_file_class` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `grade`
@@ -939,6 +990,12 @@ ALTER TABLE `settings_theme`
 ALTER TABLE `submission`
   ADD CONSTRAINT `FK_submission_assignment` FOREIGN KEY (`assignment_id`) REFERENCES `assignment` (`assignment_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_submission_student` FOREIGN KEY (`student_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `submission_files`
+--
+ALTER TABLE `submission_files`
+  ADD CONSTRAINT `FK_sub_files_submission` FOREIGN KEY (`submission_id`) REFERENCES `submission` (`submission_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `teacher_profile`

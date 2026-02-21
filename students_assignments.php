@@ -179,8 +179,11 @@ mysqli_stmt_close($stmtUnit);
           </a>
 
           <form action="includes/delete_submission_file.php" method="post" class="ms-2">
-            <input type="hidden" name="submission_file_id" value="<?php echo (int)$f['submission_file_id']; ?>">
-            <input type="hidden" name="unit_id" value="<?php echo (int)$unit_id; ?>">
+              <input type="hidden" name="assignment_id"
+         value="<?php echo (int)$a['assignment_id']; ?>">
+
+  <input type="hidden" name="unit_id"
+         value="<?php echo (int)$unit_id; ?>">
             <button type="submit" class="btn btn-sm btn-danger">Remove</button>
           </form>
         </li>

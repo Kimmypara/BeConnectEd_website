@@ -60,22 +60,27 @@ if (isset($_POST['add'])) {
 
 if (isset($_POST['remove'])) {
 
-    if ($course_id <= 0 || $class_id <= 0 || $student_id <= 0) {
+    if ($class_id <= 0 || $student_id <= 0) {
         goBack($course_id, $class_id, "error=missing");
     }
 
-    $deleteSql = "DELETE FROM enrolment WHERE student_id = ? AND course_id = ? AND class_id = ?";
+    // Delete based on class + student only
+    $deleteSql = "DELETE FROM enrolment
+                  WHERE student_id = ? AND class_id = ?
+                  LIMIT 1";
+
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $deleteSql)) {
         die("Prepare failed: " . mysqli_error($conn));
     }
 
-    mysqli_stmt_bind_param($stmt, "iii", $student_id, $course_id, $class_id);
+    mysqli_stmt_bind_param($stmt, "ii", $student_id, $class_id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
     goBack($course_id, $class_id, "success=removed");
 }
+
 
 goBack($course_id, $class_id);

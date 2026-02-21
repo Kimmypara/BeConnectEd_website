@@ -1,17 +1,40 @@
 <?php
 require_once "dbh.php";
 require_once "functions.php";
-session_start();
 
-if (!isset($_POST["uploadFile"]) || $_POST["uploadFile"] !== "upload") {
-  header("Location: ../students_assignments.php");
-  exit();
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
+
 
 $student_id    = (int)($_SESSION["user_id"] ?? 0);
 $assignment_id = (int)($_POST["assignment_id"] ?? 0);
-$unit_id       = (int)($_POST["unit_id"] ?? 0);
+$unit_id = (int)($_POST["unit_id"] ?? 0);
 
+// Fallback: if still 0, try to infer unit_id from assignment
+if ($unit_id <= 0 && $assignment_id > 0) {
+    $sqlUnitFromAssign = "SELECT unit_id FROM assignment WHERE assignment_id = ? LIMIT 1";
+    $stU = mysqli_stmt_init($conn);
+    if (mysqli_stmt_prepare($stU, $sqlUnitFromAssign)) {
+        mysqli_stmt_bind_param($stU, "i", $assignment_id);
+        mysqli_stmt_execute($stU);
+        $resU = mysqli_stmt_get_result($stU);
+        if ($rowU = mysqli_fetch_assoc($resU)) {
+            $unit_id = (int)$rowU['unit_id'];
+        }
+        mysqli_stmt_close($stU);
+    }
+}
+
+
+
+if (!isset($_POST["uploadFile"]) || $_POST["uploadFile"] !== "upload") {
+  header("Location: ../students_assignments.php?unit_id={$unit_id}");
+  exit();
+}
+
+/* IDs must all be valid */
 if ($student_id <= 0 || $assignment_id <= 0 || $unit_id <= 0) {
   header("Location: ../students_assignments.php?unit_id={$unit_id}&error=missingdata");
   exit();
@@ -33,7 +56,7 @@ if (!is_dir($uploadDirFs)) {
   mkdir($uploadDirFs, 0755, true);
 }
 
-/* 1) Get or create submission row (one per student per assignment) */
+/*  Get or create submission row (one per student per assignment) */
 $submission_id = 0;
 
 $checkSql = "SELECT submission_id
@@ -50,7 +73,8 @@ if (mysqli_stmt_prepare($st, $checkSql)) {
 
   if ($existing) {
     $submission_id = (int)$existing["submission_id"];
-    // update timestamp to latest activity (optional)
+
+    // optional: update timestamp
     $up = mysqli_stmt_init($conn);
     if (mysqli_stmt_prepare($up, "UPDATE submission SET submitted_at = NOW() WHERE submission_id = ?")) {
       mysqli_stmt_bind_param($up, "i", $submission_id);
@@ -72,7 +96,7 @@ if ($submission_id <= 0) {
   mysqli_stmt_close($ins);
 }
 
-/* 2) Loop each file and insert into submission_files */
+
 $uploadedAny = false;
 
 for ($i = 0; $i < count($_FILES["userFiles"]["name"]); $i++) {
@@ -83,14 +107,14 @@ for ($i = 0; $i < count($_FILES["userFiles"]["name"]); $i++) {
   $err  = (int)($_FILES["userFiles"]["error"][$i] ?? UPLOAD_ERR_NO_FILE);
 
   if ($err === UPLOAD_ERR_NO_FILE) continue;
-  if ($err !== UPLOAD_ERR_OK) continue;
+  if ($err !== UPLOAD_ERR_OK)   continue;
   if ($size <= 0 || $size > $maxSize) continue;
 
   $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
   if (!in_array($ext, $allowed, true)) continue;
 
   $newFileName = $submission_id . "-" . bin2hex(random_bytes(8)) . "." . $ext;
-  $destFs = $uploadDirFs . $newFileName;
+  $destFs      = $uploadDirFs . $newFileName;
 
   if (!move_uploaded_file($tmp, $destFs)) continue;
 
@@ -107,7 +131,6 @@ for ($i = 0; $i < count($_FILES["userFiles"]["name"]); $i++) {
 }
 
 if (!$uploadedAny) {
-  // nothing valid uploaded (wrong type/too big/etc.)
   header("Location: ../students_assignments.php?unit_id={$unit_id}&error=filetype");
   exit();
 }

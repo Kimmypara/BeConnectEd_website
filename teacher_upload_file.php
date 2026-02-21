@@ -96,18 +96,21 @@ if (mysqli_stmt_prepare($stmtC, $sqlC)) {
 
 
               <!-- Select a file  -->
-              <div class="mb-3">
-                <input type="file" name="userFile" id="userFile"
-                       class="form-control"
+              <div class="row">
+              <div class="col">
+                <label class="formFields" for="date_of_birth">Choose a File</label>
+                <input class="placeholder_style mb-2 " type="file" name="userFile" id="userFile"  
                        accept=".pdf,.pptx,.docx,.xlsx">
-
-              
+</div>
               </div>
+              
+             
 
               <!-- Category -->
-              <div class="mb-3">
-                <label class="form-label">Category</label>
-                <select name="category" class="form-select" required>
+               <div class="row">
+              <div class="col">
+                <label class="formFields">Category</label>
+                <select name="category" class="placeholder_style mb-2" required>
                   <option value="">Choose category</option>
                   <option value="Lecture Notes">Lecture Notes</option>
                   <option value="Slides">Slides</option>
@@ -119,22 +122,29 @@ if (mysqli_stmt_prepare($stmtC, $sqlC)) {
                   <option value="Other">Other</option>
                 </select>
               </div>
-
-        
-
-              <!-- Notes -->
-              <div class="mb-3">
-                <label class="form-label">Notes</label>
-                <textarea name="notes" class="form-control" rows="4" placeholder="Add notes (optional)"></textarea>
               </div>
 
+    
+
+              <!-- Notes -->
+              <div class="row">
+              <div class="col">
+                <label class="formFields">Notes</label>
+                <textarea name="notes" class="placeholder_style mb-2" rows="4" placeholder="Add notes (optional)"></textarea>
+              </div>
+</div>
               <!-- Buttons -->
-              <div class="row g-2">
-                <div class="col-6 d-grid">
-                  <button type="submit" name="uploadFile" value="upload" class="btn button9">Send</button>
+              <div class="row d-flex ">
+              <div class="col-lg-3"></div>
+                    <div class="col-lg-2">
+                  <button type="submit" name="uploadFile" value="upload" class="btn button">Send</button>
                 </div>
-                <div class="col-6 d-grid">
-                  <a class="btn button9" href="teachers_files.php?unit_id=<?php echo (int)$unit_id; ?>">Cancel</a>
+                <div class="col-lg-2"></div>
+                        
+                    <div class="col-lg-2">
+                   <button href="teacher_upload_file.php" class="button btn" type="reset" name="reset"  id="reset">Cancel</button>
+                  
+                <div class="col-lg-3"></div>
                 </div>
               </div>
 

@@ -29,6 +29,7 @@ $result = getTeacherEnrolmentWithUnit($conn, $teacher_id);
       <div class="row">  
         <div class="col-12">  
             <div class="form_bg">
+         
               <h2 class=" form_title">Teaching Units</h2>
  <div class="row">
      <?php if (mysqli_num_rows($result) === 0): ?>
@@ -66,26 +67,21 @@ $result = getTeacherEnrolmentWithUnit($conn, $teacher_id);
                         </div>
                        
                           <div class="row g-3 justify-content-center mt-2">
-                          <div class="col-sm-8 col-md-4 col-lg-3 d-grid ">
+                          <div class="col-sm-8 col-md-6 col-lg-6 d-grid ">
                           <a href="teachers_files.php?unit_id=<?php echo (int)$row['unit_id']; ?>&class_id=<?php echo (int)($row['class_id'] ?? 0); ?>"
    class="btn button9 w-100">Files</a>
 
 
                           </div>
 
-                          <div class="col-sm-8 col-md-4 col-lg-3 d-grid">
+                          <div class="col-sm-8 col-md-6 col-lg-6 d-grid">
                           <a href="teacher_open_submissions.php?unit_id=<?php echo (int)$row['unit_id']; ?>&class_id=<?php echo (int)$row['class_id']; ?>"
    class="btn button9">
    Submissions
 </a>
-
-
                           </div>
 
-                          <div class="col-sm-8 col-md-4 col-lg-3 d-grid">
-                            <a href="" class="btn button9 w-100">Grades</a>
-                          </div>
-                        </div>
+                        
 
                       </div>
                     </div>

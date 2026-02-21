@@ -113,7 +113,9 @@ if (mysqli_stmt_prepare($stmt, $sql)) {
                           </div>
 
                           <div class="col-sm-8 col-md-4 col-lg-3 d-grid">
-                            <a href="students_grades.php?unit_id=<?php echo (int)$u['unit_id']; ?>" class="btn button9 w-100">Grades</a>
+                            <a href="students_grades.php?unit_id=<?php echo (int)$u['unit_id']; ?>" class="btn button9 w-100">
+  Grades
+</a>
                           </div>
                         </div>
 
