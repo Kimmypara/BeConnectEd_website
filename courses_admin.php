@@ -26,7 +26,7 @@ include "includes/nav.php";
                 <div class="row align-items-center">
 
                    <!-- SEARCH BAR -->
-                    <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="col-lg-5 col-md-6 col-sm-12">
                         <form class="d-flex">
                             <button class="search_button btn-outline-success my-3" type="submit">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -37,10 +37,13 @@ include "includes/nav.php";
                             <input class="form-control" type="search" placeholder="Search">
                         </form>
                     </div>
+                    <div class="col-lg-3 col-md-2  text-end">
+                    
+                </div>
 
                     <!-- Assign Units to Course BUTTON -->
-                    <div class="col-lg-6 col-md-6 col-sm-12 text-end mt-3 mt-md-0">
-                    <button type="button" class="btn button7" data-bs-toggle="modal" data-bs-target="#assignUnitsModal">
+                    <div class="col-lg-4 col-md-4 col-sm-12 text-end ">
+                    <button type="button" class="btn button" data-bs-toggle="modal" data-bs-target="#assignUnitsModal">
                     Assign Units to Course
                     </button>
                     </div>
@@ -100,7 +103,7 @@ else{
 }
 
 
-echo '<a href="edit_course.php?course_id=' . $row['course_id'] . '" class="button4">View / Edit</a>';
+echo '<a href="edit_course.php?course_id=' . $row['course_id'] . '" class="button4">View/Edit</a>';
 
 
 echo '</td>';
@@ -165,7 +168,7 @@ else{
 }
 
 
-echo '<a href="edit_unit.php?unit_id=' . $row['unit_id'] . '" class="button4">View / Edit</a>';
+echo '<a href="edit_unit.php?unit_id=' . $row['unit_id'] . '" class="button4">View/Edit</a>';
 
 
 echo '</td>';
@@ -292,11 +295,11 @@ $unitsRes   = getUnits($conn);
 
           <!-- Units container -->
           <div id="unitsContainer">
-            <div class="row align-items-center mb-3 unit-row">
+            <div class="row align-items-center unit-row">
               <div class="col-3">
                 <label class="formFields mb-0">Choose Unit</label>
               </div>
-              <div class="col-9">
+              <div class="col-6">
                 <select name="unit_ids[]" class="form-select placeholder_style unit-select" required>
                   <option value="" disabled selected>Units</option>
 
@@ -329,12 +332,12 @@ $unitsRes   = getUnits($conn);
              <div class="row d-flex ">
               <div class="col-lg-2"></div>
                     <div class="col-lg-3">
-                         <button type="submit" name="submit" class="btn button8">Assign Units</button>
+                         <button type="submit" name="submit" class="btn button8 mt-1">Assign Units</button>
                     </div>
                     <div class="col-lg-2"></div>
                         
                     <div class="col-lg-3">
-                        <button href="courses_admin.php" class="btn button8 " type="reset" name="reset"  id="reset">Cancel</button>
+                        <button href="courses_admin.php" class="btn button8 mt-1" type="reset" name="reset"  id="reset">Cancel</button>
                     </div>
                         <div class="col-lg-2"></div>
                 </div>
@@ -366,11 +369,12 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="col-3">
         <label class="formFields mb-0">Choose Unit</label>
       </div>
-      <div class="col-7">
+      <div class="col-6">
         <select name="unit_ids[]" class="form-select placeholder_style unit-select" required>
           ${unitOptionsHTML}
         </select>
       </div>
+     
       <div class="col-2 text-end">
         <button type="button" class="btn button5 remove-unit-btn">Remove</button>
       </div>

@@ -73,14 +73,14 @@ mysqli_stmt_close($stmt);
         <div class="col-12">  
             <div class="form_bg">
                <div class="row">
-     <div class="col-1"></div>
-<div class="col-10">
+     <div class="col-2"></div>
+<div class="col-8">
                   <h2 class=" form_title">Grades</h2>
               </div>
  
       <!--card/list mode -->
       
-      <div class="col-1 mt-3" >
+      <div class="col-2 mt-3" >
         
     <a href="" id="cardListSwitch" alt="view grades as grid or table mode button">
 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-card-list listmode" viewBox="0 0 16 16">
@@ -173,7 +173,7 @@ mysqli_stmt_close($stmt);
  <!-- List view -->
   
 <div class="grades-view-list table-responsive mt-1">
-    <table class="table_admin1">
+    <table class="table_admin">
         <thead>
             <tr>
                 <th class="columns">Unit</th>
@@ -181,7 +181,7 @@ mysqli_stmt_close($stmt);
                 <th class="columns">Task</th>
                 <th class="columns">Mark</th>
                 <th class="columns">Grade</th>
-                <th class="comments">Comments</th>
+                <th class="comments">Details</th>
             </tr>
         </thead>
         <tbody>
@@ -192,8 +192,25 @@ mysqli_stmt_close($stmt);
                     <td ><?= htmlspecialchars($g['task_title']); ?></td>
                     <td ><?= htmlspecialchars($g['mark'] ?? '—'); ?></td>
                     <td ><?= htmlspecialchars($g['grade'] ?? '—'); ?></td>
-                    <td ><?= nl2br(htmlspecialchars($g['comments'] ?? '—')); ?></td>
+                    <td> <button type="button"
+                                  class="btn btn-sm button mt-auto"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#viewGrade"
+                                  data-unit-name="<?php echo htmlspecialchars($g['unit_name'], ENT_QUOTES); ?>"
+                                  data-unit-code="<?php echo htmlspecialchars($g['unit_code'], ENT_QUOTES); ?>"
+                                  data-task-title="<?php echo htmlspecialchars($g['task_title'], ENT_QUOTES); ?>"
+                                  data-mark="<?php echo htmlspecialchars($g['mark'] ?? '', ENT_QUOTES); ?>"
+                                  data-grade="<?php echo htmlspecialchars($g['grade'] ?? '', ENT_QUOTES); ?>"
+                                  data-comments="<?php echo htmlspecialchars($g['comments'] ?? '', ENT_QUOTES); ?>">
+                            View Details
+                          </button></td>
+                    
+
+                  
                 </tr>
+
+
+                
             <?php endforeach; ?>
         </tbody>
     </table>
@@ -221,23 +238,23 @@ mysqli_stmt_close($stmt);
 
       <div class="modal-body">
         <div class="col-md-12 mt-1">
-          <div class="title">Unit Name:&nbsp;<span class="label" id="m_unit_name"></span></div>
+          <div class="title2">Unit Name:&nbsp;<span class="label" id="m_unit_name"></span></div>
         </div>
         <div class="col-md-12 mt-1">
-          <div class="title">Unit Code:&nbsp;<span class="label" id="m_unit_code"></span></div>
+          <div class="title2">Unit Code:&nbsp;<span class="label" id="m_unit_code"></span></div>
         </div>
         <div class="col-12 mt-1">
-          <div class="title">Task Title:&nbsp;<span class="label" id="m_task_title"></span></div>
+          <div class="title2">Task Title:&nbsp;<span class="label" id="m_task_title"></span></div>
         </div>
         <div class="col-12 mt-1">
-          <div class="title">Mark:&nbsp;<span class="label" id="m_mark"></span></div>
+          <div class="title2">Mark:&nbsp;<span class="label" id="m_mark"></span></div>
         </div>
         <div class="col-12 mt-1">
-          <div class="title">Grade:&nbsp;<span class="label" id="m_grade"></span></div>
+          <div class="title2">Grade:&nbsp;<span class="label" id="m_grade"></span></div>
         </div>
 
         <div class="col-12 mt-1">
-          <div class="title">
+          <div class="title2">
             Comments:
             <div class="label comment-box" id="m_comments"></div>
           </div>

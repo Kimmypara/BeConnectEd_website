@@ -30,7 +30,7 @@ error_reporting(E_ALL);
             <div class="row align-items-center">
 
                 <!-- SEARCH BAR -->
-                <div class="col-lg-5 col-md-6 col-sm-4">
+                <div class="col-lg-5 col-md-6 col-sm-12">
                     <form class="d-flex">
                        
                         <button class="search_button btn-outline-success my-3" type="submit">
@@ -41,17 +41,17 @@ error_reporting(E_ALL);
                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     </form>
                 </div>
-
+<div class="col-lg-3 col-md-2  text-end">
+                    
+                </div>
                     <!-- Add new class BUTTON -->
-                    <div class="col-lg-6 col-md-6 col-sm-12 text-end mt-3 mt-md-0">
-                    <button type="button" class="btn button7" data-bs-toggle="modal" data-bs-target="#addNewClassModal">
+                    <div class="col-lg-4 col-md-4 col-sm-12 text-end ">
+                    <button type="button" class="btn button" data-bs-toggle="modal" data-bs-target="#addNewClassModal">
                     New Class
                     </button>
                     </div>
 
-                <div class="col-lg-4 col-md-2 col-sm-4 text-end">
-                    
-                </div>
+                
 
       <!--Table -->  
 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -101,7 +101,7 @@ if ($result) {
   echo '</td>';
 
     echo '<td class="text-center">
-<a href="edit_class.php?class_id=' . (int)$row['class_id'] . '" class="button_table">View / Edit</a>  
+<a href="edit_class.php?class_id=' . (int)$row['class_id'] . '" class="button_table">View/Edit</a>  
           </td>';
 
     echo '</tr>';

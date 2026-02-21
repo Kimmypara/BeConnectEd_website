@@ -36,7 +36,7 @@ error_reporting(E_ALL);
             <div class="row align-items-center">
 
                 <!-- SEARCH BAR -->
-                <div class="col-lg-5 col-md-6 col-sm-4">
+                <div class="col-lg-5 col-md-6 col-sm-12">
                     <form class="d-flex">
                        
                         <button class="search_button btn-outline-success my-3" type="submit">
@@ -47,12 +47,12 @@ error_reporting(E_ALL);
                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     </form>
                 </div>
-                <div class="col-lg-4 col-md-2 col-sm-4 text-end">
+                <div class="col-lg-3 col-md-2  text-end">
                     
                 </div>
 
                 <!-- REGISTER BUTTON -->
-                <div class="col-lg-3 col-md-4 col-sm-4 text-end">
+                <div class="col-lg-4 col-md-4 col-sm-12 text-end">
                     <a href="new_registration_admin.php" class="button">New Registration</a>
                 </div>
 
@@ -64,9 +64,9 @@ error_reporting(E_ALL);
     <th>First Name</th>
     <th>Last Name</th>
     <th>Email</th>
-    <th>Status</th>
+    <th >Status</th>
      <th></th>
-      <th></th>
+      <th class="columns1"></th>
   </tr>
 
   <?php
@@ -82,7 +82,7 @@ while($row = mysqli_fetch_assoc($result)){
 
   echo '<td class="text-center">';
   if ($row['is_active']) {
-      echo '<button type="button" class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
+      echo '<button type="button"  class="button4" data-bs-toggle="modal" data-bs-target="#confirmModal"
               data-user-id="' . $row['user_id'] . '" data-action="inactivate">
               Deregister
             </button>';
@@ -104,7 +104,7 @@ else{
   echo '</td>';
 
   echo '<td class="text-center">
-          <a href="edit-registration.php?user_id=' . $row['user_id'] . '" class="button_table">View / Edit</a>
+          <a href="edit-registration.php?user_id=' . $row['user_id'] . '" class="button_table">View/Edit</a>
         </td>';
 
   echo '</tr>';

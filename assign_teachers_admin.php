@@ -23,7 +23,7 @@ require_once "includes/users.php";
             <div class="row align-items-center">
 
  <!-- SEARCH BAR -->
-                <div class="col-lg-5 col-md-6 col-sm-4">
+                <div class="col-lg-5 col-md-6 col-sm-12">
                     <form class="d-flex">
                        
                         <button class="search_button btn-outline-success my-3" type="submit">
@@ -34,15 +34,17 @@ require_once "includes/users.php";
                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     </form>
                 </div>
-                <div class="col-lg-4 col-md-2 col-sm-4 text-end">
+                <div class="col-lg-3 col-md-2  text-end">
                     
                 </div>
 
                 <!-- REGISTER BUTTON -->
-                 
-                <button type="button" class="btn button7" data-bs-toggle="modal" data-bs-target="#assignTeacherModal">
+                 <div class="col-lg-4 col-md-4 col-sm-12 text-end">
+                    
+               
+                <button type="button" class="btn button" data-bs-toggle="modal" data-bs-target="#assignTeacherModal">
                   Assign New Teacher to Unit and Class
-                </button>
+                </button> </div>
              
               <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
                 <table class="table_admin">
@@ -50,7 +52,7 @@ require_once "includes/users.php";
                     <th>Teacher</th>
                     <th>Class</th>
                     <th>Units</th>
-                    <th></th>
+                    <th ></th>
                   </tr>
 
                   <?php
@@ -69,9 +71,9 @@ require_once "includes/users.php";
                            <?php echo '<td>';
   if (!empty($row['unit_codes'])) {
     $codes = explode(', ', $row['unit_codes']);
-    echo '<p class="mb-0 mt-1 ps-3">';
+    echo '<p class="mb-0 mt-1 ">';
     foreach ($codes as $code) {
-      echo '<p >' . htmlspecialchars($code) . '</p>';
+      echo  htmlspecialchars($code) ;
     }
     echo '</p>';
   } else {
@@ -82,7 +84,7 @@ require_once "includes/users.php";
                             <a class="button_table"
                                href="edit_assign_teachers_admin.php?teacher_id=<?php echo $teacherId; ?>&class_id=<?php echo $classId; ?>">
                                
-                              View / Edit
+                              View/Edit
                             </a>
                           </td>
                         </tr>
