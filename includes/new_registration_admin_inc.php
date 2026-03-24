@@ -137,7 +137,7 @@ $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 mail($to, $subject, $message, $headers);
 
 
-$_SESSION['reset_link'] = $resetLink;
+
 
 header("Location: " . $success_to);
 exit();

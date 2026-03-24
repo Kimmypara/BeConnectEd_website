@@ -130,18 +130,7 @@ include "includes/nav.php";
           </div>
         </div>
 
-              <?php
-if (isset($_SESSION['reset_link']) && ($_SERVER['SERVER_NAME'] === 'localhost')): ?>
-  <div class="alert alert-info">
-    <strong>Reset link (dev only):</strong><br>
-    <a href="<?php echo htmlspecialchars($_SESSION['reset_link']); ?>" target="_blank">
-      <?php echo htmlspecialchars($_SESSION['reset_link']); ?>
-    </a>
-  </div>
-<?php
-  unset($_SESSION['reset_link']);
-endif;
-?>
+
 
 
   <?php 
