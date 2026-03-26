@@ -130,13 +130,11 @@ Regards,
 BeConnectEd Team
 ";
 
-$headers  = "From: beconnected.system@gmail.com\r\n";
-$headers .= "Reply-To: beconnected.system@gmail.com\r\n";
+$headers  = "From: beconnected.website@gmail.com\r\n";
+$headers .= "Reply-To: beconnected.website@gmail.com\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
 mail($to, $subject, $message, $headers);
-
-
 
 
 header("Location: " . $success_to);
@@ -144,7 +142,6 @@ exit();
 
 
 ?>
-
 
 
 

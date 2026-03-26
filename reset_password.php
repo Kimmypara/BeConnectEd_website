@@ -38,20 +38,14 @@ $error = "";
             <!--  FORM -->
             <div class="form-login col-lg-4 col-md-4 col-sm-12">
 
-                <h4 class="form-title mb-3">Set Your Password</h4>
+                <h4 class="form-title mb-3">Reset Password</h4>
 
                
 
-                <form method="POST" action="/BeConnectEd_website/includes/reset_password_inc.php">
+                <form method="POST" action="/BeConnectEd_website/send_reset_code.php">
 
                     <input type="email" name="email"
                            placeholder="Email address" class="d-block button3" required>
-
-                    <input type="password" name="password"
-                           placeholder="New password" class="d-block button3" required>
-
-                    <input type="password" name="confirm_password"
-                           placeholder="Confirm password" class="d-block button3" required>
 
                             <?php
 if (isset($_GET["error"])) {
@@ -65,9 +59,9 @@ if (isset($_GET["error"])) {
     $error .= "<li class='error-msg'>This email is not registered.</li>";
   }
 
-  if ($_GET["error"] === "passwordmismatch") {
-    $error .= "<li class='error-msg'>Password does not match.</li>";
-  }
+  //if ($_GET["error"] === "passwordmismatch") {
+   // $error .= "<li class='error-msg'>Password does not match.</li>";
+  //}
   if ($_GET["error"] === "noactiveaccount") {
     $error .= "<li class='error-msg'>Your account is not active. Please contact the administrator</li>";
   }
@@ -84,7 +78,7 @@ if (isset($_GET["error"])) {
                     <button type="submit"
                             name="submit"
                             class="button loginbtn ">
-                        Set Password
+                        Send Code
                     </button>
 
                 </form>
