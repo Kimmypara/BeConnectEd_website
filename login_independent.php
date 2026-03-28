@@ -103,7 +103,7 @@ if ($error === 'notIndependentUser') {
     New user?
     <a class="formFields2" href="create_account.php">Create an Account</a>
 </p>
-<p><a class="formFields2" href="reset_password.php">Forgot password</a></p>
+<p><a class="formFields2" href="forgot_password.php">Forgot password</a></p>
         <div class="row">
         <div class="col">
             <button  type="submit" id="submit" name="submit" class="button loginbtn">Login</button>

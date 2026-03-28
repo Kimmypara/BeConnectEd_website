@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2026 at 07:59 PM
+-- Generation Time: Mar 28, 2026 at 12:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -249,6 +249,14 @@ CREATE TABLE `grade` (
   `comments` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `grade`
+--
+
+INSERT INTO `grade` (`grade_id`, `submission_id`, `teacher_id`, `mark`, `grade`, `comments`) VALUES
+(1, 1, 48, 85, 'A', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril'),
+(2, 2, 48, 24, 'U', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril');
+
 -- --------------------------------------------------------
 
 --
@@ -323,27 +331,42 @@ CREATE TABLE `reset_password` (
   `reset_password_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `reset_token` varchar(255) DEFAULT NULL,
-  `expires_at` datetime DEFAULT NULL
+  `expires_at` datetime DEFAULT NULL,
+  `is_used` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reset_password`
 --
 
-INSERT INTO `reset_password` (`reset_password_id`, `user_id`, `reset_token`, `expires_at`) VALUES
-(1, 40, 'bafaa0d91d0f0d7f088ecddb5c47853f7c359322e063f8222394a78447dd5d28', '2025-12-15 19:15:34'),
-(2, 41, 'a36b617ae197c1176bd8923721c9be0d302eebb482ab0367c101941617d1ef45', '2025-12-15 19:39:04'),
-(3, 42, '32756d142a5797d905044fef238fdcfd50620a2ee3b325efe6c068dc2937fb74', '2025-12-15 20:45:18'),
-(4, 44, 'e3428f8b112ee6e782f0564a9584e9f967c4698011905a209216c5bb7f249280', '2025-12-16 10:40:00'),
-(5, 45, 'dc255a1669dbc80e5a1fa242dc1de5c4fd458bc3bba723444edbc0f35f962752', '2025-12-16 11:03:35'),
-(6, 46, 'd2ed4444dc298b8e527e8f62e051de7989d3f49b551cf67303e453d49ff3f447', '2025-12-16 11:07:34'),
-(7, 47, '0f285f68c9a41a3974e68e0f32bd5566ba849498dc688d2cc253c43fe18ef55f', '2025-12-16 11:10:23'),
-(9, 49, '1f1e36e71e333474bc2a39b20b06458af6df87c3ad379be8455a325ebfe705d7', '2025-12-16 11:33:43'),
-(10, 50, '409b121c91ceecefd28f5bd8ce0ea2f98c36c2230611817efe7e5d901983ec11', '2025-12-16 12:55:33'),
-(11, 51, '400f5024b3de0432008a8386d840ee98cd27faf0e08813fa1313f74dc239b727', '2026-01-12 16:40:00'),
-(12, 52, '7c973c6eb6ea6c8ebcc026dbb586e9a6ad13eca73709de1d5de36c09c606f89e', '2026-01-14 15:31:55'),
-(13, 53, '74056e61f3eb86a1244f980086a3977fa9fbd7e9f77ca338b730d9a7f24d76bc', '2026-01-15 20:52:07'),
-(14, 54, 'e939edc827f70c00cb18912e3670a9743eafed78499d9dac1583ba7789a1f9d8', '2026-01-18 18:26:54');
+INSERT INTO `reset_password` (`reset_password_id`, `user_id`, `reset_token`, `expires_at`, `is_used`) VALUES
+(2, 41, 'a36b617ae197c1176bd8923721c9be0d302eebb482ab0367c101941617d1ef45', '2025-12-15 19:39:04', 0),
+(3, 42, '32756d142a5797d905044fef238fdcfd50620a2ee3b325efe6c068dc2937fb74', '2025-12-15 20:45:18', 0),
+(4, 44, 'e3428f8b112ee6e782f0564a9584e9f967c4698011905a209216c5bb7f249280', '2025-12-16 10:40:00', 0),
+(5, 45, 'dc255a1669dbc80e5a1fa242dc1de5c4fd458bc3bba723444edbc0f35f962752', '2025-12-16 11:03:35', 0),
+(6, 46, 'd2ed4444dc298b8e527e8f62e051de7989d3f49b551cf67303e453d49ff3f447', '2025-12-16 11:07:34', 0),
+(7, 47, '0f285f68c9a41a3974e68e0f32bd5566ba849498dc688d2cc253c43fe18ef55f', '2025-12-16 11:10:23', 0),
+(9, 49, '1f1e36e71e333474bc2a39b20b06458af6df87c3ad379be8455a325ebfe705d7', '2025-12-16 11:33:43', 0),
+(10, 50, '409b121c91ceecefd28f5bd8ce0ea2f98c36c2230611817efe7e5d901983ec11', '2025-12-16 12:55:33', 0),
+(12, 52, '7c973c6eb6ea6c8ebcc026dbb586e9a6ad13eca73709de1d5de36c09c606f89e', '2026-01-14 15:31:55', 0),
+(13, 53, '74056e61f3eb86a1244f980086a3977fa9fbd7e9f77ca338b730d9a7f24d76bc', '2026-01-15 20:52:07', 0),
+(14, 54, 'e939edc827f70c00cb18912e3670a9743eafed78499d9dac1583ba7789a1f9d8', '2026-01-18 18:26:54', 0),
+(15, 55, '072f4180e88d9488aaf907c75a1a7765d3b0d54cc2e343d487689a498584946d', '2026-02-24 19:23:48', 0),
+(16, 56, '19424cdee9138fe83679926fe3915fd8b7080eb7dab2f72cfbea948a7b11777f', '2026-02-24 19:24:21', 0),
+(17, 57, '36a700dba1aa3eb9da0eaebb61f3cf61cad9bd173aaff60379d5ad67d5f9465e', '2026-02-24 19:27:19', 0),
+(18, 58, 'fb675538e79602f0d762ccc4ecde838398b40bb96959a2f2cb53ff96bd345a9e', '2026-02-24 19:35:04', 0),
+(19, 59, '66df4f1376178a38e966fd519a240b12e40a7fc3b63d849b38cfcf96eac1195f', '2026-02-24 19:39:29', 0),
+(20, 60, '1481f34cbe427f236e3358ad801d0273998b23fc7d6094d82feaba4ad55f2687', '2026-02-24 19:53:10', 0),
+(21, 61, '5ab84f95b2fd56661fcdea4cc7c3c7eac1aa67c6002fc66acecfb7bf11884087', '2026-03-02 20:36:33', 0),
+(22, 62, '5cd06d9f8c46ad300dccbdc220b4e8f874b43b79df5551a86fdf2a2f0aac57bd', '2026-03-05 12:33:54', 0),
+(28, NULL, '591545', '2026-03-27 19:01:38', 0),
+(29, NULL, '434237', '2026-03-27 19:02:43', 0),
+(31, NULL, '424376', '2026-03-27 19:07:47', 0),
+(32, NULL, '901885', '2026-03-27 19:08:03', 0),
+(33, NULL, '499561', '2026-03-27 19:17:34', 0),
+(35, 51, '848012', '2026-03-27 19:25:07', 0),
+(37, 48, '818672', '2026-03-27 19:26:15', 0),
+(39, 40, '210755', '2026-03-28 11:50:20', 0);
 
 -- --------------------------------------------------------
 
@@ -398,7 +421,8 @@ CREATE TABLE `submission` (
 --
 
 INSERT INTO `submission` (`submission_id`, `assignment_id`, `student_id`, `file_path`, `submitted_at`) VALUES
-(1, 1, 46, NULL, '2026-02-19 19:58:28');
+(1, 1, 46, NULL, '2026-02-19 19:58:28'),
+(2, 1, 41, NULL, '2026-02-20 12:38:47');
 
 -- --------------------------------------------------------
 
@@ -419,7 +443,8 @@ CREATE TABLE `submission_files` (
 --
 
 INSERT INTO `submission_files` (`submission_file_id`, `submission_id`, `file_path`, `original_name`, `uploaded_at`) VALUES
-(1, 1, '1-f9a2714dcd78fbc4.docx', 'Notes for me.docx', '2026-02-19 19:58:28');
+(1, 1, '1-f9a2714dcd78fbc4.docx', 'Notes for me.docx', '2026-02-19 19:58:28'),
+(2, 2, '2-1f7c77f1585fa52e.docx', '1. L5Referencing Properly - Citations Booklet.docx', '2026-02-20 12:38:47');
 
 -- --------------------------------------------------------
 
@@ -509,6 +534,7 @@ CREATE TABLE `users` (
   `profile_photo` varchar(255) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   `institute_id` int(11) DEFAULT NULL,
+  `is_independent` tinyint(1) NOT NULL,
   `must_change_password` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -516,21 +542,29 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `email`, `password_hash`, `first_name`, `last_name`, `date_of_birth`, `is_active`, `created_at`, `profile_photo`, `role_id`, `institute_id`, `must_change_password`) VALUES
-(40, 'kparascandalo@gmail.com', NULL, 'Charmaine', 'Parascandalo Hili', '2025-12-03', 1, '2025-12-15 18:15:34', NULL, 1, 1, 0),
-(41, 'kimberly.parascandalo.e22247@mcast.edu.mt', '$2y$10$hNWIM.VGnNqKzxZBDkA/IOWKwnM9w8V7SjbNPySwfAUpnWEKlVilO', 'Kimberly', 'Parascandalo', '2003-05-09', 1, '2025-12-15 18:39:04', NULL, 2, 1, 0),
-(42, 'kevinpara@gmail.com', '$2y$10$zYT1qPlQjoulOPs5XPJHbONB11Q2D2Omgrt3JVdlE/jDPn6D.WGYO', 'Kevin Ray', 'Parascandalo', '2019-05-14', 1, '2025-12-15 19:45:18', NULL, 2, 2, 0),
-(44, 'maryborg@gmail.com', '$2y$10$Njw2d9RXi4bfLDLwXFa1mOKW.1C.KE7BPMIsyU4LVYWbT.igFFpOe', 'Mary', 'Borg', '2025-12-01', 1, '2025-12-16 09:40:00', NULL, 1, 1, 0),
-(45, 'katehili@gmail.com', '$2y$10$Fwz4WfGBGG7Fay8Y/ki/JuUBUcE.k28ktB7CJMPsa1SGUFUO8XjVq', 'Kate', 'Hili', '2025-12-01', 1, '2025-12-16 10:03:35', NULL, 2, 1, 1),
-(46, 'mayborg@gmail.com', '$2y$10$yJDfDQapAhJjVxqPbrAsaOR5o7BXEAxE70.ZFuZqfRyZ6EgP/Q/Ia', 'May', 'Borg', '2025-11-30', 1, '2025-12-16 10:07:34', NULL, 2, 1, 0),
-(47, 'royborg@gmail.com', '$2y$10$co3Kvpzopb0MFVGbaYgmteaQoyQEoe4lf6./aKHGx.fhLaKMfq8gG', 'Roy', 'Borg', '2025-12-01', 1, '2025-12-16 10:10:23', NULL, 1, 3, 1),
-(48, 'raycassar@gmail.com', '$2y$10$VESVxZ5Gst9JIJywoIkLb.KUf6NeUdXjcs3J5fX..TYoMKwloLdJu', 'Ray', 'Cassar', '2025-12-03', 1, '2025-12-16 10:18:31', NULL, 1, 1, 0),
-(49, 'kimdelia@gmail.com', '$2y$10$oNdbXSGjzTQkLjUb2Tv/L.lUM5vXqlOZpgQRrPGZmKOAevs537l8O', 'Kim', 'Delia', '2025-12-03', 1, '2025-12-16 10:33:43', NULL, 2, 1, 0),
-(50, 'katiakurmi@gmail.com', '$2y$10$mS1SYCBBLM2ANW0BfOwRCOFWOBZQhuoMEgbnwTLEytFBokRuVubBK', 'Katia', 'Curmi', '2025-12-04', 1, '2025-12-16 11:55:33', NULL, 4, 1, 0),
-(51, 'ian@gmail.com', '$2y$10$JqlvZAbYQYRMBGNdfhA6Vu2ixULRO5YkLxrptoLXyZpMvFhrmiFOC', 'Ian', 'Vella', '2025-02-25', 1, '2026-01-12 15:40:00', '51-69654400b05aa9.96099892.png', 1, 1, 0),
-(52, 'pam@gmail.com', '$2y$10$v3o5ozmH.BxbdZxxBnzJeeoJmSku4yKP1t019FKxAG3r6nBTMlzz2', 'Pam', 'Callus', '2018-01-15', 1, '2026-01-14 14:31:55', '52-69679e253fd2b0.96273244.png', 2, 1, 0),
-(53, 'kevinp@gmail.com', '$2y$10$KMuaEX.frEb/339ICg2TjuJTVoqX8S5wUkodCZRVwHoNgAOruC/XS', 'kevin', 'p', '1970-08-18', 1, '2026-01-15 19:52:07', NULL, 2, 2, 0),
-(54, 'ahiliangels@gmail.com', '$2y$10$Xl3IW4.SEzURtbMAelyBUecHMiOAfc9OGHobEpRZeesM9hSItQnAy', 'Lawrence', 'Hili', '1951-09-24', 1, '2026-01-18 17:26:54', '54-696d0ada5e8422.83668195.png', 4, 1, 0);
+INSERT INTO `users` (`user_id`, `email`, `password_hash`, `first_name`, `last_name`, `date_of_birth`, `is_active`, `created_at`, `profile_photo`, `role_id`, `institute_id`, `is_independent`, `must_change_password`) VALUES
+(40, 'kparascandalo@gmail.com', NULL, 'Charmaine', 'Parascandalo Hili', '2025-12-03', 1, '2025-12-15 18:15:34', NULL, 1, 1, 1, 0),
+(41, 'kimberly.parascandalo.e22247@mcast.edu.mt', '$2y$10$hNWIM.VGnNqKzxZBDkA/IOWKwnM9w8V7SjbNPySwfAUpnWEKlVilO', 'Kimberly', 'Parascandalo', '2003-05-09', 1, '2025-12-15 18:39:04', NULL, 2, 1, 0, 0),
+(42, 'kevinpara@gmail.com', '$2y$10$zYT1qPlQjoulOPs5XPJHbONB11Q2D2Omgrt3JVdlE/jDPn6D.WGYO', 'Kevin Ray', 'Parascandalo', '2019-05-14', 1, '2025-12-15 19:45:18', NULL, 2, 2, 0, 0),
+(44, 'maryborg@gmail.com', '$2y$10$Njw2d9RXi4bfLDLwXFa1mOKW.1C.KE7BPMIsyU4LVYWbT.igFFpOe', 'Mary', 'Borg', '2025-12-01', 1, '2025-12-16 09:40:00', NULL, 1, 1, 0, 0),
+(45, 'katehili@gmail.com', '$2y$10$Fwz4WfGBGG7Fay8Y/ki/JuUBUcE.k28ktB7CJMPsa1SGUFUO8XjVq', 'Kate', 'Hili', '2025-12-01', 1, '2025-12-16 10:03:35', NULL, 2, 1, 0, 1),
+(46, 'mayborg@gmail.com', '$2y$10$yJDfDQapAhJjVxqPbrAsaOR5o7BXEAxE70.ZFuZqfRyZ6EgP/Q/Ia', 'May', 'Borg', '2025-11-30', 1, '2025-12-16 10:07:34', NULL, 2, 1, 0, 0),
+(47, 'royborg@gmail.com', '$2y$10$co3Kvpzopb0MFVGbaYgmteaQoyQEoe4lf6./aKHGx.fhLaKMfq8gG', 'Roy', 'Borg', '2025-12-01', 1, '2025-12-16 10:10:23', NULL, 1, 3, 0, 1),
+(48, 'raycassar@gmail.com', '$2y$10$VESVxZ5Gst9JIJywoIkLb.KUf6NeUdXjcs3J5fX..TYoMKwloLdJu', 'Ray', 'Cassar', '2025-12-03', 1, '2025-12-16 10:18:31', NULL, 1, 1, 0, 0),
+(49, 'kimdelia@gmail.com', '$2y$10$oNdbXSGjzTQkLjUb2Tv/L.lUM5vXqlOZpgQRrPGZmKOAevs537l8O', 'Kim', 'Delia', '2025-12-03', 1, '2025-12-16 10:33:43', NULL, 2, 1, 0, 0),
+(50, 'katiakurmi@gmail.com', '$2y$10$mS1SYCBBLM2ANW0BfOwRCOFWOBZQhuoMEgbnwTLEytFBokRuVubBK', 'Katia', 'Curmi', '2025-12-04', 1, '2025-12-16 11:55:33', NULL, 4, 1, 0, 0),
+(51, 'ian@gmail.com', '$2y$10$JqlvZAbYQYRMBGNdfhA6Vu2ixULRO5YkLxrptoLXyZpMvFhrmiFOC', 'Ian', 'Vella', '2025-02-25', 1, '2026-01-12 15:40:00', '51-69654400b05aa9.96099892.png', 1, 1, 0, 0),
+(52, 'pam@gmail.com', '$2y$10$v3o5ozmH.BxbdZxxBnzJeeoJmSku4yKP1t019FKxAG3r6nBTMlzz2', 'Pam', 'Callus', '2018-01-15', 1, '2026-01-14 14:31:55', '52-69679e253fd2b0.96273244.png', 2, 1, 0, 0),
+(53, 'kevinp@gmail.com', '$2y$10$KMuaEX.frEb/339ICg2TjuJTVoqX8S5wUkodCZRVwHoNgAOruC/XS', 'kevin', 'p', '1970-08-18', 1, '2026-01-15 19:52:07', NULL, 2, 2, 0, 0),
+(54, 'ahiliangels@gmail.com', '$2y$10$Xl3IW4.SEzURtbMAelyBUecHMiOAfc9OGHobEpRZeesM9hSItQnAy', 'Lawrence', 'Hili', '1951-09-24', 1, '2026-01-18 17:26:54', '54-696d0ada5e8422.83668195.png', 4, 1, 0, 0),
+(55, 'kyparascandalo@gmail.com', '$2y$10$HcNalw72jKOF.3QNXEv9FemI1YMU.rkxcy3OKU8cz34zXi0jNJf8.', 'Kim', 'Parascandalo', '2026-02-04', 1, '2026-02-24 18:23:48', NULL, 2, NULL, 1, 1),
+(56, 'kpparascandalo@gmail.com', '$2y$10$BpIOYabdqImKtfvLaUxoyOqrbby/8QHN28masquFm0g.b8p4OKEEO', 'Kimberly', 'Parascandalo', '2026-02-10', 1, '2026-02-24 18:24:21', NULL, 2, NULL, 1, 0),
+(57, 'yan@gmail.com', '$2y$10$fjflYYoy3KwzAzSZh9.LZu6gTGIm5vjy/6S1tsWVGyFaH3.HO6DS6', 'Yan', 'Callus', '2016-02-23', 1, '2026-02-24 18:27:19', NULL, 2, 1, 0, 0),
+(58, 'mark@gmail.com', '$2y$10$lo268jtXlJyu1Sd0h5kvGOQWaHHL.6Vt/uVsR00QejDBkHyDsn9nq', 'Mark', 'Borg', '2019-10-23', 1, '2026-02-24 18:35:04', NULL, 2, NULL, 1, 0),
+(59, 'fay@gmail.com', '$2y$10$vluq5ExNukD11zn/lHUKFOZdW9vNsGBVFVLDyK6jxd6CG1LypkPVe', 'Fay', 'Hili', '2015-06-10', 1, '2026-02-24 18:39:29', NULL, 2, 1, 0, 1),
+(60, 'ted@gmail.com', '$2y$10$2.DEOYyIOiWsHrbyiNTuFuPu/G7AQgdMz/jW73ryc5m6UJzhQrU9q', 'Ted', 'Borg', '1999-02-11', 1, '2026-02-24 18:53:10', NULL, 2, 1, 0, 1),
+(61, 'tim@gmail.com', '$2y$10$NZVTtQEmrDBprvOusjDvdu45mgb2c3h0isBn0Alnvmi9GM698D/UK', 'Tim', 'Borg', '1986-02-04', 1, '2026-03-02 19:36:33', NULL, 2, NULL, 1, 0),
+(62, 'brian@gmail.com', '$2y$10$hj5ovM2vGvy9kv/4MIE3cuqfbB6aPKtJl4Db/m/msppHToLpi4Y66', 'Brian', 'Borg', '2016-01-11', 1, '2026-03-05 11:33:54', NULL, 2, NULL, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -793,7 +827,7 @@ ALTER TABLE `file`
 -- AUTO_INCREMENT for table `grade`
 --
 ALTER TABLE `grade`
-  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `institute`
@@ -823,7 +857,7 @@ ALTER TABLE `parent_student`
 -- AUTO_INCREMENT for table `reset_password`
 --
 ALTER TABLE `reset_password`
-  MODIFY `reset_password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `reset_password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -841,13 +875,13 @@ ALTER TABLE `settings_theme`
 -- AUTO_INCREMENT for table `submission`
 --
 ALTER TABLE `submission`
-  MODIFY `submission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `submission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `submission_files`
 --
 ALTER TABLE `submission_files`
-  MODIFY `submission_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `submission_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `teacher_profile`
@@ -871,7 +905,7 @@ ALTER TABLE `unit_teacher`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- Constraints for dumped tables

@@ -1,9 +1,15 @@
-
 <?php
 session_start();
-include("includes/dbh.php");
+include 'includes/users.php';
 
-// PHPMailer 
+if (!isset($_POST['email']) || empty(trim($_POST['email']))) {
+    header("Location: forgot_password.php?error=emptyinput");
+    exit();
+}
+
+$email = trim($_POST['email']);
+$login_type = $_POST['login_type'] ?? '';
+
 require 'PHPMailer-master/src/PHPMailer.php';
 require 'PHPMailer-master/src/SMTP.php';
 require 'PHPMailer-master/src/Exception.php';
@@ -11,39 +17,63 @@ require 'PHPMailer-master/src/Exception.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// 1. Get email from form
-$email = $_POST['email'];
-
-// 2. Check if user exists
-$sql = "SELECT user_id FROM users WHERE email = ?";
+// Get user
+$sql = "SELECT user_id, is_independent FROM users WHERE email = ?";
 $stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    header("Location: forgot_password.php?error=stmtfailed");
+    exit();
+}
+
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if($result->num_rows == 0){
-    echo "Email not found";
+if ($result->num_rows == 0) {
+    header("Location: forgot_password.php?error=emailnotfound");
     exit();
 }
 
 $user = $result->fetch_assoc();
 $user_id = $user['user_id'];
+$is_independent = (int)$user['is_independent'];
 
-// 3. Generate 6-digit code
+// STOP HERE if wrong login path
+if ($login_type === 'independent' && $is_independent !== 1) {
+    header("Location: forgot_password.php?error=wronglogintype");
+    exit();
+}
+
+if ($login_type === 'institute' && $is_independent !== 0) {
+    header("Location: forgot_password.php?error=wronglogintype");
+    exit();
+}
+
+// Generate code only AFTER checks
 $code = rand(100000, 999999);
-
-// 4. Set expiry (10 minutes)
 $expires_at = date('Y-m-d H:i:s', strtotime('+10 minutes'));
 
-// 5. Insert into reset_password table
+// Delete old reset codes
+$sql = "DELETE FROM reset_password WHERE user_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+
+// Insert new reset code
 $sql = "INSERT INTO reset_password (user_id, reset_token, expires_at)
         VALUES (?, ?, ?)";
-
 $stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    header("Location: forgot_password.php?error=stmtfailed");
+    exit();
+}
+
 $stmt->bind_param("iss", $user_id, $code, $expires_at);
 $stmt->execute();
 
-// 6. Send email using PHPMailer
+// Send email
 $mail = new PHPMailer(true);
 
 try {
@@ -51,7 +81,7 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'beconnected.website@gmail.com';
-    $mail->Password = 'uxnngbaikngzmujt'; // app password
+    $mail->Password = 'uxnngbaikngzmujt';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;
 
@@ -63,10 +93,9 @@ try {
 
     $mail->send();
 
-    // 7. Save user in session 
     $_SESSION['reset_email'] = $email;
+    $_SESSION['reset_login_type'] = $login_type;
 
-    // Redirect to verify page
     header("Location: verify_code.php");
     exit();
 

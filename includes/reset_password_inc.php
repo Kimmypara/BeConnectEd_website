@@ -67,3 +67,4 @@ mysqli_stmt_close($stmt2);
 // Success 
 header("Location: ../login_institute.php?reset=success");
 exit();
+
