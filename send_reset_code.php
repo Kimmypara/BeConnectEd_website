@@ -89,8 +89,16 @@ try {
     $mail->addAddress($email);
 
     $mail->Subject = 'Password Reset Code';
-    $mail->Body = "Your verification code is: $code\nThis code will expire in 10 minutes.";
-
+ $mail->isHTML(true);
+$mail->Subject = 'BeConnectEd Password Reset Code';
+$mail->Body = "
+<p>Hello,</p>
+<p>Your <strong>BeConnectEd</strong> password reset code is:</p>
+<h2>$code</h2>
+<p>This code expires in 10 minutes.</p>
+<p>If you did not request this, please ignore this email.</p>
+";
+$mail->AltBody = "Your BeConnectEd password reset code is: $code. This code expires in 10 minutes.";
     $mail->send();
 
     $_SESSION['reset_email'] = $email;

@@ -38,15 +38,15 @@ $error = "";
             <!--  FORM -->
             <div class="form-login col-lg-4 col-md-4 col-sm-12">
 
-                <h4 class="form-title mb-3">Forgot Password?</h4>
+                <h4 class="form-title mb-3">Set a New Password</h4>
 
                
 
-                <form method="POST" action="send_reset_code.php">
+                <form method="POST" action="includes/reset_password_inc.php">
                     <input type="hidden" name="login_type" value="independent">
 
-    <input type="email" name="email" placeholder="Email address" class="d-block button3" required>
-    <p class="error-msg">Please enter your e-mail address to reset the password</p>
+    <input type="password" name="password" placeholder="New Password" class="d-block button3" required>
+    <input type="password" name="confirm_password" placeholder="Confirm Password" class="d-block button3" required>
 
     <?php
     if (isset($_GET["error"])) {
@@ -58,16 +58,10 @@ $error = "";
             echo "<li class='error-msg'>You have some empty fields.</li>";
         }
 
-        if ($_GET["error"] === "emailnotfound") {
-            echo "<li class='error-msg'>This email is not registered.</li>";
-        }
-
-        if ($_GET["error"] === "noactiveaccount") {
-            echo "<li class='error-msg'>Your account is not active. Please contact the administrator.</li>";
-        }
-        if ($_GET["error"] === "wronglogintype") {
-    echo "<li class='error-msg'>This account belongs to an institute. Please reset password with an Institute.</li>";
+    if ($_GET["error"] === "passwordmismatch") {
+    echo "<li class='error-msg'>Passwords do not match.</li>";
 }
+
 
         if ($_GET["error"] === "stmtfailed") {
             echo "<li class='error-msg'>Server error. Please try again.</li>";
@@ -78,7 +72,7 @@ $error = "";
     }
     ?>
 
-    <button type="submit" name="submit" class="button loginbtn">Send Code</button>
+    <button type="submit" name="submit" class="button loginbtn">Update Password </button>
 
 </form>
 

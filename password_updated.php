@@ -13,7 +13,7 @@ $error = "";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Code</title>
+    <title>Forgot Password</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -38,41 +38,19 @@ $error = "";
             <!--  FORM -->
             <div class="form-login col-lg-4 col-md-4 col-sm-12">
 
-                <h4 class="form-title mb-3">Enter Code</h4>
+                <h4 class="form-title mb-3">Password Updated</h4>
 
-               
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="check bi bi-check2" viewBox="0 0 16 16">
+  <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
+</svg>
 
-                <form method="POST" action="check_code.php">
-                    <input type="hidden" name="login_type" value="independent">
+            <p class='error-msg'>Your password has been successfully updated</p>
 
-    <input type="text" name="code" placeholder="Code" class="d-block button3" required>
-    <p class="error-msg">Please enter the code sent to your e-mail</p>
-    <?php
-    if (isset($_GET["error"])) {
-        
-        echo "<h5 class='error-msg'>Could not proceed:</h5><ul>";
-       
 
-        if ($_GET["error"] === "emptyinput") {
-            echo "<li class='error-msg'>You have some empty fields.</li>";
-        }
 
-        if ($_GET["error"] === "invalidcode") {
-            echo "<li class='error-msg'>This code is invalid.</li>";
-        }
+    <a href="login_independent.php" class="button loginbtn">Login</a>
 
-        if ($_GET["error"] === "stmtfailed") {
-            echo "<li class='error-msg'>Server error. Please try again.</li>";
-        }
 
-        echo "</ul>";
-        
-    }
-    ?>
-
-    <button type="submit" name="submit" class="button loginbtn">Verify Code</button>
-
-</form>
 
             </div>
         </div>
