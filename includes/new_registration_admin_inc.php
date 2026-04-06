@@ -137,7 +137,8 @@ $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 mail($to, $subject, $message, $headers);
 
 
-header("Location: " . $success_to);
+header("location:  ../set_password.php");
+
 exit();
 
 
