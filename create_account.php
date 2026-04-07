@@ -97,6 +97,16 @@ include 'includes/users.php';
     </div>
   </div>
 
+   <!-- E-mail -->
+  <div class="row align-items-center mb-3">
+    <div class="col-3">
+      <label class="formFields2 mb-0" for="password">Password</label>
+    </div>
+    <div class="col-9 d-flex justify-content-end">
+      <input type="password" name="password" placeholder="New Password" class="d-block button3" required>
+    </div>
+  </div>
+
   <!-- Date of Birth -->
   <div class="row align-items-center mb-4">
     <div class="col-3">

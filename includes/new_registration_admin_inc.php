@@ -110,31 +110,6 @@ mysqli_stmt_execute($stmt);
 $resetLink = "http://localhost/BeConnectEd_website/reset_password.php?token=$token";
 
 
-//Send email to new user with password
-$to = $email;
-$subject = "Set your BeConnectEd password";
-
-$message = "
-Hello $first_name,
-
-Your account has been created.
-
-Please set your password using the secure link below:
-$resetLink
-
-This link will expire in 1 hour.
-
-If you did not request this, please ignore this email.
-
-Regards,
-BeConnectEd Team
-";
-
-$headers  = "From: beconnected.website@gmail.com\r\n";
-$headers .= "Reply-To: beconnected.website@gmail.com\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-mail($to, $subject, $message, $headers);
 
 
 header("location:  ../set_password.php");
