@@ -46,7 +46,7 @@ $error = "";
                     <input type="hidden" name="login_type" value="independent">
 
     <input type="email" name="email" placeholder="Email address" class="d-block button3" required>
-    <p class="error-msg">Please enter your e-mail address to reset the password</p>
+    <p class="error-msg">Please enter your e-mail address to set the password</p>
 
     <?php
     if (isset($_GET["error"])) {
