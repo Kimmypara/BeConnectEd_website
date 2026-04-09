@@ -81,7 +81,11 @@ $_SESSION['reset_user_id'] = $user_id;
 $_SESSION['verified_reset_code'] = $code;
 $_SESSION['reset_login_type'] = $login_type;
 
-// Redirect to new password page
-header("Location: reset_password.php");
+$sql = "UPDATE users SET is_active = 1 WHERE user_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+
+header("Location: login_independent.php?success=verified");
 exit();
 ?>

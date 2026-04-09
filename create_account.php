@@ -47,7 +47,7 @@ include 'includes/users.php';
   <input type="hidden" name="success_to" value="../login_independent.php?success=registered">
   <input type="hidden" name="error_to" value="../create_account.php">
 <input type="hidden" name="is_independent" value="1">
-<input type="hidden" name="is_active" value="1">
+<input type="hidden" name="is_active" value="0">
 <input type="hidden" name="institute_id" value="0">
 
   <!-- User Role -->
@@ -97,15 +97,24 @@ include 'includes/users.php';
     </div>
   </div>
 
-   <!-- E-mail -->
+   <!-- password -->
   <div class="row align-items-center mb-3">
     <div class="col-3">
       <label class="formFields2 mb-0" for="password">Password</label>
     </div>
     <div class="col-9 d-flex justify-content-end">
-      <input type="password" name="password" placeholder="New Password" class="d-block button3" required>
+      <input type="password" name="password" placeholder="New Password" class="placeholder_style w-100" required>
     </div>
   </div>
+
+  <div class="row align-items-center mb-3">
+  <div class="col-3">
+    <label class="formFields2 mb-0" for="confirm_password">Confirm Password</label>
+  </div>
+  <div class="col-9 d-flex justify-content-end">
+    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" class="placeholder_style w-100" required>
+  </div>
+</div>
 
   <!-- Date of Birth -->
   <div class="row align-items-center mb-4">
@@ -121,30 +130,37 @@ include 'includes/users.php';
  <?php 
 if (isset($_GET["error"])) {
 
-  $errorHtml = '<h5 class="error-msg">Could not create a new account:</h5><ul class="error-list">';
+  echo '<h5 class="error-msg">Could not create a new account:</h5><ul class="error-list">';
 
   if (isset($_GET["emptyinput"])) {
-    $errorHtml .= '<li class="error-msg">You have some empty fields.</li>';
+    echo '<li class="error-msg">You have some empty fields.</li>';
   }
+
   if (isset($_GET["invalidFirst_name"])) {
-    $errorHtml .= '<li class="error-msg">First name format invalid.</li>';
+    echo '<li class="error-msg">First name format invalid.</li>';
   }
+
   if (isset($_GET["invalidLast_name"])) {
-    $errorHtml .= '<li class="error-msg">Last name format invalid.</li>';
+    echo '<li class="error-msg">Last name format invalid.</li>';
   }
+
   if (isset($_GET["invalidEmail"])) {
-    $errorHtml .= '<li class="error-msg">Email format invalid.</li>';
+    echo '<li class="error-msg">Email format invalid.</li>';
   }
+
   if (isset($_GET["emailExists"])) {
-    $errorHtml .= '<li class="error-msg">Email already exists.</li>';
+    echo '<li class="error-msg">Email already exists.</li>';
   }
+
   if (isset($_GET["invalidDate_of_birth"])) {
-    $errorHtml .= '<li class="error-msg">Date of Birth format invalid.</li>';
+    echo '<li class="error-msg">Date of Birth format invalid.</li>';
   }
 
-  $errorHtml .= '</ul>';
+  if (isset($_GET["passwordmismatch"])) {
+    echo '<li class="error-msg">Passwords do not match.</li>';
+  }
 
-  echo $errorHtml;
+  echo '</ul>';
 }
 ?>
 
