@@ -81,7 +81,7 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'beconnected.website@gmail.com';
-    $mail->Password = 'uxnngbaikngzmujt';
+    $mail->Password = 'zucphspvlkowgpkk';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;
 
@@ -104,7 +104,7 @@ $mail->AltBody = "Your BeConnectEd password reset code is: $code. This code expi
     $_SESSION['reset_email'] = $email;
     $_SESSION['reset_login_type'] = $login_type;
 
-    header("Location: verify_code.php");
+    header("Location: verify_code_forgot.php");
     exit();
 
 } catch (Exception $e) {

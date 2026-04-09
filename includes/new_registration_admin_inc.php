@@ -3,6 +3,7 @@ session_start();
 require_once "dbh.php";
 require_once "functions.php";
 
+
 $success_to = $_POST['success_to'] ?? '/BeConnectEd_website/login_independent.php?success=registered';
 $error_to   = $_POST['error_to']   ?? '/BeConnectEd_website/create_account.php';
 
@@ -92,26 +93,60 @@ registerUser(
 
 $user_id = mysqli_insert_id($conn);
 
-// Generate 6-digit code
+
+
+require '../PHPMailer-master/src/PHPMailer.php';
+require '../PHPMailer-master/src/SMTP.php';
+require '../PHPMailer-master/src/Exception.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 $code = rand(100000, 999999);
-$expires = date("Y-m-d H:i:s", strtotime("+10 minutes"));
+$expires_at = date('Y-m-d H:i:s', strtotime('+10 minutes'));
 
 $sql = "INSERT INTO reset_password (user_id, reset_token, expires_at)
         VALUES (?, ?, ?)";
 
 $stmt = mysqli_stmt_init($conn);
 mysqli_stmt_prepare($stmt, $sql);
-mysqli_stmt_bind_param($stmt, "iss", $user_id, $code, $expires);
+mysqli_stmt_bind_param($stmt, "iss", $user_id, $code, $expires_at);
 mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
 
-// Save for verification
+$mail = new PHPMailer(true);
+
+try {
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'beconnected.website@gmail.com';
+    $mail->Password = 'zucphspvlkowgpkk';
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = 587;
+
+    $mail->setFrom('beconnected.website@gmail.com', 'BeConnectEd');
+    $mail->addAddress($email);
+
+    $mail->isHTML(true);
+    $mail->Subject = 'BeConnectEd Verification Code';
+    $mail->Body = "
+    <p>Hello $first_name,</p>
+    <p>Your <strong>BeConnectEd</strong> verification code is:</p>
+    <h2>$code</h2>
+    <p>This code expires in 10 minutes.</p>
+    <p>If you did not create this account, please ignore this email.</p>
+    ";
+    $mail->AltBody = "Your BeConnectEd verification code is: $code. This code expires in 10 minutes.";
+
+    $mail->send();
+
+} catch (Exception $e) {
+    die("Email failed: " . $mail->ErrorInfo);
+}
+
 $_SESSION['reset_email'] = $email;
 $_SESSION['reset_login_type'] = 'independent';
-
-// Send email here with PHPMailer
-// mail body: Your verification code is: $code
-
-
 
 
 
