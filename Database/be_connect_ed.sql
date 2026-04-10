@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2026 at 12:41 PM
+-- Generation Time: Apr 10, 2026 at 12:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -366,7 +366,13 @@ INSERT INTO `reset_password` (`reset_password_id`, `user_id`, `reset_token`, `ex
 (33, NULL, '499561', '2026-03-27 19:17:34', 0),
 (35, 51, '848012', '2026-03-27 19:25:07', 0),
 (37, 48, '818672', '2026-03-27 19:26:15', 0),
-(39, 40, '210755', '2026-03-28 11:50:20', 0);
+(39, 40, '210755', '2026-03-28 11:50:20', 0),
+(40, 63, '707237', '2026-04-07 20:28:47', 0),
+(44, 65, '299366', '2026-04-09 11:29:26', 0),
+(49, 67, '619747', '2026-04-09 11:42:01', 0),
+(50, 68, '923438', '2026-04-09 11:50:52', 0),
+(53, 70, '575500', '2026-04-09 13:43:18', 0),
+(54, 71, '569612', '2026-04-09 13:53:34', 0);
 
 -- --------------------------------------------------------
 
@@ -543,7 +549,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `email`, `password_hash`, `first_name`, `last_name`, `date_of_birth`, `is_active`, `created_at`, `profile_photo`, `role_id`, `institute_id`, `is_independent`, `must_change_password`) VALUES
-(40, 'kparascandalo@gmail.com', NULL, 'Charmaine', 'Parascandalo Hili', '2025-12-03', 1, '2025-12-15 18:15:34', NULL, 1, 1, 1, 0),
+(40, 'kimparascandalo@gmail.com', NULL, 'Charmaine', 'Parascandalo Hili', '2025-12-03', 1, '2025-12-15 18:15:34', NULL, 1, 1, 1, 0),
 (41, 'kimberly.parascandalo.e22247@mcast.edu.mt', '$2y$10$hNWIM.VGnNqKzxZBDkA/IOWKwnM9w8V7SjbNPySwfAUpnWEKlVilO', 'Kimberly', 'Parascandalo', '2003-05-09', 1, '2025-12-15 18:39:04', NULL, 2, 1, 0, 0),
 (42, 'kevinpara@gmail.com', '$2y$10$zYT1qPlQjoulOPs5XPJHbONB11Q2D2Omgrt3JVdlE/jDPn6D.WGYO', 'Kevin Ray', 'Parascandalo', '2019-05-14', 1, '2025-12-15 19:45:18', NULL, 2, 2, 0, 0),
 (44, 'maryborg@gmail.com', '$2y$10$Njw2d9RXi4bfLDLwXFa1mOKW.1C.KE7BPMIsyU4LVYWbT.igFFpOe', 'Mary', 'Borg', '2025-12-01', 1, '2025-12-16 09:40:00', NULL, 1, 1, 0, 0),
@@ -556,7 +562,7 @@ INSERT INTO `users` (`user_id`, `email`, `password_hash`, `first_name`, `last_na
 (51, 'ian@gmail.com', '$2y$10$JqlvZAbYQYRMBGNdfhA6Vu2ixULRO5YkLxrptoLXyZpMvFhrmiFOC', 'Ian', 'Vella', '2025-02-25', 1, '2026-01-12 15:40:00', '51-69654400b05aa9.96099892.png', 1, 1, 0, 0),
 (52, 'pam@gmail.com', '$2y$10$v3o5ozmH.BxbdZxxBnzJeeoJmSku4yKP1t019FKxAG3r6nBTMlzz2', 'Pam', 'Callus', '2018-01-15', 1, '2026-01-14 14:31:55', '52-69679e253fd2b0.96273244.png', 2, 1, 0, 0),
 (53, 'kevinp@gmail.com', '$2y$10$KMuaEX.frEb/339ICg2TjuJTVoqX8S5wUkodCZRVwHoNgAOruC/XS', 'kevin', 'p', '1970-08-18', 1, '2026-01-15 19:52:07', NULL, 2, 2, 0, 0),
-(54, 'ahiliangels@gmail.com', '$2y$10$Xl3IW4.SEzURtbMAelyBUecHMiOAfc9OGHobEpRZeesM9hSItQnAy', 'Lawrence', 'Hili', '1951-09-24', 1, '2026-01-18 17:26:54', '54-696d0ada5e8422.83668195.png', 4, 1, 0, 0),
+(54, 'angelhiliangels@gmail.com', '$2y$10$Xl3IW4.SEzURtbMAelyBUecHMiOAfc9OGHobEpRZeesM9hSItQnAy', 'Lawrence', 'Hili', '1951-09-24', 1, '2026-01-18 17:26:54', '54-696d0ada5e8422.83668195.png', 4, 1, 0, 0),
 (55, 'kyparascandalo@gmail.com', '$2y$10$HcNalw72jKOF.3QNXEv9FemI1YMU.rkxcy3OKU8cz34zXi0jNJf8.', 'Kim', 'Parascandalo', '2026-02-04', 1, '2026-02-24 18:23:48', NULL, 2, NULL, 1, 1),
 (56, 'kpparascandalo@gmail.com', '$2y$10$BpIOYabdqImKtfvLaUxoyOqrbby/8QHN28masquFm0g.b8p4OKEEO', 'Kimberly', 'Parascandalo', '2026-02-10', 1, '2026-02-24 18:24:21', NULL, 2, NULL, 1, 0),
 (57, 'yan@gmail.com', '$2y$10$fjflYYoy3KwzAzSZh9.LZu6gTGIm5vjy/6S1tsWVGyFaH3.HO6DS6', 'Yan', 'Callus', '2016-02-23', 1, '2026-02-24 18:27:19', NULL, 2, 1, 0, 0),
@@ -564,7 +570,16 @@ INSERT INTO `users` (`user_id`, `email`, `password_hash`, `first_name`, `last_na
 (59, 'fay@gmail.com', '$2y$10$vluq5ExNukD11zn/lHUKFOZdW9vNsGBVFVLDyK6jxd6CG1LypkPVe', 'Fay', 'Hili', '2015-06-10', 1, '2026-02-24 18:39:29', NULL, 2, 1, 0, 1),
 (60, 'ted@gmail.com', '$2y$10$2.DEOYyIOiWsHrbyiNTuFuPu/G7AQgdMz/jW73ryc5m6UJzhQrU9q', 'Ted', 'Borg', '1999-02-11', 1, '2026-02-24 18:53:10', NULL, 2, 1, 0, 1),
 (61, 'tim@gmail.com', '$2y$10$NZVTtQEmrDBprvOusjDvdu45mgb2c3h0isBn0Alnvmi9GM698D/UK', 'Tim', 'Borg', '1986-02-04', 1, '2026-03-02 19:36:33', NULL, 2, NULL, 1, 0),
-(62, 'brian@gmail.com', '$2y$10$hj5ovM2vGvy9kv/4MIE3cuqfbB6aPKtJl4Db/m/msppHToLpi4Y66', 'Brian', 'Borg', '2016-01-11', 1, '2026-03-05 11:33:54', NULL, 2, NULL, 1, 1);
+(62, 'brian@gmail.com', '$2y$10$hj5ovM2vGvy9kv/4MIE3cuqfbB6aPKtJl4Db/m/msppHToLpi4Y66', 'Brian', 'Borg', '2016-01-11', 1, '2026-03-05 11:33:54', NULL, 2, NULL, 1, 1),
+(63, 'kaparascandalo@gmail.com', '$2y$10$FbKWqU2BrN92m1Qqk7pFUuNrzJ1yoTWKH5Fs.DU3nSMMjeUfzGbz2', 'Kimberly', 'Parascandalo', '2015-05-25', 0, '2026-04-07 20:18:47', NULL, 2, NULL, 1, 0),
+(64, 'kkparascandalo@gmail.com', '$2y$10$ndPsRQ2bsT7859lZgTCCMe7Jh4N9vcAyHA4If7.v8/nVhN6zDsc/q', 'Kimberly', 'Parascandalo', '2019-05-13', 1, '2026-04-09 11:03:44', NULL, 2, NULL, 1, 0),
+(65, 'parascandalo@gmail.com', '$2y$10$3xzzx9jIN6WDKUemqVNcTeiTZXUa8r3NJ5p0Wg8j7iX50DgkwUr.O', 'Kimberly', 'Parascandalo', '2017-06-20', 1, '2026-04-09 11:19:26', NULL, 2, NULL, 1, 0),
+(66, 'kparasctyandalo@gmail.com', '$2y$10$VI.qqCvzqasICLE0sqVR9u9sPewwkqR0Ovoav9KiHIqnpEIQXOoJm', 'Kimberly', 'Parascandalo', '2017-06-20', 1, '2026-04-09 11:22:48', NULL, 2, NULL, 1, 0),
+(67, 'charparahili@gmail.com', '$2y$10$8v/yvHCR.ZM2K8dTqkHpguFnoAEDr1d1.gMFd.8aiJpGztwlqXe7q', 'Charmaine', 'Hili', '2018-06-04', 1, '2026-04-09 11:32:01', NULL, 1, NULL, 1, 0),
+(68, 'ahiliangels@gmail.com', '$2y$10$TW3D7EeKCtuKCyAYVXT2yejUYjF8hO.I.n5829W0nWgkF9O29O1du', 'Lawrence', 'Hili', '2017-06-28', 1, '2026-04-09 11:40:52', NULL, 1, NULL, 1, 0),
+(69, 'cparahili@gmail.com', '$2y$10$Hx3D7MCtc5PzwogLHU5C/Ohm1uhMPs3VrtrM3.0pxftSy5f4yZ2tC', 'Lawrence', 'Hili', '2017-06-28', 1, '2026-04-09 11:45:27', NULL, 1, NULL, 1, 0),
+(70, 'kpuyarascandalo@gmail.com', '$2y$10$UrKNGTRk/nfSTitzteLAcuoSgjB8ROwUl77PjpD0XVFqBM7CPdyR2', 'Kimberly', 'Parascandalo', '2026-02-10', 0, '2026-04-09 13:33:18', NULL, 2, NULL, 1, 0),
+(71, 'kparascandalo@gmail.com', '$2y$10$5jzkkSP7ArZnVEjC8w9ui.0WsaR24tTU.3u8j1atQtYfpuFuV6tzq', 'Kimberly', 'Parascandalo', '2003-03-04', 1, '2026-04-09 13:43:34', NULL, 1, NULL, 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -857,7 +872,7 @@ ALTER TABLE `parent_student`
 -- AUTO_INCREMENT for table `reset_password`
 --
 ALTER TABLE `reset_password`
-  MODIFY `reset_password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `reset_password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -905,7 +920,7 @@ ALTER TABLE `unit_teacher`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- Constraints for dumped tables
