@@ -30,7 +30,7 @@ include "includes/nav.php";
              
 
                            <!--cards-->
-         <div class="row gx-2">
+         <div class="row gx-4">
          <div class="col-12 col-md-6 col-lg-4 ">
         <div class="card my-2" >
   <a href="plan_schedule_teacher.php"><img src="assets/images/calendar.png" class="card-img-top img_card" alt="calendar link"></a>

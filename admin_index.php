@@ -32,7 +32,7 @@ include 'includes/conditions.php'
  <div class="container my-3">
 
                            <!--cards-->
-         <div class="row gx-2">
+         <div class="row gx-4">
          <div class="col-12 col-md-6 col-lg-4">
         <div class="card my-2 " >
   <a href="plan_schedule_admin.php"><img src="assets/images/calendar.png" class="card-img-top img_card" alt="calendar link"></a>
