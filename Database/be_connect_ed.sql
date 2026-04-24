@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2026 at 12:50 PM
+-- Generation Time: Apr 24, 2026 at 08:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,8 @@ CREATE TABLE `assignment` (
 --
 
 INSERT INTO `assignment` (`assignment_id`, `unit_id`, `class_id`, `teacher_id`, `task_title`, `due_date`, `total_marks`, `is_published`, `created_at`, `description`) VALUES
-(1, 1, 1, 48, 'Task 2', '2026-02-28 00:00:00', NULL, 0, '2026-02-19 19:17:03', 'Be sure to upload all files');
+(1, 1, 1, 48, 'Task 2', '2026-02-28 00:00:00', NULL, 0, '2026-02-19 19:17:03', 'Be sure to upload all files'),
+(2, 2, 1, 44, 'Task 2', '2026-04-25 00:00:00', NULL, 0, '2026-04-24 17:34:53', 'Lorem ipsum.....');
 
 -- --------------------------------------------------------
 
@@ -232,7 +233,53 @@ CREATE TABLE `file` (
 --
 
 INSERT INTO `file` (`file_id`, `unit_id`, `uploaded_by`, `file_name`, `category`, `file_path`, `uploaded_at`, `notes`, `class_id`) VALUES
-(4, 1, 48, 'Brief 3DAF 24-25.pdf', 'Assignment Brief', '48-1-1-6997536d19bde4.28619275.pdf', '2026-02-19 19:16:13', 'Read carefully', 1);
+(4, 1, 48, 'Brief 3DAF 24-25.pdf', 'Assignment Brief', '48-1-1-6997536d19bde4.28619275.pdf', '2026-02-19 19:16:13', 'Read carefully', 1),
+(5, 2, 44, 'PrototypingAndTesting_2025-26_SemB.pdf', 'Assignment Brief', '44-2-1-69eb8e2d0c3d07.81955353.pdf', '2026-04-24 17:37:17', 'Please read carefully!', 1),
+(14, 2, 44, '1. UPDATEDAcademic TextsNP2024.docx', 'Lecture Notes', '44-2-1-69eba0262f9763.84125392.docx', '2026-04-24 18:53:58', 'Read carefully', 1),
+(25, 2, 44, 'MOCK-Assignment-English -UPDATED2025.docx', 'Worksheet', '44-2-1-69ebaec0578941.09120601.docx', '2026-04-24 19:56:16', 'Mock Test', 1),
+(26, 2, 44, 'Linking Words-stversionNP.pdf', 'Lecture Notes', '44-2-1-69ebb0a39904c3.21232964.pdf', '2026-04-24 20:04:19', 'Linking words', 1),
+(27, 2, 44, 'Understanding Interactive Media_summary.docx', 'Lecture Notes', '44-2-1-69ebb2a2b813f8.66697736.docx', '2026-04-24 20:12:50', 'Understanding Media', 1),
+(28, 2, 44, 'MOCKTEST2 - English for Academic Purposes - 2025 kIM.docx', 'Worksheet', '44-2-1-69ebb398245979.44089248.docx', '2026-04-24 20:16:56', 'Mocktest 2', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `file_notifications`
+--
+
+CREATE TABLE `file_notifications` (
+  `notification_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `unit_id` int(11) NOT NULL,
+  `class_id` int(11) NOT NULL,
+  `file_id` int(11) NOT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `file_notifications`
+--
+
+INSERT INTO `file_notifications` (`notification_id`, `student_id`, `unit_id`, `class_id`, `file_id`, `is_read`, `created_at`) VALUES
+(1, 46, 2, 1, 9, 0, '2026-04-24 16:09:03'),
+(2, 41, 2, 1, 9, 1, '2026-04-24 16:09:03'),
+(3, 46, 2, 1, 11, 0, '2026-04-24 16:10:52'),
+(4, 41, 2, 1, 11, 1, '2026-04-24 16:10:52'),
+(5, 46, 2, 1, 13, 0, '2026-04-24 16:33:43'),
+(6, 41, 2, 1, 13, 1, '2026-04-24 16:33:43'),
+(7, 46, 2, 1, 15, 0, '2026-04-24 16:53:58'),
+(8, 41, 2, 1, 15, 1, '2026-04-24 16:53:58'),
+(9, 46, 1, 1, 17, 0, '2026-04-24 16:54:51'),
+(10, 41, 1, 1, 17, 1, '2026-04-24 16:54:51'),
+(11, 46, 2, 1, 25, 0, '2026-04-24 17:56:16'),
+(12, 41, 2, 1, 25, 1, '2026-04-24 17:56:16'),
+(13, 46, 2, 1, 26, 0, '2026-04-24 18:04:19'),
+(14, 41, 2, 1, 26, 1, '2026-04-24 18:04:19'),
+(15, 46, 2, 1, 27, 0, '2026-04-24 18:12:50'),
+(16, 41, 2, 1, 27, 1, '2026-04-24 18:12:50'),
+(17, 46, 2, 1, 28, 0, '2026-04-24 18:16:56'),
+(18, 41, 2, 1, 28, 1, '2026-04-24 18:16:56');
 
 -- --------------------------------------------------------
 
@@ -256,6 +303,21 @@ CREATE TABLE `grade` (
 INSERT INTO `grade` (`grade_id`, `submission_id`, `teacher_id`, `mark`, `grade`, `comments`) VALUES
 (1, 1, 48, 85, 'A', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril'),
 (2, 2, 48, 24, 'U', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `grade_notifications`
+--
+
+CREATE TABLE `grade_notifications` (
+  `notification_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `unit_id` int(11) NOT NULL,
+  `grade_id` int(11) NOT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -372,7 +434,8 @@ INSERT INTO `reset_password` (`reset_password_id`, `user_id`, `reset_token`, `ex
 (49, 67, '619747', '2026-04-09 11:42:01', 0),
 (50, 68, '923438', '2026-04-09 11:50:52', 0),
 (53, 70, '575500', '2026-04-09 13:43:18', 0),
-(54, 71, '569612', '2026-04-09 13:53:34', 0);
+(58, 73, '611816', '2026-04-15 20:15:22', 0),
+(61, 75, '349843', '2026-04-16 15:51:08', 0);
 
 -- --------------------------------------------------------
 
@@ -562,7 +625,7 @@ INSERT INTO `users` (`user_id`, `email`, `password_hash`, `first_name`, `last_na
 (51, 'ian@gmail.com', '$2y$10$JqlvZAbYQYRMBGNdfhA6Vu2ixULRO5YkLxrptoLXyZpMvFhrmiFOC', 'Ian', 'Vella', '2025-02-25', 1, '2026-01-12 15:40:00', '51-69654400b05aa9.96099892.png', 1, 1, 0, 0),
 (52, 'pam@gmail.com', '$2y$10$v3o5ozmH.BxbdZxxBnzJeeoJmSku4yKP1t019FKxAG3r6nBTMlzz2', 'Pam', 'Callus', '2018-01-15', 1, '2026-01-14 14:31:55', '52-69679e253fd2b0.96273244.png', 2, 1, 0, 0),
 (53, 'kevinp@gmail.com', '$2y$10$KMuaEX.frEb/339ICg2TjuJTVoqX8S5wUkodCZRVwHoNgAOruC/XS', 'kevin', 'p', '1970-08-18', 1, '2026-01-15 19:52:07', NULL, 2, 2, 0, 0),
-(54, 'angelhiliangels@gmail.com', '$2y$10$Xl3IW4.SEzURtbMAelyBUecHMiOAfc9OGHobEpRZeesM9hSItQnAy', 'Lawrence', 'Hili', '1951-09-24', 1, '2026-01-18 17:26:54', '54-696d0ada5e8422.83668195.png', 4, 1, 0, 0),
+(54, 'angeldfghiliangels@gmail.com', '$2y$10$Xl3IW4.SEzURtbMAelyBUecHMiOAfc9OGHobEpRZeesM9hSItQnAy', 'Lawrence', 'Hili', '1951-09-24', 1, '2026-01-18 17:26:54', '54-696d0ada5e8422.83668195.png', 4, 1, 0, 0),
 (55, 'kyparascandalo@gmail.com', '$2y$10$HcNalw72jKOF.3QNXEv9FemI1YMU.rkxcy3OKU8cz34zXi0jNJf8.', 'Kim', 'Parascandalo', '2026-02-04', 1, '2026-02-24 18:23:48', NULL, 2, NULL, 1, 1),
 (56, 'kpparascandalo@gmail.com', '$2y$10$BpIOYabdqImKtfvLaUxoyOqrbby/8QHN28masquFm0g.b8p4OKEEO', 'Kimberly', 'Parascandalo', '2026-02-10', 1, '2026-02-24 18:24:21', NULL, 2, NULL, 1, 0),
 (57, 'yan@gmail.com', '$2y$10$fjflYYoy3KwzAzSZh9.LZu6gTGIm5vjy/6S1tsWVGyFaH3.HO6DS6', 'Yan', 'Callus', '2016-02-23', 1, '2026-02-24 18:27:19', NULL, 2, 1, 0, 0),
@@ -576,10 +639,14 @@ INSERT INTO `users` (`user_id`, `email`, `password_hash`, `first_name`, `last_na
 (65, 'parascandalo@gmail.com', '$2y$10$3xzzx9jIN6WDKUemqVNcTeiTZXUa8r3NJ5p0Wg8j7iX50DgkwUr.O', 'Kimberly', 'Parascandalo', '2017-06-20', 1, '2026-04-09 11:19:26', NULL, 2, NULL, 1, 0),
 (66, 'kparasctyandalo@gmail.com', '$2y$10$VI.qqCvzqasICLE0sqVR9u9sPewwkqR0Ovoav9KiHIqnpEIQXOoJm', 'Kimberly', 'Parascandalo', '2017-06-20', 1, '2026-04-09 11:22:48', NULL, 2, NULL, 1, 0),
 (67, 'charparahili@gmail.com', '$2y$10$8v/yvHCR.ZM2K8dTqkHpguFnoAEDr1d1.gMFd.8aiJpGztwlqXe7q', 'Charmaine', 'Hili', '2018-06-04', 1, '2026-04-09 11:32:01', NULL, 1, NULL, 1, 0),
-(68, 'ahiliangels@gmail.com', '$2y$10$TW3D7EeKCtuKCyAYVXT2yejUYjF8hO.I.n5829W0nWgkF9O29O1du', 'Lawrence', 'Hili', '2017-06-28', 1, '2026-04-09 11:40:52', NULL, 1, NULL, 1, 0),
+(68, 'ahiliankllpgels@gmail.com', '$2y$10$TW3D7EeKCtuKCyAYVXT2yejUYjF8hO.I.n5829W0nWgkF9O29O1du', 'Lawrence', 'Hili', '2017-06-28', 1, '2026-04-09 11:40:52', NULL, 1, NULL, 1, 0),
 (69, 'cparahili@gmail.com', '$2y$10$Hx3D7MCtc5PzwogLHU5C/Ohm1uhMPs3VrtrM3.0pxftSy5f4yZ2tC', 'Lawrence', 'Hili', '2017-06-28', 1, '2026-04-09 11:45:27', NULL, 1, NULL, 1, 0),
 (70, 'kpuyarascandalo@gmail.com', '$2y$10$UrKNGTRk/nfSTitzteLAcuoSgjB8ROwUl77PjpD0XVFqBM7CPdyR2', 'Kimberly', 'Parascandalo', '2026-02-10', 0, '2026-04-09 13:33:18', NULL, 2, NULL, 1, 0),
-(71, 'kparascandalo@gmail.com', '$2y$10$5jzkkSP7ArZnVEjC8w9ui.0WsaR24tTU.3u8j1atQtYfpuFuV6tzq', 'Kimberly', 'Parascandalo', '2003-03-04', 1, '2026-04-09 13:43:34', NULL, 1, NULL, 1, 0);
+(71, 'kparascandalo@gmail.com', '$2y$10$UeKnil04IAlfQ5G0NNPoEOoY.dlOUw8Lur52gGpJK8/zKibPjH1ka', 'Kimberly', 'Parascandalo', '2003-03-04', 1, '2026-04-09 13:43:34', NULL, 1, NULL, 1, 0),
+(72, 'christinamov@icloud.com', '$2y$10$5fUWnBmol1fjCPp7fs9YKOPcKrwPjizeRskAdk/hZhzQL6Q2yCqem', 'Christina', 'Mov', '2000-05-31', 1, '2026-04-15 14:58:42', NULL, 2, NULL, 1, 0),
+(73, 'anikroh.zammit01@gmail.com', '$2y$10$.QOQshFQv9nceFhrdNd.f.HOJ2dT.tfZtXnQcR6m8l8wlSGPn5roy', 'Anika', 'Zammit', '2010-05-13', 1, '2026-04-15 20:05:22', '73-69dfd450279818.03208341.png', 2, NULL, 1, 0),
+(74, 'hililawrence435@gmail.com', '$2y$10$YGP2gcwmH397npaNDtItxefnw9XV84SP4TmeNMMnbB/3FNq47uL.C', 'Lawrence', 'Hili', '2001-02-06', 1, '2026-04-16 15:33:19', '74-69e0e67d242e00.81828133.webp', 2, NULL, 1, 0),
+(75, 'ahiliangels@gmail.com', '$2y$10$jl61jh.z1HdEw2VU8O1PKuDu/MeWWiX2ivsbzwDGPayz00RI67O1S', 'Kimberly', 'Parascandalo', '2020-02-11', 1, '2026-04-16 15:41:08', NULL, 2, NULL, 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -664,9 +731,18 @@ ALTER TABLE `events`
 --
 ALTER TABLE `file`
   ADD PRIMARY KEY (`file_id`),
+  ADD UNIQUE KEY `unit_id_2` (`unit_id`,`class_id`,`file_name`),
+  ADD UNIQUE KEY `unique_file_per_class` (`unit_id`,`class_id`,`file_name`),
+  ADD UNIQUE KEY `unit_id` (`unit_id`,`class_id`,`file_path`) USING HASH,
   ADD KEY `FK_file_uploadBy` (`uploaded_by`),
   ADD KEY `FK_file_unit` (`unit_id`),
   ADD KEY `fk_file_class` (`class_id`);
+
+--
+-- Indexes for table `file_notifications`
+--
+ALTER TABLE `file_notifications`
+  ADD PRIMARY KEY (`notification_id`);
 
 --
 -- Indexes for table `grade`
@@ -675,6 +751,14 @@ ALTER TABLE `grade`
   ADD PRIMARY KEY (`grade_id`),
   ADD KEY `FK_grade_submission` (`submission_id`),
   ADD KEY `FK_grade_teacher` (`teacher_id`);
+
+--
+-- Indexes for table `grade_notifications`
+--
+ALTER TABLE `grade_notifications`
+  ADD PRIMARY KEY (`notification_id`),
+  ADD KEY `student_id` (`student_id`),
+  ADD KEY `unit_id` (`unit_id`);
 
 --
 -- Indexes for table `institute`
@@ -782,7 +866,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `chat`
@@ -836,13 +920,25 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `file`
 --
 ALTER TABLE `file`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `file_notifications`
+--
+ALTER TABLE `file_notifications`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `grade`
 --
 ALTER TABLE `grade`
   MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `grade_notifications`
+--
+ALTER TABLE `grade_notifications`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `institute`
@@ -872,7 +968,7 @@ ALTER TABLE `parent_student`
 -- AUTO_INCREMENT for table `reset_password`
 --
 ALTER TABLE `reset_password`
-  MODIFY `reset_password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `reset_password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -920,7 +1016,7 @@ ALTER TABLE `unit_teacher`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- Constraints for dumped tables
@@ -998,6 +1094,13 @@ ALTER TABLE `file`
 ALTER TABLE `grade`
   ADD CONSTRAINT `FK_grade_submission` FOREIGN KEY (`submission_id`) REFERENCES `submission` (`submission_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_grade_teacher` FOREIGN KEY (`teacher_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `grade_notifications`
+--
+ALTER TABLE `grade_notifications`
+  ADD CONSTRAINT `grade_notifications_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `grade_notifications_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`unit_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `institute_admin`
