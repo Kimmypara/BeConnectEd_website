@@ -44,6 +44,27 @@ if ($fileSize > 10000000) {
   header("Location: ../teacher_upload_file.php?unit_id=$unit_id&class_id=$class_id&error=fileSize");
   exit();
 }
+$sqlCheck = "
+  SELECT file_id
+  FROM file
+  WHERE unit_id = ?
+  AND class_id = ?
+  AND file_name = ?
+  LIMIT 1
+";
+
+$stmtCheck = mysqli_prepare($conn, $sqlCheck);
+mysqli_stmt_bind_param($stmtCheck, "iis", $unit_id, $class_id, $fileName);
+mysqli_stmt_execute($stmtCheck);
+$resultCheck = mysqli_stmt_get_result($stmtCheck);
+
+if (mysqli_num_rows($resultCheck) > 0) {
+  header("Location: ../teacher_upload_file.php?unit_id=$unit_id&class_id=$class_id&error=duplicate");
+  exit();
+}
+
+mysqli_stmt_close($stmtCheck);
+
 
 $newFileName = uniqid($teacher_id . "-" . $unit_id . "-" . $class_id . "-", true) . "." . $fileExt;
 $uploadDir   = "../fileUploads/" . $newFileName;
@@ -57,6 +78,8 @@ if (!move_uploaded_file($fileTmpName, $uploadDir)) {
   exit();
 }
 
+
+
 $sql = "INSERT INTO file (unit_id, class_id, uploaded_by, file_name, category, file_path, notes)
         VALUES (?, ?, ?, ?, ?, ?, ?)";
 $stmt = mysqli_stmt_init($conn);
@@ -69,7 +92,47 @@ mysqli_stmt_bind_param($stmt, "iiissss",
   $unit_id, $class_id, $teacher_id, $fileName, $category, $newFileName, $notes
 );
 mysqli_stmt_execute($stmt);
+
+
+
+// Get the uploaded file ID
+$file_id = mysqli_insert_id($conn);
+
 mysqli_stmt_close($stmt);
+
+// Create notifications for students in this class/unit
+$sqlStudents = "
+  SELECT DISTINCT student_id
+  FROM enrolment
+  WHERE class_id = ?
+";
+
+$stmtStudents = mysqli_stmt_init($conn);
+
+if (mysqli_stmt_prepare($stmtStudents, $sqlStudents)) {
+  mysqli_stmt_bind_param($stmtStudents, "i", $class_id);
+  mysqli_stmt_execute($stmtStudents);
+  $resultStudents = mysqli_stmt_get_result($stmtStudents);
+
+  while ($student = mysqli_fetch_assoc($resultStudents)) {
+    $student_id = $student['student_id'];
+
+    $sqlNotif = "
+      INSERT INTO file_notifications (student_id, unit_id, class_id, file_id, is_read)
+      VALUES (?, ?, ?, ?, 0)
+    ";
+
+    $stmtNotif = mysqli_stmt_init($conn);
+
+    if (mysqli_stmt_prepare($stmtNotif, $sqlNotif)) {
+      mysqli_stmt_bind_param($stmtNotif, "iiii", $student_id, $unit_id, $class_id, $file_id);
+      mysqli_stmt_execute($stmtNotif);
+      mysqli_stmt_close($stmtNotif);
+    }
+  }
+
+  mysqli_stmt_close($stmtStudents);
+}
 
 header("Location: ../teachers_files.php?unit_id=$unit_id&class_id=$class_id&success=1");
 exit();

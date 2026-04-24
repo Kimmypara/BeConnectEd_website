@@ -73,7 +73,7 @@ if (mysqli_stmt_prepare($stmt, $sql)) {
 
     <?php foreach ($units as $u): ?>            
   <div class="col-12 mb-3 mb-sm-0">
-    <div class="card mb-3">
+    <div class="card2 mb-3">
       <div  class="card-body ">
     <div class="row my-3" >
       <div class=" col-lg-6 col-md-6 col-sm-12">
@@ -100,10 +100,54 @@ if (mysqli_stmt_prepare($stmt, $sql)) {
             </div>
                         </div>
 
+<?php
+$student_id = $_SESSION['user_id'];
+$current_unit_id = $u['unit_id'];
+
+$unitUnreadFiles = 0;
+
+$sqlUnitUnread = "
+  SELECT COUNT(*) AS unit_unread
+  FROM file_notifications
+  WHERE student_id = ?
+  AND unit_id = ?
+  AND is_read = 0
+";
+
+$stmtUnitUnread = mysqli_stmt_init($conn);
+
+if (mysqli_stmt_prepare($stmtUnitUnread, $sqlUnitUnread)) {
+  mysqli_stmt_bind_param($stmtUnitUnread, "ii", $student_id, $current_unit_id);
+  mysqli_stmt_execute($stmtUnitUnread);
+  $resultUnitUnread = mysqli_stmt_get_result($stmtUnitUnread);
+
+  if ($resultUnitUnread) {
+    $rowUnitUnread = mysqli_fetch_assoc($resultUnitUnread);
+
+    if ($rowUnitUnread && isset($rowUnitUnread['unit_unread'])) {
+      $unitUnreadFiles = $rowUnitUnread['unit_unread'];
+    }
+  }
+
+  mysqli_stmt_close($stmtUnitUnread);
+}
+ ?>
+
                         <div class="row g-3 justify-content-center">
                           <div class="col-sm-8 col-md-4 col-lg-3 d-grid">
                            <a href="students_files.php?unit_id=<?php echo (int)$u['unit_id']; ?>&class_id=<?php echo (int)$u['class_id']; ?>"
-   class="btn button9 w-100">Files</a>
+   class="btn button9 w-100">
+   <span class="menu-badge-wrap">
+   Files
+  
+   <?php if ($unitUnreadFiles > 0): ?>
+    <span class="notif-badge"><?php echo $unitUnreadFiles; ?></span>
+  <?php endif; ?>
+  </span>
+  </a>
+
+
+
 
 
                           </div>

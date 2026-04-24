@@ -82,7 +82,8 @@ if (mysqli_stmt_prepare($stmtC, $sqlC)) {
                     "fileSize"   => "File is too large.",
                     "nofile"     => "Please choose a file first.",
                     "missingdata"=> "Missing data.",
-                    "movfailed"  => "Could not save the file on the server."
+                    "movfailed"  => "Could not save the file on the server.",
+                    "duplicate" => "This file has already been uploaded for this class and unit."
                   ];
                   echo htmlspecialchars($map[$error] ?? "Something went wrong.");
                 ?>

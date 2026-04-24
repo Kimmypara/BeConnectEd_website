@@ -39,7 +39,7 @@ $result = getTeacherEnrolmentWithUnit($conn, $teacher_id);
               <div class="row g-3">
                 <?php while ($row = mysqli_fetch_assoc($result)): ?>
                   <div class="col-12">
-                    <div class="card mb-3">
+                    <div class="card2 mb-3">
                       <div class="card-body">
 
                         <!--Unit Code -->

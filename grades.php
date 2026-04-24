@@ -106,7 +106,7 @@ mysqli_stmt_close($stmt);
                 <div class="row g-2">
                   <?php foreach ($grades as $g): ?>
                     <div class="col-12 col-md-6 col-lg-4">
-                      <div class="card h-100 mb-0">
+                      <div class="card2 h-100 mb-0">
                         <div class="card-body d-flex flex-column">
 
 

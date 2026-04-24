@@ -4,9 +4,35 @@ include "includes/nav.php";
 require_once "includes/dbh.php";
 
 if (session_status() === PHP_SESSION_NONE) session_start();
-
 $student_id = (int)($_SESSION['user_id'] ?? 0);
 $unit_id    = (int)($_GET['unit_id'] ?? 0);
+$class_id   = (int)($_GET['class_id'] ?? 0);
+
+if ($student_id <= 0) {
+  header("Location: login.php");
+  exit();
+}
+
+if ($unit_id <= 0 || $class_id <= 0) {
+  exit("<div class='alert alert-warning text-center'>Invalid or missing unit/class ID.</div>");
+}
+
+// Mark file notifications as read when student opens this Files page
+$sqlMarkRead = "
+  UPDATE file_notifications
+  SET is_read = 1
+  WHERE student_id = ?
+  AND unit_id = ?
+  AND class_id = ?
+  AND is_read = 0
+";
+
+$stmtMarkRead = mysqli_prepare($conn, $sqlMarkRead);
+mysqli_stmt_bind_param($stmtMarkRead, "iii", $student_id, $unit_id, $class_id);
+mysqli_stmt_execute($stmtMarkRead);
+mysqli_stmt_close($stmtMarkRead);
+
+
 
 if ($student_id <= 0) { header("Location: login.php"); exit(); }
 if ($unit_id <= 0) { exit("<div class='alert alert-warning text-center'>Invalid or missing unit ID.</div>"); }
@@ -52,6 +78,8 @@ $unit = mysqli_fetch_assoc($resUnit);
 mysqli_stmt_close($stmtUnit);
 
 if (!$unit) exit("<div class='alert alert-danger'>Unit not found.</div>");
+
+
 ?>
 
 
@@ -83,7 +111,7 @@ if (!$unit) exit("<div class='alert alert-danger'>Unit not found.</div>");
               <div class="row g-2">
                 <?php foreach ($files as $f): ?>
                   <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card h-100 mb-0">
+                    <div class="card2 h-100 mb-0">
                       <div class="card-body d-flex flex-column">
 
                         <div class="title">

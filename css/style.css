@@ -444,6 +444,66 @@ margin-right: 2rem;
   outline: none !important;
   box-shadow: 0 0 10px var(--secondary-text) !important;
 }
+
+.card2{
+   box-shadow:0 5px 8px 0 #0000004d;
+    color: var(--text-color);
+    border-radius: .5rem;
+    background-color: var(--base-variant);
+ gap: 20px;
+ padding: 1rem;
+}
+
+.menu-link,
+.unit-btn {
+    position: relative;
+    display: inline-block;
+}
+
+.notif-badge {
+   position: absolute !important;
+  top: -11px !important;
+  right: -90px !important;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #af051c;
+  color: #ddf1f8;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-link {
+  position: relative;
+  display: inline-block;
+}
+
+
+.menu-badge-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.notif-badge-menu {
+  position: absolute !important;
+  top: -12px !important;
+  right: -50px !important;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #af051c;
+  color: #ddf1f8;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 .card-subtitle{
   font-size: .8rem;
   font-weight: 400;

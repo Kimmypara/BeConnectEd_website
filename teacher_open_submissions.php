@@ -129,7 +129,7 @@ if (!$unit) exit("<div class='alert alert-danger'>Unit not found.</div>");
 
                 <?php foreach ($assignments as $a): ?>
                   <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card h-100 mb-0">
+                    <div class="card2 h-100 mb-0">
                       <div class="card-body d-flex flex-column">
 
                         <div class="card-subtitle mb-1">

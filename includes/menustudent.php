@@ -1,3 +1,21 @@
+<?php
+$student_id = $_SESSION['user_id'];
+
+$sqlUnread = "
+    SELECT COUNT(*) AS total_unread
+    FROM file_notifications
+    WHERE student_id = ? AND is_read = 0
+";
+
+$stmtUnread = mysqli_prepare($conn, $sqlUnread);
+mysqli_stmt_bind_param($stmtUnread, "i", $student_id);
+mysqli_stmt_execute($stmtUnread);
+$resultUnread = mysqli_stmt_get_result($stmtUnread);
+$rowUnread = mysqli_fetch_assoc($resultUnread);
+
+$totalUnreadFiles = $rowUnread['total_unread'] ?? 0;
+?>
+
 <style>
 <?php include 'css/style.css'; ?>
 </style>
@@ -14,6 +32,9 @@
 
 <!--Detecting the current page-->
 <?php $currentPage = basename($_SERVER['PHP_SELF']); ?>
+
+
+
 
 
 <!-- Sidebar -->
@@ -45,7 +66,13 @@
 
 <li class="nav-item">
   <a class="nav-link <?php if ($currentPage == 'my_units.php') echo 'active'; ?>" href="my_units.php">
+    <span class="menu-badge-wrap">
       My Units
+
+      <?php if ($totalUnreadFiles > 0): ?>
+        <span class="notif-badge-menu"><?php echo $totalUnreadFiles; ?></span>
+      <?php endif; ?>
+    </span>
   </a>
 </li>
 
