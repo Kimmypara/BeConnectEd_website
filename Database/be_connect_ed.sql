@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2026 at 08:20 PM
+-- Generation Time: May 01, 2026 at 03:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,7 +46,40 @@ CREATE TABLE `assignment` (
 
 INSERT INTO `assignment` (`assignment_id`, `unit_id`, `class_id`, `teacher_id`, `task_title`, `due_date`, `total_marks`, `is_published`, `created_at`, `description`) VALUES
 (1, 1, 1, 48, 'Task 2', '2026-02-28 00:00:00', NULL, 0, '2026-02-19 19:17:03', 'Be sure to upload all files'),
-(2, 2, 1, 44, 'Task 2', '2026-04-25 00:00:00', NULL, 0, '2026-04-24 17:34:53', 'Lorem ipsum.....');
+(22, 2, 1, 44, 'Task 2', '2026-05-20 00:00:00', NULL, 0, '2026-05-01 13:23:09', NULL),
+(26, 2, 1, 44, 'Task 3', '2026-05-19 00:00:00', NULL, 0, '2026-05-01 13:53:33', NULL),
+(28, 2, 1, 44, 'Task 6', '2026-05-14 00:00:00', NULL, 0, '2026-05-01 14:31:25', NULL),
+(29, 2, 1, 44, 'Task 25', '2026-05-20 00:00:00', NULL, 0, '2026-05-01 14:45:13', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assignment_notifications`
+--
+
+CREATE TABLE `assignment_notifications` (
+  `notification_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `unit_id` int(11) NOT NULL,
+  `class_id` int(11) NOT NULL,
+  `assignment_id` int(11) NOT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `assignment_notifications`
+--
+
+INSERT INTO `assignment_notifications` (`notification_id`, `student_id`, `unit_id`, `class_id`, `assignment_id`, `is_read`, `created_at`) VALUES
+(11, 46, 2, 1, 22, 0, '2026-05-01 11:23:09'),
+(12, 41, 2, 1, 22, 1, '2026-05-01 11:23:09'),
+(19, 46, 2, 1, 26, 0, '2026-05-01 11:53:33'),
+(20, 41, 2, 1, 26, 1, '2026-05-01 11:53:33'),
+(23, 46, 2, 1, 28, 0, '2026-05-01 12:31:25'),
+(24, 41, 2, 1, 28, 1, '2026-05-01 12:31:25'),
+(25, 46, 2, 1, 29, 0, '2026-05-01 12:45:13'),
+(26, 41, 2, 1, 29, 1, '2026-05-01 12:45:13');
 
 -- --------------------------------------------------------
 
@@ -239,7 +272,16 @@ INSERT INTO `file` (`file_id`, `unit_id`, `uploaded_by`, `file_name`, `category`
 (25, 2, 44, 'MOCK-Assignment-English -UPDATED2025.docx', 'Worksheet', '44-2-1-69ebaec0578941.09120601.docx', '2026-04-24 19:56:16', 'Mock Test', 1),
 (26, 2, 44, 'Linking Words-stversionNP.pdf', 'Lecture Notes', '44-2-1-69ebb0a39904c3.21232964.pdf', '2026-04-24 20:04:19', 'Linking words', 1),
 (27, 2, 44, 'Understanding Interactive Media_summary.docx', 'Lecture Notes', '44-2-1-69ebb2a2b813f8.66697736.docx', '2026-04-24 20:12:50', 'Understanding Media', 1),
-(28, 2, 44, 'MOCKTEST2 - English for Academic Purposes - 2025 kIM.docx', 'Worksheet', '44-2-1-69ebb398245979.44089248.docx', '2026-04-24 20:16:56', 'Mocktest 2', 1);
+(28, 2, 44, 'MOCKTEST2 - English for Academic Purposes - 2025 kIM.docx', 'Worksheet', '44-2-1-69ebb398245979.44089248.docx', '2026-04-24 20:16:56', 'Mocktest 2', 1),
+(29, 2, 44, 'Community Work Reflections_Task 3_Kimberly Parascandalo.pptx', 'Slides', '44-2-1-69f46c59be4861.60936052.pptx', '2026-05-01 11:03:21', '', 1),
+(30, 2, 44, 'CSR Team Questions.docx', 'Worksheet', '44-2-1-69f46cc37fafb4.00442225.docx', '2026-05-01 11:05:07', '', 1),
+(31, 2, 44, 'Define Mental Health related to social media.docx', 'Lecture Notes', '44-2-1-69f46e2a81c6c9.59630988.docx', '2026-05-01 11:11:06', '', 1),
+(32, 2, 44, 'CSR presentation document.docx', 'Slides', '44-2-1-69f46fd3f1a583.22806740.docx', '2026-05-01 11:18:11', '', 1),
+(33, 2, 44, 'MAOT Voluntary work sign sheet (signed).pdf', 'Worksheet', '44-2-1-69f472c2c705d3.23946475.pdf', '2026-05-01 11:30:42', '', 1),
+(34, 2, 44, 'Task 2 b.docx', 'Other', '44-2-1-69f473040bacc6.68348041.docx', '2026-05-01 11:31:48', '', 1),
+(35, 2, 44, 'Task 2 c.docx', 'Reading Material', '44-2-1-69f47347714759.37046170.docx', '2026-05-01 11:32:55', '', 1),
+(36, 2, 44, 'Task 2_CSR_Kimberly Parascandalo.docx', 'Reading Material', '44-2-1-69f4930f3bd7e7.71103712.docx', '2026-05-01 13:48:31', '', 1),
+(37, 2, 44, 'Task 2_CSR_Kimberly Parascandalo.pdf', 'Lecture Notes', '44-2-1-69f4a048187d88.13265069.pdf', '2026-05-01 14:44:56', '', 1);
 
 -- --------------------------------------------------------
 
@@ -279,7 +321,25 @@ INSERT INTO `file_notifications` (`notification_id`, `student_id`, `unit_id`, `c
 (15, 46, 2, 1, 27, 0, '2026-04-24 18:12:50'),
 (16, 41, 2, 1, 27, 1, '2026-04-24 18:12:50'),
 (17, 46, 2, 1, 28, 0, '2026-04-24 18:16:56'),
-(18, 41, 2, 1, 28, 1, '2026-04-24 18:16:56');
+(18, 41, 2, 1, 28, 1, '2026-04-24 18:16:56'),
+(19, 46, 2, 1, 29, 0, '2026-05-01 09:03:21'),
+(20, 41, 2, 1, 29, 1, '2026-05-01 09:03:21'),
+(21, 46, 2, 1, 30, 0, '2026-05-01 09:05:07'),
+(22, 41, 2, 1, 30, 1, '2026-05-01 09:05:07'),
+(23, 46, 2, 1, 31, 0, '2026-05-01 09:11:06'),
+(24, 41, 2, 1, 31, 1, '2026-05-01 09:11:06'),
+(25, 46, 2, 1, 32, 0, '2026-05-01 09:18:11'),
+(26, 41, 2, 1, 32, 1, '2026-05-01 09:18:11'),
+(27, 46, 2, 1, 33, 0, '2026-05-01 09:30:42'),
+(28, 41, 2, 1, 33, 1, '2026-05-01 09:30:42'),
+(29, 46, 2, 1, 34, 0, '2026-05-01 09:31:48'),
+(30, 41, 2, 1, 34, 1, '2026-05-01 09:31:48'),
+(31, 46, 2, 1, 35, 0, '2026-05-01 09:32:55'),
+(32, 41, 2, 1, 35, 1, '2026-05-01 09:32:55'),
+(33, 46, 2, 1, 36, 0, '2026-05-01 11:48:31'),
+(34, 41, 2, 1, 36, 1, '2026-05-01 11:48:31'),
+(35, 46, 2, 1, 37, 0, '2026-05-01 12:44:56'),
+(36, 41, 2, 1, 37, 1, '2026-05-01 12:44:56');
 
 -- --------------------------------------------------------
 
@@ -302,7 +362,11 @@ CREATE TABLE `grade` (
 
 INSERT INTO `grade` (`grade_id`, `submission_id`, `teacher_id`, `mark`, `grade`, `comments`) VALUES
 (1, 1, 48, 85, 'A', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril'),
-(2, 2, 48, 24, 'U', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril');
+(2, 2, 48, 24, 'U', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril'),
+(3, 3, 44, 76, 'B', 'Lorem...'),
+(4, 5, 44, 50, 'D', 'Lorem'),
+(5, 6, 44, 67, 'B', 'lorem'),
+(6, 7, 44, 0, 'Fail', NULL);
 
 -- --------------------------------------------------------
 
@@ -318,6 +382,18 @@ CREATE TABLE `grade_notifications` (
   `is_read` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `grade_notifications`
+--
+
+INSERT INTO `grade_notifications` (`notification_id`, `student_id`, `unit_id`, `grade_id`, `is_read`, `created_at`) VALUES
+(1, 41, 2, 3, 1, '2026-05-01 12:06:35'),
+(2, 41, 2, 3, 1, '2026-05-01 12:06:39'),
+(3, 41, 2, 3, 1, '2026-05-01 12:11:19'),
+(4, 41, 2, 4, 1, '2026-05-01 12:31:06'),
+(5, 41, 2, 5, 1, '2026-05-01 12:35:02'),
+(6, 41, 2, 6, 1, '2026-05-01 12:46:30');
 
 -- --------------------------------------------------------
 
@@ -491,7 +567,11 @@ CREATE TABLE `submission` (
 
 INSERT INTO `submission` (`submission_id`, `assignment_id`, `student_id`, `file_path`, `submitted_at`) VALUES
 (1, 1, 46, NULL, '2026-02-19 19:58:28'),
-(2, 1, 41, NULL, '2026-02-20 12:38:47');
+(2, 1, 41, NULL, '2026-02-20 12:38:47'),
+(3, 22, 41, NULL, '2026-05-01 14:03:00'),
+(5, 26, 41, NULL, '2026-05-01 14:25:58'),
+(6, 28, 41, NULL, '2026-05-01 14:32:11'),
+(7, 29, 41, NULL, '2026-05-01 14:46:02');
 
 -- --------------------------------------------------------
 
@@ -513,7 +593,11 @@ CREATE TABLE `submission_files` (
 
 INSERT INTO `submission_files` (`submission_file_id`, `submission_id`, `file_path`, `original_name`, `uploaded_at`) VALUES
 (1, 1, '1-f9a2714dcd78fbc4.docx', 'Notes for me.docx', '2026-02-19 19:58:28'),
-(2, 2, '2-1f7c77f1585fa52e.docx', '1. L5Referencing Properly - Citations Booklet.docx', '2026-02-20 12:38:47');
+(2, 2, '2-1f7c77f1585fa52e.docx', '1. L5Referencing Properly - Citations Booklet.docx', '2026-02-20 12:38:47'),
+(3, 3, '3-5a7510104bc5eb32.docx', 'Blue Cheese Stuffed Strawberries.docx', '2026-05-01 14:03:00'),
+(5, 5, '5-41fdf75756af6488.pdf', 'MCAST-ACADEMIC-CALENDAR-2023_2024_REV-5_ABRIDGED_WEBSITE-VERSION.pdf', '2026-05-01 14:25:58'),
+(6, 6, '6-546dce65f2798695.pdf', 'MCAST-ACADEMIC-CALENDAR-2023_2024_REV-5_ABRIDGED_WEBSITE-VERSION.pdf', '2026-05-01 14:32:11'),
+(7, 7, '7-0df3b549c4d2ffc8.pdf', 'Classter _ Academic Data.pdf', '2026-05-01 14:46:02');
 
 -- --------------------------------------------------------
 
@@ -660,6 +744,16 @@ ALTER TABLE `assignment`
   ADD KEY `FK_assignment_unit` (`unit_id`),
   ADD KEY `FK_assignment_class` (`class_id`),
   ADD KEY `FK_assignment_teacher` (`teacher_id`);
+
+--
+-- Indexes for table `assignment_notifications`
+--
+ALTER TABLE `assignment_notifications`
+  ADD PRIMARY KEY (`notification_id`),
+  ADD KEY `student_id` (`student_id`),
+  ADD KEY `unit_id` (`unit_id`),
+  ADD KEY `class_id` (`class_id`),
+  ADD KEY `assignment_id` (`assignment_id`);
 
 --
 -- Indexes for table `chat`
@@ -866,7 +960,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `assignment_notifications`
+--
+ALTER TABLE `assignment_notifications`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `chat`
@@ -920,25 +1020,25 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `file`
 --
 ALTER TABLE `file`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `file_notifications`
 --
 ALTER TABLE `file_notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `grade`
 --
 ALTER TABLE `grade`
-  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `grade_notifications`
 --
 ALTER TABLE `grade_notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `institute`
@@ -986,13 +1086,13 @@ ALTER TABLE `settings_theme`
 -- AUTO_INCREMENT for table `submission`
 --
 ALTER TABLE `submission`
-  MODIFY `submission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `submission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `submission_files`
 --
 ALTER TABLE `submission_files`
-  MODIFY `submission_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `submission_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `teacher_profile`
@@ -1029,6 +1129,15 @@ ALTER TABLE `assignment`
   ADD CONSTRAINT `FK_assignment_class` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_assignment_teacher` FOREIGN KEY (`teacher_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_assignment_unit` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`unit_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `assignment_notifications`
+--
+ALTER TABLE `assignment_notifications`
+  ADD CONSTRAINT `assignment_notifications_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assignment_notifications_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`unit_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assignment_notifications_ibfk_3` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assignment_notifications_ibfk_4` FOREIGN KEY (`assignment_id`) REFERENCES `assignment` (`assignment_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `chat_member`
