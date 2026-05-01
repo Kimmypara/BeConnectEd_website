@@ -1,6 +1,12 @@
-
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
+
+  // include this in your html before the <html> tag
+    header("Cache-Control: no-cache, must-revalidate"); // does not store the page in cache
+    header("Expires: 01 Jan 1970 00:00"); // Date in the past to cancel cache
+?>
+<?php
+
 include "includes/conditions.php";
 include "includes/nav.php";
 require_once "includes/dbh.php";
@@ -112,3 +118,11 @@ $current_class_id = null;
 
 </div>
 </div>
+
+<script>
+window.addEventListener("pageshow", function(event) {
+  if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+    window.location.reload();
+  }
+});
+</script>

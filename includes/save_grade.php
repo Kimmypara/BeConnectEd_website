@@ -18,6 +18,27 @@ if ($teacher_id <= 0 || $submission_id <= 0) {
   exit();
 }
 
+$sqlStudent = "
+  SELECT student_id
+  FROM submission
+  WHERE submission_id = ?
+  LIMIT 1
+";
+
+$stmtStudent = mysqli_prepare($conn, $sqlStudent);
+mysqli_stmt_bind_param($stmtStudent, "i", $submission_id);
+mysqli_stmt_execute($stmtStudent);
+$resultStudent = mysqli_stmt_get_result($stmtStudent);
+$rowStudent = mysqli_fetch_assoc($resultStudent);
+
+$student_id = (int)($rowStudent['student_id'] ?? 0);
+
+mysqli_stmt_close($stmtStudent);
+
+if ($student_id <= 0) {
+  die("Student not found for this submission.");
+}
+
 // if empty grade, store NULL instead of empty string
 $grade = ($grade === '') ? null : $grade;
 $comments = ($comments === '') ? null : $comments;
@@ -38,13 +59,28 @@ if ($existing) {
   mysqli_stmt_bind_param($upd, "issi", $mark, $grade, $comments, $grade_id);
   mysqli_stmt_execute($upd);
   mysqli_stmt_close($upd);
-} else {
+}  else {
   $ins = mysqli_stmt_init($conn);
   mysqli_stmt_prepare($ins, "INSERT INTO grade (submission_id, teacher_id, mark, grade, comments) VALUES (?, ?, ?, ?, ?)");
   mysqli_stmt_bind_param($ins, "iiiss", $submission_id, $teacher_id, $mark, $grade, $comments);
   mysqli_stmt_execute($ins);
+
+  // Get new grade ID
+  $grade_id = mysqli_insert_id($conn);
+
   mysqli_stmt_close($ins);
 }
+
+//nitification
+$sqlNotif = "
+  INSERT INTO grade_notifications (student_id, unit_id, grade_id, is_read)
+  VALUES (?, ?, ?, 0)
+";
+
+$stmtNotif = mysqli_prepare($conn, $sqlNotif);
+mysqli_stmt_bind_param($stmtNotif, "iii", $student_id, $unit_id, $grade_id);
+mysqli_stmt_execute($stmtNotif);
+mysqli_stmt_close($stmtNotif);
 
 header("Location: ../teachers_view_submissions.php?assignment_id={$assignment_id}&unit_id={$unit_id}&class_id={$class_id}&success=1");
 exit();

@@ -3,12 +3,28 @@ include "includes/conditions.php";
 include "includes/nav.php";
 require_once "includes/dbh.php";     
 
-
-
-
-$unit_id = (int)($_GET['unit_id'] ?? 0);
 $student_id = (int)($_SESSION['user_id'] ?? 0);
+$unit_id    = (int)($_GET['unit_id'] ?? 0);
+$class_id   = (int)($_GET['class_id'] ?? 0);
 $unitTitle = ($unit_id > 0) ? "Unit ID: " . $unit_id : "Unit";
+
+$sqlMarkRead = "
+  UPDATE assignment_notifications
+  SET is_read = 1
+  WHERE student_id = ?
+  AND unit_id = ?
+  AND class_id = ?
+  AND is_read = 0
+";
+
+$stmtMarkRead = mysqli_prepare($conn, $sqlMarkRead);
+mysqli_stmt_bind_param($stmtMarkRead, "iii", $student_id, $unit_id, $class_id);
+mysqli_stmt_execute($stmtMarkRead);
+mysqli_stmt_close($stmtMarkRead);
+
+
+
+
 
 $success = isset($_GET['success']) ? $_GET['success'] : null;
 $error   = isset($_GET['error']) ? $_GET['error'] : null;
@@ -178,13 +194,13 @@ mysqli_stmt_close($stmtUnit);
             <?php echo htmlspecialchars($f['original_name'] ?: basename($f['file_path'])); ?>
           </a>
 
-          <form action="includes/delete_submission_file.php" method="post" class="ms-2">
+         <form action="includes/upload_file.php" method="post" enctype="multipart/form-data" class="mt-auto">
               <input type="hidden" name="assignment_id"
          value="<?php echo (int)$a['assignment_id']; ?>">
 
   <input type="hidden" name="unit_id"
          value="<?php echo (int)$unit_id; ?>">
-            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+           
           </form>
         </li>
       <?php endforeach; ?>

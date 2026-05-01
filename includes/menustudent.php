@@ -1,19 +1,68 @@
 <?php
-$student_id = $_SESSION['user_id'];
+$student_id = (int)($_SESSION['user_id'] ?? 0);
 
-$sqlUnread = "
+$totalUnreadFiles = 0;
+$totalUnreadAssignments = 0;
+
+// FILE notifications
+$sqlUnreadFiles = "
     SELECT COUNT(*) AS total_unread
     FROM file_notifications
     WHERE student_id = ? AND is_read = 0
 ";
 
-$stmtUnread = mysqli_prepare($conn, $sqlUnread);
-mysqli_stmt_bind_param($stmtUnread, "i", $student_id);
-mysqli_stmt_execute($stmtUnread);
-$resultUnread = mysqli_stmt_get_result($stmtUnread);
-$rowUnread = mysqli_fetch_assoc($resultUnread);
+$stmtUnreadFiles = mysqli_prepare($conn, $sqlUnreadFiles);
+mysqli_stmt_bind_param($stmtUnreadFiles, "i", $student_id);
+mysqli_stmt_execute($stmtUnreadFiles);
+$resultUnreadFiles = mysqli_stmt_get_result($stmtUnreadFiles);
+$rowUnreadFiles = mysqli_fetch_assoc($resultUnreadFiles);
+$totalUnreadFiles = (int)($rowUnreadFiles['total_unread'] ?? 0);
+mysqli_stmt_close($stmtUnreadFiles);
 
-$totalUnreadFiles = $rowUnread['total_unread'] ?? 0;
+
+// ASSIGNMENT notifications
+$totalUnreadAssignments = 0;
+
+$sqlUnreadAssignments = "
+    SELECT COUNT(*) AS total_unread
+    FROM assignment_notifications
+    WHERE student_id = ?
+    AND is_read = 0
+";
+
+$stmtUnreadAssignments = mysqli_prepare($conn, $sqlUnreadAssignments);
+mysqli_stmt_bind_param($stmtUnreadAssignments, "i", $student_id);
+mysqli_stmt_execute($stmtUnreadAssignments);
+$resultUnreadAssignments = mysqli_stmt_get_result($stmtUnreadAssignments);
+$rowUnreadAssignments = mysqli_fetch_assoc($resultUnreadAssignments);
+
+$totalUnreadAssignments = (int)($rowUnreadAssignments['total_unread'] ?? 0);
+
+mysqli_stmt_close($stmtUnreadAssignments);
+
+// GRADES notifications
+$totalUnreadGrades = 0;
+
+$sqlUnreadGrades = "
+  SELECT COUNT(*) AS total_unread
+  FROM grade_notifications
+  WHERE student_id = ?
+  AND is_read = 0
+";
+
+$stmtUnreadGrades = mysqli_prepare($conn, $sqlUnreadGrades);
+mysqli_stmt_bind_param($stmtUnreadGrades, "i", $student_id);
+mysqli_stmt_execute($stmtUnreadGrades);
+$resultUnreadGrades = mysqli_stmt_get_result($stmtUnreadGrades);
+$rowUnreadGrades = mysqli_fetch_assoc($resultUnreadGrades);
+
+$totalUnreadGrades = (int)($rowUnreadGrades['total_unread'] ?? 0);
+
+mysqli_stmt_close($stmtUnreadGrades);
+
+
+// TOTAL for My Units menu
+$totalUnreadAll = $totalUnreadFiles + $totalUnreadAssignments + $totalUnreadGrades;
 ?>
 
 <style>
@@ -69,8 +118,8 @@ $totalUnreadFiles = $rowUnread['total_unread'] ?? 0;
     <span class="menu-badge-wrap">
       My Units
 
-      <?php if ($totalUnreadFiles > 0): ?>
-        <span class="notif-badge-menu"><?php echo $totalUnreadFiles; ?></span>
+      <?php if ($totalUnreadAll  > 0): ?>
+        <span class="notif-badge-menu"><?php echo $totalUnreadAll; ?></span>
       <?php endif; ?>
     </span>
   </a>
@@ -78,7 +127,13 @@ $totalUnreadFiles = $rowUnread['total_unread'] ?? 0;
 
 <li class="nav-item">
   <a class="nav-link <?php if ($currentPage == 'grades.php') echo 'active'; ?>" href="grades.php">
-      Grades
+  <span class="menu-badge-wrap">   
+  Grades
+
+      <?php if ($totalUnreadGrades  > 0): ?>
+        <span class="notif-badge-menu"><?php echo $totalUnreadGrades; ?></span>
+      <?php endif; ?>
+      </span>
   </a>
 </li>
 

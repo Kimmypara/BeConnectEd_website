@@ -1,6 +1,6 @@
 <?php
-include "includes/conditions.php";
-include "includes/nav.php";
+
+
 require_once "includes/dbh.php";
 
 if (session_status() === PHP_SESSION_NONE) session_start();
@@ -17,7 +17,7 @@ if ($unit_id <= 0 || $class_id <= 0) {
   exit("<div class='alert alert-warning text-center'>Invalid or missing unit/class ID.</div>");
 }
 
-// Mark file notifications as read when student opens this Files page
+// ✅ MARK AS READ HERE
 $sqlMarkRead = "
   UPDATE file_notifications
   SET is_read = 1
@@ -34,8 +34,8 @@ mysqli_stmt_close($stmtMarkRead);
 
 
 
-if ($student_id <= 0) { header("Location: login.php"); exit(); }
-if ($unit_id <= 0) { exit("<div class='alert alert-warning text-center'>Invalid or missing unit ID.</div>"); }
+//if ($student_id <= 0) { header("Location: login.php"); exit(); }
+//if ($unit_id <= 0) { exit("<div class='alert alert-warning text-center'>Invalid or missing unit ID.</div>"); }
 
 $files = [];
 
@@ -52,6 +52,7 @@ JOIN file f ON f.unit_id = ut.unit_id AND f.class_id = ut.class_id AND f.uploade
 JOIN users t ON t.user_id = ut.teacher_id
 WHERE e.student_id = ?
   AND cu.unit_id = ?
+  AND e.class_id = ?
 ORDER BY f.uploaded_at DESC
 ";
 
@@ -59,7 +60,7 @@ $stmt = mysqli_stmt_init($conn);
 if (!mysqli_stmt_prepare($stmt, $sql)) {
   die("SQL prepare failed: " . mysqli_error($conn));
 }
-mysqli_stmt_bind_param($stmt, "ii", $student_id, $unit_id);
+mysqli_stmt_bind_param($stmt, "iii", $student_id, $unit_id, $class_id);
 mysqli_stmt_execute($stmt);
 $res = mysqli_stmt_get_result($stmt);
 while ($row = mysqli_fetch_assoc($res)) {
@@ -80,6 +81,8 @@ mysqli_stmt_close($stmtUnit);
 if (!$unit) exit("<div class='alert alert-danger'>Unit not found.</div>");
 
 
+include "includes/conditions.php";
+include "includes/nav.php";
 ?>
 
 

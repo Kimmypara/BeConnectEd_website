@@ -1,4 +1,12 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) session_start();
+
+  // include this in your html before the <html> tag
+    header("Cache-Control: no-cache, must-revalidate"); // does not store the page in cache
+    header("Expires: 01 Jan 1970 00:00"); // Date in the past to cancel cache
+?>
+<?php
+
 include "includes/conditions.php";
 include "includes/nav.php";
 require_once "includes/dbh.php";
@@ -131,7 +139,74 @@ if (mysqli_stmt_prepare($stmtUnitUnread, $sqlUnitUnread)) {
 
   mysqli_stmt_close($stmtUnitUnread);
 }
- ?>
+
+$current_class_id = (int)$u['class_id'];
+$unitUnreadAssignments = 0;
+
+$sqlUnitUnreadAssignments = "
+  SELECT COUNT(*) AS unit_unread
+  FROM assignment_notifications
+  WHERE student_id = ?
+  AND unit_id = ?
+  AND class_id = ?
+  AND is_read = 0
+";
+
+$stmtUnitUnreadAssignments = mysqli_stmt_init($conn);
+
+if (mysqli_stmt_prepare($stmtUnitUnreadAssignments, $sqlUnitUnreadAssignments)) {
+  mysqli_stmt_bind_param(
+    $stmtUnitUnreadAssignments,
+    "iii",
+    $student_id,
+    $current_unit_id,
+    $current_class_id
+  );
+
+  mysqli_stmt_execute($stmtUnitUnreadAssignments);
+  $resultUnitUnreadAssignments = mysqli_stmt_get_result($stmtUnitUnreadAssignments);
+
+  if ($resultUnitUnreadAssignments) {
+    $rowUnitUnreadAssignments = mysqli_fetch_assoc($resultUnitUnreadAssignments);
+    $unitUnreadAssignments = (int)($rowUnitUnreadAssignments['unit_unread'] ?? 0);
+  }
+
+  mysqli_stmt_close($stmtUnitUnreadAssignments);
+}
+
+$unitUnreadGrades = 0;
+
+$sqlUnitUnreadGrades = "
+  SELECT COUNT(*) AS unit_unread
+  FROM grade_notifications
+  WHERE student_id = ?
+  AND unit_id = ?
+  AND is_read = 0
+";
+
+$stmtUnitUnreadGrades = mysqli_stmt_init($conn);
+
+if (mysqli_stmt_prepare($stmtUnitUnreadGrades, $sqlUnitUnreadGrades)) {
+  mysqli_stmt_bind_param(
+    $stmtUnitUnreadGrades,
+    "ii",
+    $student_id,
+    $current_unit_id
+  );
+
+  mysqli_stmt_execute($stmtUnitUnreadGrades);
+  $resultUnitUnreadGrades = mysqli_stmt_get_result($stmtUnitUnreadGrades);
+
+  if ($resultUnitUnreadGrades) {
+    $rowUnitUnreadGrades = mysqli_fetch_assoc($resultUnitUnreadGrades);
+    $unitUnreadGrades = (int)($rowUnitUnreadGrades['unit_unread'] ?? 0);
+  }
+
+  mysqli_stmt_close($stmtUnitUnreadGrades);
+}
+?>
+
+ 
 
                         <div class="row g-3 justify-content-center">
                           <div class="col-sm-8 col-md-4 col-lg-3 d-grid">
@@ -153,12 +228,25 @@ if (mysqli_stmt_prepare($stmtUnitUnread, $sqlUnitUnread)) {
                           </div>
 
                           <div class="col-sm-8 col-md-4 col-lg-3 d-grid">
-                            <a href="students_assignments.php?unit_id=<?php echo (int)$u['unit_id']; ?>&class_id=<?php echo (int)$u['class_id']; ?>" class="btn button9 w-100">Assignments</a>
+<!-- Assignments button -->
+<a href="students_assignments.php?unit_id=<?php echo (int)$u['unit_id']; ?>&class_id=<?php echo (int)$u['class_id']; ?>" 
+   class="btn button9 w-100 position-relative">
+  Assignments
+
+  <?php if ($unitUnreadAssignments > 0): ?>
+    <span class="notif-badge-new">NEW</span>
+  <?php endif; ?>
+</a>
                           </div>
 
                           <div class="col-sm-8 col-md-4 col-lg-3 d-grid">
-                            <a href="students_grades.php?unit_id=<?php echo (int)$u['unit_id']; ?>" class="btn button9 w-100">
+<a href="students_grades.php?unit_id=<?php echo (int)$u['unit_id']; ?>&class_id=<?php echo (int)$u['class_id']; ?>" 
+   class="btn button9 w-100 position-relative">
   Grades
+
+  <?php if ($unitUnreadGrades > 0): ?>
+    <span class="notif-badge-new">NEW</span>
+  <?php endif; ?>
 </a>
                           </div>
                         </div>
@@ -178,3 +266,12 @@ if (mysqli_stmt_prepare($stmtUnitUnread, $sqlUnitUnread)) {
 
   </div>
 </div>
+
+
+<script>
+window.addEventListener("pageshow", function(event) {
+  if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+    window.location.reload();
+  }
+});
+</script>

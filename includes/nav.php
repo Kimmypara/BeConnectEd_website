@@ -55,7 +55,7 @@ if ($user_id > 0) {
   }
 }
 
-
+include "includes/cache.php";
 ?>
 
 

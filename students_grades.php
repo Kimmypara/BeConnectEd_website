@@ -30,16 +30,15 @@ $sql = "
         g.grade,
         g.mark,
         g.comments
-    FROM assignment a
-    JOIN unit u
+    FROM grade g
+    INNER JOIN submission s
+      ON s.submission_id = g.submission_id
+    INNER JOIN assignment a
+      ON a.assignment_id = s.assignment_id
+    INNER JOIN unit u
       ON u.unit_id = a.unit_id
-    LEFT JOIN submission s
-      ON s.assignment_id = a.assignment_id
-     AND s.student_id   = ?
-    LEFT JOIN grade g
-      ON g.submission_id = s.submission_id
-     AND g.teacher_id    = a.teacher_id
-    WHERE a.unit_id = ?
+    WHERE s.student_id = ?
+      AND a.unit_id = ?
     ORDER BY a.due_date ASC, a.assignment_id ASC
 ";
 
@@ -68,6 +67,20 @@ mysqli_stmt_close($stmtUnit);
 if (!$unit) {
     exit("<div class='alert alert-danger'>Unit not found.</div>");
 }
+
+
+$sqlMarkReadGrades = "
+  UPDATE grade_notifications
+  SET is_read = 1
+  WHERE student_id = ?
+  AND unit_id = ?
+  AND is_read = 0
+";
+
+$stmtMarkReadGrades = mysqli_prepare($conn, $sqlMarkReadGrades);
+mysqli_stmt_bind_param($stmtMarkReadGrades, "ii", $student_id, $unit_id);
+mysqli_stmt_execute($stmtMarkReadGrades);
+mysqli_stmt_close($stmtMarkReadGrades);
 ?>
 
 

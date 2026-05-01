@@ -1,6 +1,12 @@
-
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
+
+  // include this in your html before the <html> tag
+    header("Cache-Control: no-cache, must-revalidate"); // does not store the page in cache
+    header("Expires: 01 Jan 1970 00:00"); // Date in the past to cancel cache
+?>
+<?php
+
 include "includes/conditions.php";
 include "includes/nav.php";
 require_once "includes/dbh.php";
@@ -27,21 +33,14 @@ $sql = "
         g.grade,
         g.mark,
         g.comments
-    FROM enrolment e
-    JOIN course_units cu
-      ON cu.course_id = e.course_id
-    JOIN unit u
-      ON u.unit_id = cu.unit_id
-    JOIN assignment a
-      ON a.unit_id  = u.unit_id
-     AND a.class_id = e.class_id
-    LEFT JOIN submission s
-      ON s.assignment_id = a.assignment_id
-     AND s.student_id   = e.student_id
-    LEFT JOIN grade g
-      ON g.submission_id = s.submission_id
-     AND g.teacher_id    = a.teacher_id
-    WHERE e.student_id = ?
+    FROM grade g
+    INNER JOIN submission s
+      ON s.submission_id = g.submission_id
+    INNER JOIN assignment a
+      ON a.assignment_id = s.assignment_id
+    INNER JOIN unit u
+      ON u.unit_id = a.unit_id
+    WHERE s.student_id = ?
     ORDER BY u.unit_name ASC, a.due_date ASC, a.assignment_id ASC
 ";
 
@@ -56,6 +55,18 @@ while ($row = mysqli_fetch_assoc($res)) {
     $grades[] = $row;
 }
 mysqli_stmt_close($stmt);
+
+$sqlMarkReadGrades = "
+  UPDATE grade_notifications
+  SET is_read = 1
+  WHERE student_id = ?
+  AND is_read = 0
+";
+
+$stmtMarkReadGrades = mysqli_prepare($conn, $sqlMarkReadGrades);
+mysqli_stmt_bind_param($stmtMarkReadGrades, "i", $student_id);
+mysqli_stmt_execute($stmtMarkReadGrades);
+mysqli_stmt_close($stmtMarkReadGrades);
 ?>
 
 
@@ -295,4 +306,10 @@ mysqli_stmt_close($stmt);
 </script>
         
 
-
+<script>
+window.addEventListener("pageshow", function(event) {
+  if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+    window.location.reload();
+  }
+});
+</script>
