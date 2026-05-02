@@ -499,7 +499,7 @@ margin-right: 2rem;
   display: inline-block;
 }
 
-.notif-badge-menu2 {
+.notif-badge-menu {
   position: absolute !important;
   top: -12px !important;
   right: -60px !important;
@@ -845,6 +845,19 @@ input:autofill {
     background-color:var(--button-color);
      
 }
+
+.button10 {
+   width: 100% !important;
+   text-decoration: none;
+    color: var( --base-variant);
+    border-radius: .5rem;
+    margin-top: 1rem;
+    padding:  .5rem 1rem .5rem 1rem;
+    background-color:var(--button-color);
+     
+}
+
+
 
 button.button,
 a.button{
