@@ -148,8 +148,8 @@ mysqli_stmt_close($stmtUnit);
 
                 <?php foreach ($assignments as $a): ?>
                   <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card2 h-100 mb-0">
-                      <div class="card-body d-flex flex-column">
+                    <div class="card2 h-100 mb-0 d-flex">
+                      <div class="card-body d-flex flex-column flex-fill">
 
                         <div class="card-subtitle mb-1">
                           <strong>Task Title:</strong> <?php echo htmlspecialchars($a['task_title'] ?? ''); ?>
@@ -197,7 +197,7 @@ mysqli_stmt_close($stmtUnit);
     <ul class="list-unstyled mb-0">
       <?php foreach ($files as $f): ?>
         <li class="d-flex justify-content-between align-items-center mb-1">
-          <a href="<?php echo 'fileUploads/' . rawurlencode(basename($f['file_path'])); ?>" download>
+          <a href="<?php echo 'fileUploads/' . rawurlencode(basename($f['file_path'])); ?>" class="download small">
             <?php echo htmlspecialchars($f['original_name'] ?: basename($f['file_path'])); ?>
           </a>
 
@@ -215,9 +215,9 @@ mysqli_stmt_close($stmtUnit);
   <?php endif; ?>
 <?php endif; ?>
 
-
+              <div class="flex-fill" style="min-height: 1rem"></div>
                         <!-- Upload form -->
-                        <form action="includes/upload_file.php" method="post" enctype="multipart/form-data" class="mt-3">
+                        <form action="includes/upload_file.php" method="post" enctype="multipart/form-data">
 
                           <input type="hidden" name="assignment_id" value="<?php echo (int)$a['assignment_id']; ?>">
                           <input type="hidden" name="unit_id" value="<?php echo (int)$unit_id; ?>">
